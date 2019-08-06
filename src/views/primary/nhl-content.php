@@ -78,12 +78,12 @@
    * 
    */
 
-  var request = jQuery.ajax({
-    url: "https://api.sportsdata.io/v3/nfl/scores/json/AllTeams?key=8d83eeb36ceb4cee8072a94f7f85f0e1"
-  });
+  // var request = jQuery.ajax({
+  //   url: "https://api.sportsdata.io/v3/nfl/scores/json/AllTeams?key="
+  // });
   
-  request.done((data) => {
+  // request.done((data) => {
     
-  })
+  // })
 })();
 </script>

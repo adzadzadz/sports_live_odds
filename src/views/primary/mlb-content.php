@@ -74,15 +74,15 @@
 
   console.log(jQuery('.dropdown-item').data('value'));
 
-  var request = jQuery.ajax({
-    url: "https://api.sportsdata.io/v3/mlb/odds/json/GameOddsByDate/2019-08-01?key=ecea4068ef7f4c78899b2b0867619c9d"
-  });
+  // var request = jQuery.ajax({
+  //   url: "https://api.sportsdata.io/v3/mlb/odds/json/GameOddsByDate/2019-08-01?key="
+  // });
   
-  request.done((data) => {
-    console.log(data);
-    // data.foreach(i => {
-    //   console.log(i);
-    // });
-  })
+  // request.done((data) => {
+  //   console.log(data);
+  //   // data.foreach(i => {
+  //   //   console.log(i);
+  //   // });
+  // })
 })();
 </script>
