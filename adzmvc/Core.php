@@ -2,7 +2,7 @@
 
 namespace adzmvc;
 
-class Core {
+class Core extends \Adz {
 
   public $pluginPath;
   

@@ -55,17 +55,17 @@
         </ul>
         <div class="tab-content" id="tabContent">
           <div class="tab-pane fade show active" id="NFL" role="tabpanel" aria-labelledby="NFL-tab">
-            <?= $view->render('primary/nfl-content.php') ?>
+            <?= $this->render('primary/nfl-content.php') ?>
           </div>
           <div class="tab-pane fade" id="NCAAF" role="tabpanel" aria-labelledby="NCAAF-tab">...</div>
           <div class="tab-pane fade" id="MLB" role="tabpanel" aria-labelledby="MLB-tab">
-            <?= $view->render('primary/mlb-content.php') ?>
+            <?= $this->render('primary/mlb-content.php') ?>
           </div>
           <div class="tab-pane fade" id="NBA" role="tabpanel" aria-labelledby="NBA-tab">...</div>
           <div class="tab-pane fade" id="WNBA" role="tabpanel" aria-labelledby="WNBA-tab">...</div>
           <div class="tab-pane fade" id="NCAAB" role="tabpanel" aria-labelledby="NCAAB-tab">...</div>
           <div class="tab-pane fade" id="NHL" role="tabpanel" aria-labelledby="NHL-tab">
-          <?= $view->render('primary/nhl-content.php') ?>
+          <?= $this->render('primary/nhl-content.php') ?>
           </div>
         </div>
       </nav>
