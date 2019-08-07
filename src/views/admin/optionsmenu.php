@@ -15,7 +15,7 @@
 
 <div class="container">
   <section id="basic">
-    <a id="updateDatabase" class="btn btn-danger btn-lg" href="<?= admin_url('admin.php?page=slo-update-db') ?>">Update Sports Data</a>
+    <a id="updateDatabase" class="btn btn-danger btn-lg" href="<?= admin_url('admin.php?page=slo-update-db') ?>">Update Database</a>
     <a id="dlData" class="btn btn-primary btn-lg" href="<?= admin_url('admin.php?page=slo-update-data') ?>">Update Sports Data</a>
   </section>
 </div>

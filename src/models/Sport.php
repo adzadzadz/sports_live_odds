@@ -1,10 +1,12 @@
 <?php 
 
-namespace adzmvc\models;
+namespace src\models;
 
-use adzmvc\core\Model;
+use adzmvc\Model;
 
-class Sport extends Model{
+class Sport extends Model {
+
+  public static $sports = ['NFL', 'NCAAF', 'MLB', 'NBA', 'WNBA', 'NCAAB', 'NHL'];
 
   public static function getTable()
   {

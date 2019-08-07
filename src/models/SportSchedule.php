@@ -1,8 +1,8 @@
 <?php 
 
-namespace adzmvc\models;
+namespace src\models;
 
-use adzmvc\core\Model;
+use adzmvc\Model;
 
 class SportSchedule extends Model{
 
