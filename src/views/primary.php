@@ -2,7 +2,6 @@
 
 ?>
 
-<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet">
 <style>
   #sloContainer {
     max-width: 100% !important;
@@ -32,13 +31,13 @@
       <nav id="sports">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
           <li class="nav-item">
-            <a class="nav-link active" id="NFL-tab" data-toggle="tab" href="#NFL" role="tab" aria-controls="NFL" aria-selected="true">NFL</a>
+            <a class="nav-link" id="NFL-tab" data-toggle="tab" href="#NFL" role="tab" aria-controls="NFL" aria-selected="true">NFL</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" id="NCAAF-tab" data-toggle="tab" href="#NCAAF" role="tab" aria-controls="NCAAF" aria-selected="false">NCAAF</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="MLB-tab" data-toggle="tab" href="#MLB" role="tab" aria-controls="MLB" aria-selected="false">MLB</a>
+            <a class="nav-link active" id="MLB-tab" data-toggle="tab" href="#MLB" role="tab" aria-controls="MLB" aria-selected="false">MLB</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" id="NBA-tab" data-toggle="tab" href="#NBA" role="tab" aria-controls="NBA" aria-selected="false">NBA</a>
@@ -54,11 +53,11 @@
           </li>
         </ul>
         <div class="tab-content" id="tabContent">
-          <div class="tab-pane fade show active" id="NFL" role="tabpanel" aria-labelledby="NFL-tab">
+          <div class="tab-pane fade" id="NFL" role="tabpanel" aria-labelledby="NFL-tab">
             <?= $this->render('primary/nfl-content.php') ?>
           </div>
           <div class="tab-pane fade" id="NCAAF" role="tabpanel" aria-labelledby="NCAAF-tab">...</div>
-          <div class="tab-pane fade" id="MLB" role="tabpanel" aria-labelledby="MLB-tab">
+          <div class="tab-pane fade show active" id="MLB" role="tabpanel" aria-labelledby="MLB-tab">
             <?= $this->render('primary/mlb-content.php') ?>
           </div>
           <div class="tab-pane fade" id="NBA" role="tabpanel" aria-labelledby="NBA-tab">...</div>

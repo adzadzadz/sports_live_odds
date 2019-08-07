@@ -95,7 +95,7 @@ class AdminController extends Controller {
 
     echo "Please wait while we store the schedule data into our database.";
     
-    $result = \adzmvc\RESTApiHelper::getREST("https://api.sportsdata.io/v3/mlb/scores/json/Games/" . date('Y'), ['key' =>  $config['apiKeys']['mlb']]);
+    $result = \adzmvc\RESTApiHelper::getREST("https://api.sportsdata.io/v3/mlb/scores/json/Games/" . date('Y'), ['key' =>  $config['apiKeys']['mlb']['schedule']]);
     $data = \json_decode($result);
 
     global $wpdb;
@@ -109,11 +109,16 @@ class AdminController extends Controller {
     }
     
     $wpdb->query("TRUNCATE TABLE $scheduleTable");
+    $lastSavedDate = null;
     foreach ($data as $game) {
-      $wpdb->insert($scheduleTable, [
-        'sport_id' => $sportResult[0]->id,
-        'date'     => preg_replace('/T.+/', '', $game->Day)
-      ]);
+      $validDate = preg_replace('/T.+/', '', $game->Day);
+      if ($lastSavedDate !== $validDate) {
+        $wpdb->insert($scheduleTable, [
+          'sport_id' => $sportResult[0]->id,
+          'date'     => $validDate
+        ]);
+      }
+      $lastSavedDate = $validDate;
     }
 
     echo "All data has been saved.";
