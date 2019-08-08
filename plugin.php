@@ -7,8 +7,8 @@ Version: 0.1.0
 Author: Adrian Saycon
 Author URI: https://www.adriansaycon.com
 */
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
 
 include 'functions.php';
 

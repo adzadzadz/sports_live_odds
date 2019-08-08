@@ -29,33 +29,33 @@
 
 <header class="col-md-12">
   <section class="filter row">
-    <div class="col-md-3">
+    <div class="col-md-4">
       <div class="row">
-        <button id="datePrev" class="btn btn-sm btn-success col-md-3">PREV</button>
+        <button id="datePrev" class="dateChanger btn btn-sm btn-success col-md-3" data-type="prev">PREV</button>
         <div id="dateDisplay" class="col-md-6" style="font-size: .8em; padding-top: 8px;">2019-05-03</div>
-        <button id="dateNext" class="btn btn-sm btn-success col-md-3">NEXT</button>
+        <button id="dateNext" class="dateChanger btn btn-sm btn-success col-md-3" data-type="next">NEXT</button>
       </div>
     </div>
-    <div class="dropdown col-md-3">
+    <div class="dropdown col-md-4">
       <div class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Type
       </div>
 
       <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-        <a class="dropdown-item" data-type="type" data-value="PointSpread" >SPREAD</a>
-        <a class="dropdown-item" data-type="type" data-value="" >TOTAL</a>
-        <a class="dropdown-item" data-type="type" data-value="MoneyLine" >MONEYLINE</a>
+        <a class="oddsMlb dropdown-item" data-type="type" data-value="PointSpread" >SPREAD</a>
+        <a class="oddsMlb dropdown-item" data-type="type" data-value="OverUnder" >TOTAL</a>
+        <a class="oddsMlb dropdown-item" data-type="type" data-value="MoneyLine" >MONEYLINE</a>
       </div>
     </div>
-    <div class="dropdown col-md-5">
+    <div class="dropdown col-md-4">
       <div class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Duration
       </div>
 
       <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-        <a class="dropdown-item" data-value="" >Action</a>
-        <a class="dropdown-item" data-value="" >Another action</a>
-        <a class="dropdown-item" data-value="" >Something else here</a>
+        <a class="oddsMlb dropdown-item" data-type="duration" data-value="game" >GAME</a>
+        <a class="oddsMlb dropdown-item" data-type="duration" data-value="f5" >F5</a>
+        <a class="oddsMlb dropdown-item" data-type="duration" data-value="live" >LIVE</a>
       </div>
     </div>
   </section>
@@ -63,16 +63,11 @@
 <div class="content col-md-12">
   <section class="teams row">
     <div class="col-md-12 mimicTable">
-    <div id="tableHeader" class="row">
-        <div class="cell col-md-3">Schedule</div>
-        <div class="col-md-3">
+      <div id="tableHeader" class="row">
+        <div class="cell col-md-4">Schedule</div>
+        <div class="col-md-8">
           <div class="row">
-            <div class="cell col-md-6">Open</div>
-            <div class="cell col-md-6">Consensus</div>      
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="row">
+            <div class="cell col-md-2">Open</div>
             <div class="cell col-md-2">Westgate</div>
             <div class="cell col-md-2">Caesars</div>
             <div class="cell col-md-2">Pinnacle</div>
@@ -82,6 +77,7 @@
         </div>
       </div>
       <section id="content"></section>
+    </div>
   </section>
 </div>
 
@@ -90,40 +86,86 @@
 
   var resultData = null;
 
+  // Config
+  var selectedDate = jQuery("#dateDisplay").text();
+
   // #1 Date Setup
-  var dateList = <?= $dateList ?>;
-  const now = new Date();
-  let closest = null;
+  jQuery("#dateDisplay").text(getClosestDateFromList(new Date));
 
-  dateList.forEach(function(d) {
-    const date = new Date(d);
+  function getClosestDateFromList(selectedDate, addDays = 0) {
+    var dateList = <?= $dateList ?>;
+    if (addDays !== 0) {
+      selectedDate.setDate( selectedDate.getDate() + addDays );
+    }
+    let closest = null;
 
-    if (date <= now && (date > new Date(closest) || date > closest)) {
-        closest = d;
+    dateList.forEach(function(d) {
+      const date = new Date(d);
+
+      if (date <= selectedDate && (date > new Date(closest) || date > closest)) {
+          closest = d;
+      }
+    });
+    return closest;
+  }
+
+  jQuery(".dateChanger").on('click', function(e) {
+    let dateElem = jQuery(this);
+    let dateDisplay = jQuery('#dateDisplay');
+    let selected = new Date(dateDisplay.text())
+    var newVal = 0;
+    if (dateElem.data('type') == "prev") {
+      newVal = getClosestDateFromList(selected, - 1);
+    }
+    if (jQuery(this).data('type') == "next") {
+      newVal = getClosestDateFromList(selected, 1);
+    }
+    dateDisplay.text(newVal);
+    fetchData(
+      "https://api.sportsdata.io/v3/mlb/odds/json/GameOddsByDate/" + newVal + "?key=<?= $this->config['apiKeys']['mlb']['liveOdds'] ?>"
+    );
+  });
+
+  // #2 The actual request
+  fetchData(
+    "https://api.sportsdata.io/v3/mlb/odds/json/GameOddsByDate/" + selectedDate + "?key=<?= $this->config['apiKeys']['mlb']['liveOdds'] ?>"
+  );
+
+  jQuery(".oddsMlb.dropdown-item").on('click', function(e) {
+    if ( jQuery(this).data("type") == "duration" ) {
+      const duration = jQuery(this).data("value");
+      if (duration == "live") {
+        fetchData( "https://api.sportsdata.io/v3/mlb/odds/json/LiveGameOddsByDate/" + selectedDate + "?key=<?= $this->config['apiKeys']['mlb']['liveOdds'] ?>");
+      } else if(duration == "game") {
+        fetchData( "https://api.sportsdata.io/v3/mlb/odds/json/GameOddsByDate/" + selectedDate + "?key=<?= $this->config['apiKeys']['mlb']['liveOdds'] ?>" );
+      }
     }
   });
 
-  jQuery("#dateDisplay").text(closest);
+  function fetchData(url) {
+    var request = jQuery.ajax({
+      url: url
+    });
 
-  // #2 The actual request
-  var selectedDate = jQuery("#dateDisplay").text();
-  var request = jQuery.ajax({
-    url: "https://api.sportsdata.io/v3/mlb/odds/json/GameOddsByDate/" + selectedDate + "?key=<?= $this->config['apiKeys']['mlb']['liveOdds'] ?>"
-  });
-  
+    request.done((data) => {
+      resultData = data;
+      setGames(resultData);
+      console.log("done fetching");
+    });
+  }
+   
   // #3 Type Setup
   var type = "MoneyLine";
-  jQuery(".dropdown-item").on("click", function(e) {
-    type = jQuery(this).data("value");
+  jQuery(".oddsMlb.dropdown-item").on("click", function(e) {
+    if ( jQuery(this).data("type") == "type" ) {
+      type = jQuery(this).data("value");
+    }    
     setGames(resultData);
   });
   
   var sportsBooks = ['Pinnacle', 'WestgateSuperbookNV', 'DraftKings', 'FanDuel', 'SugarHousePA'];
   
-  request.done((data) => {
-   resultData = data;
-   setGames(resultData);
-  });
+  
 
   function setGames(data) {
     var container = jQuery("section#content");
@@ -137,52 +179,87 @@
       });
       
       var booksAway = '';
-      sportsBooks.forEach(book => {
-        let betTypeResult = books[book] ? books[book]['Away' + type] : '-';
-        let appendSign  = betTypeResult > 0 ? "+" + betTypeResult : betTypeResult;
-        booksAway += '<div class="cell col-md-2">' + appendSign + '</div>';
-      });
       var booksHome = '';
+      let appendSign = null;
+      let payout = '-';
       sportsBooks.forEach(book => {
-        let betTypeResult = books[book] ? books[book]['Home' + type] : '-';
-        let appendSign  = betTypeResult > 0 ? "+" + betTypeResult : betTypeResult;
-        booksHome += '<div class="cell col-md-2">' + appendSign + '</div>';
+        // Line
+        if (type == "OverUnder") {
+          let betTypeResult = books[book] ? books[book][type] : '-';
+          let checkPositive = books[book] ? books[book]['AwayMoneyLine'] : 0;
+          if (books[book]) {
+            payout = checkPositive > 0 && books[book] ? books[book]['UnderPayout'] : books[book]['UnderPayout'];
+          } else {
+            payout = '-';
+          }
+          appendSign = checkPositive > 0 ? "u" + betTypeResult : "o" + betTypeResult;
+        } else  {
+          let betTypeResult = books[book] ? books[book]['Away' + type] : '-';
+          appendSign = betTypeResult > 0 ? "+" + betTypeResult : betTypeResult;          
+        }
+        // PointSpread Payout
+        if (type == "PointSpread") { 
+          payout = books[book] ? books[book]['Away' + type + 'Payout'] : '-';
+        }
+        let appendPayout = type !== "MoneyLine" ? '<div>' + payout + '</div>' : '';
+        booksAway += '<div class="cell col-md-2">' + 
+          '<div>' + appendSign + '</div>' +
+          appendPayout +
+        '</div>';
       });
-      container.append('<div class="row">' +
-        '<div class="cell col-md-3">' + 
-          i.AwayTeamName +
-        '</div>' +
-        '<div class="col-md-3">' +
-          '<div class="row">' +
-            '<div class="cell col-md-6">Open</div>' +
-            '<div class="cell col-md-6">Consensus</div>' +
+
+      sportsBooks.forEach(book => {
+        if (type == "OverUnder") {
+          let betTypeResult = books[book] ? books[book][type] : '-';
+          let checkPositive = books[book] ? books[book]['HomeMoneyLine'] : '-';
+          if (books[book]) {
+            payout = checkPositive > 0 && books[book] ? books[book]['UnderPayout'] : books[book]['UnderPayout'];
+          } else {
+            payout = '-';
+          }
+          appendSign = checkPositive > 0 ? "u" + betTypeResult : "o" + betTypeResult;
+          appendSign = checkPositive > 0 ? "u" + betTypeResult : "o" + betTypeResult;
+        } else {
+          let betTypeResult = books[book] ? books[book]['Home' + type] : '-';
+          appendSign = betTypeResult > 0 ? "+" + betTypeResult : betTypeResult;
+        }
+         // PointSpread Payout
+        if (type == "PointSpread") { 
+          payout = books[book] ? books[book]['Away' + type + 'Payout'] : '-';
+        }
+        let appendPayout = type !== "MoneyLine" ? '<div>' + payout + '</div>' : '';
+        booksHome += '<div class="cell col-md-2">' + 
+          '<div>' + appendSign + '</div>' +
+          appendPayout +
+        '</div>';
+      });
+      container.append(
+        '<div class="row">' +
+          '<div class="cell col-md-4">' + 
+            i.AwayTeamName +
+          '</div>' +
+          '<div class="col-md-8">' +
+            '<div class="row">' +
+              '<div class="cell col-md-2">Open</div>' +
+              booksAway +
+            '</div>' +
           '</div>' +
         '</div>' +
-        '<div class="col-md-6">' +
-          '<div class="row">' +
-            booksAway +
+      '</div>');
+      container.append(
+        '<div class="row">' +
+          '<div class="cell col-md-4">' + 
+            i.HomeTeamName +
+          '</div>' +
+          '<div class="col-md-8">' +
+            '<div class="row">' +
+              '<div class="cell col-md-2">Open</div>' +
+              booksHome +
+            '</div>' +
           '</div>' +
         '</div>' +
-      '</div>' +
-    '</div>');
-    container.append('<div class="row">' +
-        '<div class="cell col-md-3">' + 
-          i.HomeTeamName +
-        '</div>' +
-        '<div class="col-md-3">' +
-          '<div class="row">' +
-            '<div class="cell col-md-6">Open</div>' +
-            '<div class="cell col-md-6">Consensus</div>' +
-          '</div>' +
-        '</div>' +
-        '<div class="col-md-6">' +
-          '<div class="row">' +
-            booksHome +
-          '</div>' +
-        '</div>' +
-      '</div>' +
-    '</div>');
-    container.append("<div style='margin-bottom: 25px;'></div>");
+      '</div>');
+      container.append("<div style='margin-bottom: 25px;'></div>");
     });
   }
 })();
