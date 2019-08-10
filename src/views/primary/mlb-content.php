@@ -85,6 +85,7 @@
 (function() {
 
   var resultData = null;
+  var intervalId = null;
 
   // Config
   var selectedDate = jQuery("#dateDisplay").text();
@@ -143,15 +144,19 @@
   });
 
   function fetchData(url) {
-    var request = jQuery.ajax({
-      url: url
-    });
+    if (intervalId !== null) {
+      clearInterval(feedInterval);
+    }
+    var feedInterval = setInterval(function(){
+      var request = jQuery.ajax({
+        url: url
+      });
 
-    request.done((data) => {
-      resultData = data;
-      setGames(resultData);
-      console.log("done fetching");
-    });
+      request.done((data) => {
+        resultData = data;
+        setGames(resultData);
+      });
+    }, 5000);
   }
    
   // #3 Type Setup
@@ -165,8 +170,6 @@
   
   var sportsBooks = ['Pinnacle', 'WestgateSuperbookNV', 'DraftKings', 'FanDuel', 'SugarHousePA'];
   
-  
-
   function setGames(data) {
     var container = jQuery("section#content");
     container.html("");
