@@ -54,8 +54,6 @@
 
       <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
         <a class="oddsMlb dropdown-item" data-type="duration" data-value="game" >GAME</a>
-        <a class="oddsMlb dropdown-item" data-type="duration" data-value="f5" >F5</a>
-        <a class="oddsMlb dropdown-item" data-type="duration" data-value="live" >LIVE</a>
       </div>
     </div>
   </section>
@@ -132,22 +130,19 @@
     "https://api.sportsdata.io/v3/mlb/odds/json/GameOddsByDate/" + selectedDate + "?key=<?= $this->config['apiKeys']['mlb']['liveOdds'] ?>"
   );
 
-  jQuery(".oddsMlb.dropdown-item").on('click', function(e) {
-    if ( jQuery(this).data("type") == "duration" ) {
-      const duration = jQuery(this).data("value");
-      if (duration == "live") {
-        fetchData( "https://api.sportsdata.io/v3/mlb/odds/json/LiveGameOddsByDate/" + selectedDate + "?key=<?= $this->config['apiKeys']['mlb']['liveOdds'] ?>");
-      } else if(duration == "game") {
-        fetchData( "https://api.sportsdata.io/v3/mlb/odds/json/GameOddsByDate/" + selectedDate + "?key=<?= $this->config['apiKeys']['mlb']['liveOdds'] ?>" );
-      }
-    }
-  });
+  // jQuery(".oddsMlb.dropdown-item").on('click', function(e) {
+  //   if ( jQuery(this).data("type") == "duration" ) {
+  //     const duration = jQuery(this).data("value");
+  //     if (duration == "live") {
+  //       fetchData( "https://api.sportsdata.io/v3/mlb/odds/json/LiveGameOddsByDate/" + selectedDate + "?key=<?= $this->config['apiKeys']['mlb']['liveOdds'] ?>");
+  //     } else if(duration == "game") {
+  //       fetchData( "https://api.sportsdata.io/v3/mlb/odds/json/GameOddsByDate/" + selectedDate + "?key=<?= $this->config['apiKeys']['mlb']['liveOdds'] ?>" );
+  //     }
+  //   }
+  // });
 
   function fetchData(url) {
-    if (intervalId !== null) {
-      clearInterval(feedInterval);
-    }
-    var feedInterval = setInterval(function(){
+    function request() {
       var request = jQuery.ajax({
         url: url
       });
@@ -156,7 +151,15 @@
         resultData = data;
         setGames(resultData);
       });
-    }, 5000);
+    }
+    request();
+
+    if (intervalId !== null) {
+      clearInterval(feedInterval);
+    }
+    var feedInterval = setInterval(function(){
+      request();
+    }, 120000); // 2mins
   }
    
   // #3 Type Setup
@@ -191,11 +194,11 @@
           let betTypeResult = books[book] ? books[book][type] : '-';
           let checkPositive = books[book] ? books[book]['AwayMoneyLine'] : 0;
           if (books[book]) {
-            payout = checkPositive > 0 && books[book] ? books[book]['UnderPayout'] : books[book]['UnderPayout'];
+            payout = checkPositive > 0 && books[book] ? books[book]['OverPayout'] : books[book]['OverPayout'];
           } else {
             payout = '-';
           }
-          appendSign = checkPositive > 0 ? "u" + betTypeResult : "o" + betTypeResult;
+          appendSign = betTypeResult == "-" ? "" : "o" + betTypeResult;
         } else  {
           let betTypeResult = books[book] ? books[book]['Away' + type] : '-';
           appendSign = betTypeResult > 0 ? "+" + betTypeResult : betTypeResult;          
@@ -220,15 +223,14 @@
           } else {
             payout = '-';
           }
-          appendSign = checkPositive > 0 ? "u" + betTypeResult : "o" + betTypeResult;
-          appendSign = checkPositive > 0 ? "u" + betTypeResult : "o" + betTypeResult;
+          appendSign = betTypeResult == "-" ? "" : "u" + betTypeResult;
         } else {
           let betTypeResult = books[book] ? books[book]['Home' + type] : '-';
           appendSign = betTypeResult > 0 ? "+" + betTypeResult : betTypeResult;
         }
          // PointSpread Payout
         if (type == "PointSpread") { 
-          payout = books[book] ? books[book]['Away' + type + 'Payout'] : '-';
+          payout = books[book] ? books[book]['Home' + type + 'Payout'] : '-';
         }
         let appendPayout = type !== "MoneyLine" ? '<div>' + payout + '</div>' : '';
         booksHome += '<div class="cell col-md-2">' + 
