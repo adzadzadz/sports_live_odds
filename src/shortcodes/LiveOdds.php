@@ -12,7 +12,9 @@ class LiveOdds extends Shortcode {
 
   public function initLiveOdds()
   {
-    return $this->render('primary.php');
+    return $this->render('primary.php',[
+      'pluginPath' => $this->pluginPath
+    ]);
   }
   
 }
