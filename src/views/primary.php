@@ -19,6 +19,14 @@
   }
 </style>
 
+<style>
+  section.teams .mimicTable div.cell{
+    border: 1px grey solid;
+    font-size: 0.8em;
+    color: #757575;
+  }
+</style>
+
 <script src="<?= plugins_url('../assets/node_modules/moment/moment.js',__FILE__) ?>"></script>
 <script src="<?= plugins_url('../assets/node_modules/moment-timezone/moment-timezone.js',__FILE__) ?>"></script>
 <script>

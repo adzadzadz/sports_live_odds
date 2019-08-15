@@ -16,62 +16,55 @@
     $dateList[] = $date->date;
   }
   $dateList = json_encode($dateList);
+  
 ?>
 
-
-<style>
-  section.teams .mimicTable div.cell{
-    border: 1px grey solid;
-    font-size: 0.6em;
-    color: #757575;
-  }
-</style>
-
-<header class="col-md-12">
-  <section class="filter row">
-    <div class="col-md-4">
-      <div class="row">
-        <button id="datePrev" class="dateChanger btn btn-sm btn-success col-md-3" data-type="prev">PREV</button>
-        <div id="dateDisplay" class="col-md-6" style="font-size: .8em; padding-top: 8px;">2019-05-03</div>
-        <button id="dateNext" class="dateChanger btn btn-sm btn-success col-md-3" data-type="next">NEXT</button>
-      </div>
-    </div>
-    <div class="dropdown col-md-4">
-      <div class="dropdown-toggle" href="#" role="button" id="typeDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Type
-      </div>
-
-      <div class="dropdown-menu" aria-labelledby="typeDropdown">
-        <a class="oddsMlb dropdown-item" data-type="type" data-value="PointSpread" >SPREAD</a>
-        <a class="oddsMlb dropdown-item" data-type="type" data-value="OverUnder" >TOTAL</a>
-        <a class="oddsMlb dropdown-item" data-type="type" data-value="MoneyLine" >MONEYLINE</a>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <strong>GAME</strong>
-    </div>
-  </section>
-</header>
-<div class="content col-md-12">
-  <section class="teams row">
-    <div class="col-md-12 mimicTable">
-      <div id="tableHeader" class="row">
-        <div class="cell col-md-4">Schedule</div>
-        <div class="col-md-8">
-          <div class="row">
-            <div class="cell col-md-2">Westgate</div>
-            <div class="cell col-md-2">Caesars</div>
-            <div class="cell col-md-2">Pinnacle</div>
-            <div class="cell col-md-2">5Dimes</div>
-            <div class="cell col-md-2">BetOnline</div>
-          </div>
+<section id="mlbData">
+  <header class="col-md-12">
+    <section class="filter row">
+      <div class="col-md-4">
+        <div class="row">
+          <button id="datePrev" class="dateChanger btn btn-sm btn-success col-md-3" data-type="prev">PREV</button>
+          <div id="dateDisplay" class="col-md-6" style="font-size: .8em; padding-top: 8px;">2019-05-03</div>
+          <button id="dateNext" class="dateChanger btn btn-sm btn-success col-md-3" data-type="next">NEXT</button>
         </div>
       </div>
-      <section id="content"></section>
-    </div>
-  </section>
-</div>
+      <div class="dropdown col-md-4">
+        <div class="dropdown-toggle" href="#" role="button" id="typeDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Type
+        </div>
 
+        <div class="dropdown-menu" aria-labelledby="typeDropdown">
+          <a class="oddsMlb dropdown-item" data-type="type" data-value="PointSpread" >SPREAD</a>
+          <a class="oddsMlb dropdown-item" data-type="type" data-value="OverUnder" >TOTAL</a>
+          <a class="oddsMlb dropdown-item" data-type="type" data-value="MoneyLine" >MONEYLINE</a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <strong>GAME</strong>
+      </div>
+    </section>
+  </header>
+  <div class="content col-md-12">
+    <section class="teams row">
+      <div class="col-md-12 mimicTable">
+        <div id="tableHeader" class="row">
+          <div class="cell col-md-4">Schedule</div>
+          <div class="col-md-8">
+            <div class="row">
+              <div class="cell col-md-2">Westgate</div>
+              <div class="cell col-md-2">Caesars</div>
+              <div class="cell col-md-2">Pinnacle</div>
+              <div class="cell col-md-2">5Dimes</div>
+              <div class="cell col-md-2">BetOnline</div>
+            </div>
+          </div>
+        </div>
+        <section id="content"></section>
+      </div>
+    </section>
+  </div>
+</section>
 
 <script>
 (function() {
@@ -79,7 +72,7 @@
   var intervalId = null;
 
   // #1 Date Setup
-  jQuery("#dateDisplay").text(getClosestDateFromList(new Date(currentStartDate)));
+  jQuery("#mlbData #dateDisplay").text(getClosestDateFromList(new Date(currentStartDate)));
 
   function getClosestDateFromList(selectedDate, addDays = 0) {
     var dateList = <?= $dateList ?>;
@@ -115,7 +108,7 @@
     );
   });
 
-  var selectedDate = jQuery("#dateDisplay").text();
+  var selectedDate = jQuery("#mlbData #dateDisplay").text();
   
   // #2 The actual request
   fetchData(
@@ -145,11 +138,11 @@
    
   // #3 Type Setup
   var type = "MoneyLine";
-  jQuery("#typeDropdown").html(type.toUpperCase());
+  jQuery("#mlbData #typeDropdown").html(type.toUpperCase());
   jQuery(".oddsMlb.dropdown-item").on("click", function(e) {
     if ( jQuery(this).data("type") == "type" ) {
       type = jQuery(this).data("value");
-      jQuery("#typeDropdown").html(type.toUpperCase());
+      jQuery("#mlbData #typeDropdown").html(type.toUpperCase());
     }    
     setGames(resultData);
   });

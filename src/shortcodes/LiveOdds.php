@@ -8,6 +8,7 @@ class LiveOdds extends Shortcode {
 
   public function run() {
     add_shortcode( 'slo-live-odds', [$this, 'initLiveOdds'] );
+    add_shortcode( 'slo-live-mlb', [$this, 'shortcodeMLB'] );
   }
 
   public function initLiveOdds()
@@ -15,6 +16,11 @@ class LiveOdds extends Shortcode {
     return $this->render('primary.php',[
       'pluginPath' => $this->pluginPath
     ]);
+  }
+
+  private function shortcodeMLB()
+  {
+
   }
   
 }
