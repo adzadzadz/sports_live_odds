@@ -19,9 +19,11 @@
   
 ?>
 
-<section id="mlbData">
+
+
+<section id="mlbData" class="sportData">
   <header class="col-md-12">
-    <section class="filter row">
+    <section class="filter row slo-dropshadow slo-filter-wrap">
       <div class="col-md-4">
         <div class="row">
           <button id="datePrev" class="dateChanger btn btn-sm btn-success col-md-3" data-type="prev">PREV</button>
@@ -29,15 +31,15 @@
           <button id="dateNext" class="dateChanger btn btn-sm btn-success col-md-3" data-type="next">NEXT</button>
         </div>
       </div>
-      <div class="dropdown col-md-4">
-        <div class="dropdown-toggle" href="#" role="button" id="typeDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <div class="slo-dropdown col-md-4">
+        <div class="slo-dropdown-toggle" href="#" role="button" id="typeDropdown">
           Type
         </div>
 
-        <div class="dropdown-menu" aria-labelledby="typeDropdown">
-          <a class="oddsMlb dropdown-item" data-type="type" data-value="PointSpread" >SPREAD</a>
-          <a class="oddsMlb dropdown-item" data-type="type" data-value="OverUnder" >TOTAL</a>
-          <a class="oddsMlb dropdown-item" data-type="type" data-value="MoneyLine" >MONEYLINE</a>
+        <div class="slo-dropdown-menu slo-hidden">
+          <div class="oddsMlb slo-dropdown-item" data-type="type" data-value="PointSpread" >SPREAD</div>
+          <div class="oddsMlb slo-dropdown-item" data-type="type" data-value="OverUnder" >TOTAL</div>
+          <div class="oddsMlb slo-dropdown-item" data-type="type" data-value="MoneyLine" >MONEYLINE</div>
         </div>
       </div>
       <div class="col-md-4">
@@ -45,27 +47,54 @@
       </div>
     </section>
   </header>
-  <div class="content col-md-12">
-    <section class="teams row">
-      <div class="col-md-12 mimicTable">
-        <div id="tableHeader" class="row">
-          <div class="cell col-md-4">Schedule</div>
-          <div class="col-md-8">
-            <div class="row">
-              <div class="cell col-md-2">Westgate</div>
-              <div class="cell col-md-2">Caesars</div>
-              <div class="cell col-md-2">Pinnacle</div>
-              <div class="cell col-md-2">5Dimes</div>
-              <div class="cell col-md-2">BetOnline</div>
+  <div class="slo-spacer"></div>
+  <div class="content">
+    <div class="col-md-12">
+      <section class="teams row">
+        <div class="col-md-12 mimicTable">
+          <div id="tableHeader" class="row slo-dropshadow">
+            <div class="cell col-md-4">Schedule</div>
+            <div class="col-md-8">
+              <div class="slo-row">
+                <div class="cell slo-col-hack-5">Westgate</div>
+                <div class="cell slo-col-hack-5">Caesars</div>
+                <div class="cell slo-col-hack-5">Pinnacle</div>
+                <div class="cell slo-col-hack-5">5Dimes</div>
+                <div class="cell slo-col-hack-5">BetOnline</div>
+              </div>
             </div>
           </div>
+          <div class="slo-spacer"></div>
+          <section id="content"></section>
         </div>
-        <section id="content"></section>
-      </div>
-    </section>
+      </section>
+    </div>
   </div>
 </section>
+<script>
+  jQuery(".slo-dropdown").on('click', function(e) {
+    toggleSloDropdown(this);
+  });
+  jQuery(document).mouseup(function(e) {
+    var container = jQuery(".slo-dropdown");
 
+    // if the target of the click isn't the container nor a descendant of the container
+    if (!container.is(e.target) && container.has(e.target).length === 0) 
+    {
+      container.find(".slo-dropdown-menu").addClass("slo-hidden");
+    }
+  });
+  function toggleSloDropdown(elem) {
+    let dropdownMenu = jQuery(elem).find(".slo-dropdown-menu");
+    dropdownMenu.toggleClass("slo-hidden")
+  }
+</script>
+<script src="<?= plugins_url('../../assets/node_modules/moment/moment.js',__FILE__) ?>"></script>
+<script src="<?= plugins_url('../../assets/node_modules/moment-timezone/moment-timezone.js',__FILE__) ?>"></script>
+<script>
+  moment.tz.add(["America/New_York|EST EDT EWT EPT|50 40 40 40|01010101010101010101010101010101010101010101010102301010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010|-261t0 1nX0 11B0 1nX0 11B0 1qL0 1a10 11z0 1qN0 WL0 1qN0 11z0 1o10 11z0 1o10 11z0 1o10 11z0 1o10 11z0 1qN0 11z0 1o10 11z0 1o10 11z0 1o10 11z0 1o10 11z0 1qN0 WL0 1qN0 11z0 1o10 11z0 1o10 11z0 1o10 11z0 1o10 11z0 1qN0 WL0 1qN0 11z0 1o10 11z0 RB0 8x40 iv0 1o10 11z0 1o10 11z0 1o10 11z0 1o10 11z0 1qN0 WL0 1qN0 11z0 1o10 11z0 1o10 11z0 1o10 11z0 1o10 1fz0 1cN0 1cL0 1cN0 1cL0 1cN0 1cL0 1cN0 1cL0 1cN0 1fz0 1cN0 1cL0 1cN0 1cL0 1cN0 1cL0 1cN0 1cL0 1cN0 1fz0 1a10 1fz0 1cN0 1cL0 1cN0 1cL0 1cN0 1cL0 1cN0 1cL0 1cN0 1fz0 1cN0 1cL0 1cN0 1cL0 s10 1Vz0 LB0 1BX0 1cN0 1fz0 1a10 1fz0 1cN0 1cL0 1cN0 1cL0 1cN0 1cL0 1cN0 1cL0 1cN0 1fz0 1a10 1fz0 1cN0 1cL0 1cN0 1cL0 1cN0 1cL0 14p0 1lb0 14p0 1nX0 11B0 1nX0 11B0 1nX0 14p0 1lb0 14p0 1lb0 14p0 1nX0 11B0 1nX0 11B0 1nX0 14p0 1lb0 14p0 1lb0 14p0 1lb0 14p0 1nX0 11B0 1nX0 11B0 1nX0 14p0 1lb0 14p0 1lb0 14p0 1nX0 11B0 1nX0 11B0 1nX0 Rd0 1zb0 Op0 1zb0 Op0 1zb0 Rd0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Rd0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Rd0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Rd0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Rd0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0|21e6"]);
+  var currentStartDate = moment().tz("America/New_York").format("YYYY-MM-DD");
+</script>
 <script>
 (function() {
   var resultData = null;
@@ -139,10 +168,11 @@
   // #3 Type Setup
   var type = "MoneyLine";
   jQuery("#mlbData #typeDropdown").html(type.toUpperCase());
-  jQuery(".oddsMlb.dropdown-item").on("click", function(e) {
+  jQuery(".oddsMlb.slo-dropdown-item").on("click", function(e) {
     if ( jQuery(this).data("type") == "type" ) {
       type = jQuery(this).data("value");
-      jQuery("#mlbData #typeDropdown").html(type.toUpperCase());
+      text = jQuery(this).html();
+      jQuery("#mlbData #typeDropdown").html(text.toUpperCase());
     }    
     setGames(resultData);
   });
@@ -154,7 +184,6 @@
     container.html("");
     data.forEach(i => {
       let gameId = i.GameId;
-      console.log(gameId)
       let books = {};
       i.PregameOdds.forEach(it => {
         if (sportsBooks.includes(it.Sportsbook)) {
@@ -187,7 +216,7 @@
           payout = books[book] ? books[book]['Away' + type + 'Payout'] : '-';
         }
         let appendPayout = type !== "MoneyLine" ? '<div>' + payout + '</div>' : '';
-        booksAway += '<div class="cell col-md-2">' + 
+        booksAway += '<div class="cell slo-col-hack-5">' + 
           '<div>' + appendSign + '</div>' +
           appendPayout +
         '</div>';
@@ -213,36 +242,38 @@
           payout = books[book] ? books[book]['Home' + type + 'Payout'] : '-';
         }
         let appendPayout = type !== "MoneyLine" ? '<div>' + payout + '</div>' : '';
-        booksHome += '<div class="cell col-md-2">' + 
+        booksHome += '<div class="cell slo-col-hack-5">' + 
           '<div>' + appendSign + '</div>' +
           appendPayout +
         '</div>';
       });
-      container.append(
-        '<div class="row">' +
-          '<div class="cell col-md-4">' + 
-            i.AwayTeamName +
-          '</div>' +
-          '<div class="col-md-8">' +
-            '<div class="row">' +
-              booksAway +
-            '</div>' +
-          '</div>' +
-        '</div>' +
-      '</div>');
-      container.append(
-        '<div class="row">' +
-          '<div class="cell col-md-4">' + 
-            i.HomeTeamName +
-          '</div>' +
-          '<div class="col-md-8">' +
-            '<div class="row">' +
-              booksHome +
-            '</div>' +
-          '</div>' +
-        '</div>' +
-      '</div>');
-      container.append("<div style='margin-bottom: 25px;'></div>");
+      
+      contentData =  '<section class="slo-dropshadow col-md-12" style="padding: 0 -15px;">';
+      contentData += '<div class="row">';
+      contentData += '<div class="cell col-md-4">'; 
+      contentData += i.AwayTeamName;
+      contentData += '</div>';
+      contentData += '<div class="col-md-8">';
+      contentData += '<div class="row">';
+      contentData += booksAway;
+      contentData += '</div>';
+      contentData += '</div>';
+      contentData += '</div>';
+
+      contentData += '<div class="row">';
+      contentData += '<div class="cell col-md-4">'; 
+      contentData += i.HomeTeamName;
+      contentData += '</div>';
+      contentData += '<div class="col-md-8">';
+      contentData += '<div class="row">';
+      contentData += booksHome;
+      contentData += '</div>';
+      contentData += '</div>';
+      contentData += '</div>';
+      contentData += '</section>';
+
+      container.append(contentData);
+      container.append("<div class='slo-spacer'></div>");
     });
   }
 })();

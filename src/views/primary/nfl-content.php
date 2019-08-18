@@ -1,25 +1,9 @@
 <?php 
 
-  global $wpdb;
-  $availableDates = [];
-  $sportTable = \src\models\Sport::getTable();
-  $scheduleTable = \src\models\SportSchedule::getTable();
-  $sportResult = $wpdb->get_results( $wpdb->prepare("SELECT * FROM $sportTable WHERE sport_code = %s", ['MLB']) );
-  if (!$sportResult) {
-    echo "Sport Code not found. Contact Dev.";
-  } else {
-    $availableDates = $wpdb->get_results( $wpdb->prepare("SELECT * from $scheduleTable where sport_id = %d", [$sportResult[0]->id]) );
-  }
-  
-  $dateList = [];
-  foreach ($availableDates as $date) { 
-    $dateList[] = $date->date;
-  }
-  $dateList = json_encode($dateList);
   
 ?>
 
-<section id="nflData">
+<section id="nflData" class="sportData">
 
   <header class="col-md-12">
     <section class="filter row">
@@ -28,10 +12,8 @@
           Type
         </div>
 
-        <div class="dropdown-menu" aria-labelledby="typeDropdown">
-          <a class="oddsMlb dropdown-item" data-type="type" data-value="PointSpread" >SPREAD</a>
-          <a class="oddsMlb dropdown-item" data-type="type" data-value="OverUnder" >TOTAL</a>
-          <a class="oddsMlb dropdown-item" data-type="type" data-value="MoneyLine" >MONEYLINE</a>
+        <div id="gameTypeSelection" class="dropdown-menu" aria-labelledby="typeDropdown">
+          
         </div>
       </div>
       <div class="dropdown col-md-4">
@@ -82,46 +64,19 @@
   ];
   var resultData = null;
   var intervalId = null;
+  var gameType = null;
+  // #1 Game Type Setup
+  if (gameType == null) {}
 
-  // #1 Date Setup
-  jQuery("#nflData #dateDisplay").text(getClosestDateFromList(new Date(currentStartDate)));
-
-  function getClosestDateFromList(selectedDate, addDays = 0) {
-    var dateList = <?= $dateList ?>;
-    if (addDays !== 0) {
-      selectedDate.setDate( selectedDate.getDate() + addDays );
-    }
-    let closest = null;
-
-    dateList.forEach(function(d) {
-      const date = new Date(d);
-
-      if (date <= selectedDate && (date > new Date(closest) || date > closest)) {
-          closest = d;
-      }
-    });
-    return closest;
+  switch (gameType) {
+    case "HDF":
+      
+      break;
+  
+    default:
+      break;
   }
 
-  jQuery("#nflData .dateChanger").on('click', function(e) {
-    let dateElem = jQuery(this);
-    let dateDisplay = jQuery('#dateDisplay');
-    let selected = new Date(dateDisplay.text())
-    var newDate = 0;
-    if (dateElem.data('type') == "prev") {
-      newDate = getClosestDateFromList(selected, - 1);
-    }
-    if (jQuery(this).data('type') == "next") {
-      newDate = getClosestDateFromList(selected, 1);
-    }
-    dateDisplay.text(newDate);
-    fetchData(
-      "https://api.sportsdata.io/v3/mlb/odds/json/GameOddsByDate/" + newDate + "?key=<?= $this->config['apiKeys']['mlb']['liveOdds'] ?>"
-    );
-  });
-
-  var selectedDate = jQuery("#nflData #dateDisplay").text();
-  
   // #2 The actual request
   fetchData(
     "https://api.sportsdata.io/v3/mlb/odds/json/GameOddsByDate/" + selectedDate + "?key=<?= $this->config['apiKeys']['mlb']['liveOdds'] ?>"
@@ -148,7 +103,7 @@
     }, 120000); // 2mins
   }
    
-  // #3 Type Setup
+  // #3 Book Type Setup
   var type = "MoneyLine";
   jQuery("#nflData #typeDropdown").html(type.toUpperCase());
   jQuery("#nflData .oddsMlb.dropdown-item").on("click", function(e) {

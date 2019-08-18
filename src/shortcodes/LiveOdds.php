@@ -9,6 +9,7 @@ class LiveOdds extends Shortcode {
   public function run() {
     add_shortcode( 'slo-live-odds', [$this, 'initLiveOdds'] );
     add_shortcode( 'slo-live-mlb', [$this, 'shortcodeMLB'] );
+    add_shortcode( 'slo-live-nfl', [$this, 'shortcodeNFL'] );
   }
 
   public function initLiveOdds()
@@ -18,9 +19,14 @@ class LiveOdds extends Shortcode {
     ]);
   }
 
-  private function shortcodeMLB()
+  public function shortcodeMLB()
   {
+    return $this->render('primary/mlb-content.php', ['pluginPath' => $this->pluginPath]);
+  }
 
+  public function shortcodeNFL()
+  {
+    return $this->render('primary/nfl-content.php', ['pluginPath' => $this->pluginPath]);
   }
   
 }
