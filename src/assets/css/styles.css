@@ -1,8 +1,8 @@
 #sloContainer {
   max-width: 100% !important;
+  font-family: "Raleway", Arial, Tahoma, sans-serif;
 }
 #sloContainer a {
-  font-family: 'Roboto Condensed', sans-serif;
   text-decoration: none;
 }
 #tabContent .dropdown {
@@ -18,13 +18,21 @@
 section.teams .mimicTable div.cell {
   padding: 8px;
   border: 1px #cccccc solid;
+  background: #fff;
   font-size: 0.8em;
   color: #757575;
   font-weight: bold;
   text-align: center;
 }
-section.sportData {
+section.sloSportData {
+  font-family: "Raleway", Arial, Tahoma, sans-serif;
   max-width: 100% !important;
+}
+section.sloSportData .dateChanger {
+  background: #dd3333;
+  color : #fff;
+  padding: 15px;
+  cursor: pointer;
 }
 .slo-hidden {
   display: none;
@@ -34,14 +42,21 @@ section.sportData {
 }
 .slo-dropdown .slo-dropdown-menu {
   position: absolute;
-  max-width: 200px;
+  left: 20%;
+  width: 250px;
+  max-height: 500px;
+  overflow-y: auto;
   background: #fff;
   z-index: 2;
   border-top: 2px #757575 solid;
 }
 .slo-dropdown .slo-dropdown-menu .slo-dropdown-item {
-  border-top: 2px #010101 solid;
+  border-top: 1px #757575 solid;
   padding: 12px;
+}
+.slo-dropdown .slo-dropdown-menu .slo-dropdown-item:hover {
+  background: #dd3333;
+  color: #fff;
 }
 .slo-spacer {
   margin-bottom: 25px;
@@ -53,6 +68,11 @@ section.sportData {
 }
 .slo-filter-wrap {
   text-align: center;
+  height: 55px;
+}
+.filter-label {
+  font-size: .8em; 
+  padding-top: 12px;
 }
 .slo-row {
   display: flex;

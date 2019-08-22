@@ -7,9 +7,9 @@ use adzmvc\Shortcode;
 class LiveOdds extends Shortcode {
 
   public function run() {
-    add_shortcode( 'slo-live-odds', [$this, 'initLiveOdds'] );
-    add_shortcode( 'slo-live-mlb', [$this, 'shortcodeMLB'] );
-    add_shortcode( 'slo-live-nfl', [$this, 'shortcodeNFL'] );
+    add_shortcode( 'slo-all', [$this, 'initLiveOdds'] );
+    add_shortcode( 'slo-mlb', [$this, 'shortcodeMLB'] );
+    add_shortcode( 'slo-nfl', [$this, 'shortcodeNFL'] );
   }
 
   public function initLiveOdds()

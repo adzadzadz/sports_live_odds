@@ -3,7 +3,7 @@
 Plugin Name: Sports Live Odds
 Plugin URI: https://www.adriansaycon.com
 Description: Description
-Version: 0.1.0
+Version: 0.9.3
 Author: Adrian Saycon
 Author URI: https://www.adriansaycon.com
 */

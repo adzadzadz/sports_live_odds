@@ -3,214 +3,147 @@
   
 ?>
 
-<section id="nflData" class="sportData">
-
-  <header class="col-md-12">
-    <section class="filter row">
-    <div class="dropdown col-md-4">
-        <div class="dropdown-toggle" href="#" role="button" id="typeDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Type
+<section id="nflData" class="sloSportData">
+  <header class="col-md-8">
+    <section class="filter row slo-dropshadow slo-filter-wrap">
+       <div id="nflGameWeek" class="slo-dropdown col-md-6">
+        <div class="slo-dropdown-toggle filter-label" href="#" role="button" id="nflWeekDropdown">
+          <span id="nflWeekText">Week</span> <i class="fa fa-chevron-down"></i>
         </div>
 
-        <div id="gameTypeSelection" class="dropdown-menu" aria-labelledby="typeDropdown">
-          
-        </div>
+        <div class="slo-dropdown-menu slo-hidden"></div>
       </div>
-      <div class="dropdown col-md-4">
-        <div class="dropdown-toggle" href="#" role="button" id="typeDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Type
+      <div class="slo-dropdown col-md-6">
+        <div class="slo-dropdown-toggle filter-label" href="#" role="button" id="nflTypeDropdown">
+        <span id="nflTypeText" data-type="type">Type</span> <i class="fa fa-chevron-down"></i>
         </div>
 
-        <div class="dropdown-menu" aria-labelledby="typeDropdown">
-          <a class="oddsMlb dropdown-item" data-type="type" data-value="PointSpread" >SPREAD</a>
-          <a class="oddsMlb dropdown-item" data-type="type" data-value="OverUnder" >TOTAL</a>
-          <a class="oddsMlb dropdown-item" data-type="type" data-value="MoneyLine" >MONEYLINE</a>
+        <div class="slo-dropdown-menu slo-hidden">
+          <div class="oddsNfl slo-dropdown-item" data-type="type" data-value="PointSpread" >SPREAD</div>
+          <div class="oddsNfl slo-dropdown-item" data-type="type" data-value="OverUnder" >TOTAL</div>
+          <div class="oddsNfl slo-dropdown-item" data-type="type" data-value="MoneyLine" >MONEYLINE</div>
         </div>
-      </div>
-      <div class="col-md-4">
-        <strong>GAME</strong>
       </div>
     </section>
   </header>
-  <div class="content col-md-12">
-    <section class="teams row">
-      <div class="col-md-12 mimicTable">
-        <div id="tableHeader" class="row">
-          <div class="cell col-md-4">Schedule</div>
-          <div class="col-md-8">
-            <div class="row">
-              <div class="cell col-md-2">Westgate</div>
-              <div class="cell col-md-2">Caesars</div>
-              <div class="cell col-md-2">Pinnacle</div>
-              <div class="cell col-md-2">5Dimes</div>
-              <div class="cell col-md-2">BetOnline</div>
+  <div class="slo-spacer"></div>
+  <div class="content">
+    <div class="col-md-12">
+      <section class="teams row">
+        <div class="col-md-12 mimicTable">
+          <div id="tableHeader" class="row slo-dropshadow">
+            <div class="cell col-md-4">Schedule</div>
+            <div class="col-md-8">
+              <div class="slo-row">
+                <div class="cell slo-col-hack-5">Westgate</div>
+                <div class="cell slo-col-hack-5">Caesars</div>
+                <div class="cell slo-col-hack-5">Pinnacle</div>
+                <div class="cell slo-col-hack-5">5Dimes</div>
+                <div class="cell slo-col-hack-5">BetOnline</div>
+              </div>
             </div>
           </div>
+          <div class="slo-spacer"></div>
+          <section id="nflContent"></section>
         </div>
-        <section id="content"></section>
-      </div>
-    </section>
+      </section>
+    </div>
   </div>
-
 </section>
-
 
 <script>
 (function() {
-  var nflGameTypes = [
-    'HOF', 'PRE1', 'PRE2', 'PRE3', 'PRE4', 'WEEK1', 'WEEK2', 'WEEK3', 'WEEK4', 'WEEK5', 
-    'WEEK6', 'WEEK7', 'WEEK8', 'WEEK9', 'WEEK10', 'WEEK11', 'WEEK12', 'WEEK13', 'WEEK14', 'WEEK15', 
-    'WEEK16', 'WEEK17', 'WILD CARD', 'DIVISION ROUND', 'CONF CHAMP', 'PRO BOWL', 'SUPER BOWL'
-  ];
-  var resultData = null;
-  var intervalId = null;
-  var gameType = null;
-  // #1 Game Type Setup
-  if (gameType == null) {}
+  let sport = 'nfl';
+  let type  = 'MoneyLine';
+  let intervalId = null;
+  let j = jQuery;
+  var nflGameWeeks = {
+    'HOF'   : 0, 
+    'PRE1'  : 1,
+    'PRE2'  : 2,
+    'PRE3'  : 3,
+    'PRE4'  : 4, 
+    'WEEK1' : 5, 
+    'WEEK2' : 6,
+    'WEEK3' : 7,
+    'WEEK4' : 8,
+    'WEEK5' : 9, 
+    'WEEK6' : 10,
+    'WEEK7' : 11,
+    'WEEK8' : 12,
+    'WEEK9' : 13, 
+    'WEEK10': 14,
+    'WEEK11': 15,
+    'WEEK12': 16,
+    'WEEK13': 17,
+    'WEEK14': 18,
+    'WEEK15': 19, 
+    'WEEK16': 20,
+    'WEEK17': 21,
+    'WILD CARD': 22, // No worries
+    'DIVISION ROUND': 23, // No worries
+    'CONF CHAMP': 24, // No worries
+    'PRO BOWL': 25, // No worries
+    'SUPER BOWL': 26, // No worries
+  };
 
-  switch (gameType) {
-    case "HDF":
-      
-      break;
-  
-    default:
-      break;
-  }
-
-  // #2 The actual request
-  fetchData(
-    "https://api.sportsdata.io/v3/mlb/odds/json/GameOddsByDate/" + selectedDate + "?key=<?= $this->config['apiKeys']['mlb']['liveOdds'] ?>"
-  );
-
-  function fetchData(url) {
-    function request() {
-      var request = jQuery.ajax({
-        url: url
-      });
-
-      request.done((data) => {
-        resultData = data;
-        setGames(resultData);
-      });
+  j(document).ready(() => {
+    let dropdown = j("#nflGameWeek").find(".slo-dropdown-menu");
+    for (let key in nflGameWeeks) {
+      let menuItem = `<div class="slo-dropdown-item" data-type="week" data-value="${nflGameWeeks[key]}" >${key}</div>`;
+      dropdown.append(menuItem);
     }
-    request();
-
-    if (intervalId !== null) {
-      clearInterval(intervalId);
-    }
-    var intervalId = setInterval(function(){
-      request();
-    }, 120000); // 2mins
-  }
-   
-  // #3 Book Type Setup
-  var type = "MoneyLine";
-  jQuery("#nflData #typeDropdown").html(type.toUpperCase());
-  jQuery("#nflData .oddsMlb.dropdown-item").on("click", function(e) {
-    if ( jQuery(this).data("type") == "type" ) {
-      type = jQuery(this).data("value");
-      jQuery("#nflData #typeDropdown").html(type.toUpperCase());
-    }    
-    setGames(resultData);
-  });
-  
-  var sportsBooks = ['Pinnacle', 'WestgateSuperbookNV', 'DraftKings', 'FanDuel', 'SugarHousePA'];
-  
-  function setGames(data) {
-    var container = jQuery("#nflData section#content");
-    container.html("");
-    data.forEach(i => {
-      let gameId = i.GameId;
-      console.log(gameId)
-      let books = {};
-      i.PregameOdds.forEach(it => {
-        if (sportsBooks.includes(it.Sportsbook)) {
-          books[it.Sportsbook] = it;
-        }
-      });
-      
-      let booksAway = '';
-      let booksHome = '';
-      let appendSign = '';
-      let payout = '-';
-      /**
-       * Away Team
-       */
-      sportsBooks.forEach(book => {
-        // Line
-        if (type == "OverUnder") {
-          let betTypeResult = books[book] ? books[book][type] : '-';
-          let checkPositive = books[book] ? books[book]['AwayMoneyLine'] : 0;
-          if (books[book]) {
-            payout = checkPositive > 0 && books[book] ? books[book]['OverPayout'] : books[book]['OverPayout'];
-          }
-          appendSign = betTypeResult == "-" ? "" : "o" + betTypeResult;
-        } else  {
-          let betTypeResult = books[book] ? books[book]['Away' + type] : '-';
-          appendSign = betTypeResult > 0 ? "+" + betTypeResult : betTypeResult;          
-        }
-        // PointSpread Payout
-        if (type == "PointSpread") { 
-          payout = books[book] ? books[book]['Away' + type + 'Payout'] : '-';
-        }
-        let appendPayout = type !== "MoneyLine" ? '<div>' + payout + '</div>' : '';
-        booksAway += '<div class="cell col-md-2">' + 
-          '<div>' + appendSign + '</div>' +
-          appendPayout +
-        '</div>';
-      });
-
-      /**
-       * Home Team
-       */
-      sportsBooks.forEach(book => {
-        if (type == "OverUnder") {
-          let betTypeResult = books[book] ? books[book][type] : '-';
-          let checkPositive = books[book] ? books[book]['HomeMoneyLine'] : '-';
-          if (books[book]) {
-            payout = checkPositive > 0 && books[book] ? books[book]['UnderPayout'] : books[book]['UnderPayout'];
-          }
-          appendSign = betTypeResult == "-" ? "" : "u" + betTypeResult;
-        } else {
-          let betTypeResult = books[book] ? books[book]['Home' + type] : '-';
-          appendSign = betTypeResult > 0 ? "+" + betTypeResult : betTypeResult;
-        }
-         // PointSpread Payout
-        if (type == "PointSpread") { 
-          payout = books[book] ? books[book]['Home' + type + 'Payout'] : '-';
-        }
-        let appendPayout = type !== "MoneyLine" ? '<div>' + payout + '</div>' : '';
-        booksHome += '<div class="cell col-md-2">' + 
-          '<div>' + appendSign + '</div>' +
-          appendPayout +
-        '</div>';
-      });
-      container.append(
-        '<div class="row">' +
-          '<div class="cell col-md-4">' + 
-            i.AwayTeamName +
-          '</div>' +
-          '<div class="col-md-8">' +
-            '<div class="row">' +
-              booksAway +
-            '</div>' +
-          '</div>' +
-        '</div>' +
-      '</div>');
-      container.append(
-        '<div class="row">' +
-          '<div class="cell col-md-4">' + 
-            i.HomeTeamName +
-          '</div>' +
-          '<div class="col-md-8">' +
-            '<div class="row">' +
-              booksHome +
-            '</div>' +
-          '</div>' +
-        '</div>' +
-      '</div>');
-      container.append("<div style='margin-bottom: 25px;'></div>");
+    resultData = null;
+    j(".slo-dropdown-item").click(function(e) {
+      if (j(this).data("type") == 'week') {
+        let week = j(this).data('value');
+        j('#nflWeekText').html(j(this).html());
+        fetchSloData(
+          url = `https://api.sportsdata.io/v3/nfl/odds/json/GameOddsByWeek/2019PRE/${week}?key=<?= $this->config['apiKeys']['nfl']['liveOdds'] ?>`,
+          type = 'MoneyLine'
+        );
+      }
     });
-  }
+
+    // #2 The actual request
+    fetchSloData(
+      url = `https://api.sportsdata.io/v3/nfl/odds/json/GameOddsByWeek/2019PRE/${nflGameWeeks['PRE3']}?key=<?= $this->config['apiKeys']['nfl']['liveOdds'] ?>`,
+      type = 'MoneyLine'
+    );
+
+    jQuery("#nflData #nflTypeText").html(type.toUpperCase());
+    jQuery("#nflData #nflTypeText").data("type", type);
+    j(".oddsNfl.slo-dropdown-item").on("click", function(e) {
+      if ( j(this).data("type") == "type" ) {
+        type = j(this).data("value");
+        text = j(this).html();
+        j("#nflData #nflTypeText").html(text.toUpperCase());
+      }
+      if (resultData)
+        setSloOddsView(resultData, sport, type);
+    });
+
+    function fetchSloData(url, type) {
+      function request() {
+        var request = j.ajax({
+          url: url
+        });
+
+        request.done((data) => {
+          resultData = data;
+          setSloOddsView(resultData, sport, type);
+        });
+      }
+      request();
+
+      if (intervalId !== null) {
+        clearInterval(intervalId);
+      }
+      var intervalId = setInterval(function(){
+        request();
+      }, 120000); // 2mins
+    }
+  
+  }); // j(document).ready
 })();
 </script>

@@ -20,10 +20,8 @@ register_deactivation_hook( __FILE__, 'pluginprefix_deactivation' );
 function enqueueAssets()
 {
   wp_enqueue_style( 'sloBootstrapCss', plugins_url('src/assets/node_modules/bootstrap/dist/css/bootstrap-grid.min.css',__FILE__) ,false, '1.1', 'all');
-  wp_enqueue_script( 'sloBootstrapJs', plugins_url('src/assets/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',__FILE__) ,['jquery'], '1.1', 'all');
-  // wp_enqueue_script( 'sloJquery', plugins_url('src/assets/node_modules/jquery/dist/jquery.min.js', __FILE__), [], 1.1, true);
-  // wp_enqueue_script( 'sloJquery', plugins_url('src/assets/node_modules/jquery/dist/jquery.min.js', __FILE__), ['jquery'], 1.1, true);
-  wp_enqueue_style( 'sloMainStyles', plugins_url('src/assets/css/styles.css',__FILE__) ,false, '1.2', 'all');
+  wp_enqueue_style( 'sloMainStyles', plugins_url('src/assets/css/styles.css',__FILE__) ,false, null, 'all');
+  wp_enqueue_script( 'sloJs', plugins_url('src/assets/js/main.js', __FILE__), ['jquery'], false, true);
 }
 add_action( 'wp_enqueue_scripts', 'enqueueAssets' );
 add_action( 'admin_enqueue_scripts', 'enqueueAssets');
