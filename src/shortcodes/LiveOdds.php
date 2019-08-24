@@ -10,6 +10,7 @@ class LiveOdds extends Shortcode {
     add_shortcode( 'slo-all', [$this, 'initLiveOdds'] );
     add_shortcode( 'slo-mlb', [$this, 'shortcodeMLB'] );
     add_shortcode( 'slo-nfl', [$this, 'shortcodeNFL'] );
+    add_shortcode( 'slo-ncaaf', [$this, 'shortcodeNCAAF'] );
   }
 
   public function initLiveOdds()
@@ -27,6 +28,11 @@ class LiveOdds extends Shortcode {
   public function shortcodeNFL()
   {
     return $this->render('primary/nfl-content.php', ['pluginPath' => $this->pluginPath]);
+  }
+
+  public function shortcodeNCAAF()
+  {
+    return $this->render('primary/ncaaf-content.php', ['pluginPath' => $this->pluginPath]);
   }
   
 }

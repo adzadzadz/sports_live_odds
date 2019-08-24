@@ -1,12 +1,7 @@
-<?php 
-
-  
-?>
-
 <section id="nflData" class="sloSportData">
   <header class="col-md-8">
     <section class="filter row slo-dropshadow slo-filter-wrap">
-       <div id="nflGameWeek" class="slo-dropdown col-md-6">
+      <div id="nflGameWeek" class="slo-dropdown col-md-6">
         <div class="slo-dropdown-toggle filter-label" href="#" role="button" id="nflWeekDropdown">
           <span id="nflWeekText">Week</span> <i class="fa fa-chevron-down"></i>
         </div>
@@ -35,11 +30,11 @@
             <div class="cell col-md-4">Schedule</div>
             <div class="col-md-8">
               <div class="slo-row">
-                <div class="cell slo-col-hack-5">Westgate</div>
-                <div class="cell slo-col-hack-5">Caesars</div>
                 <div class="cell slo-col-hack-5">Pinnacle</div>
-                <div class="cell slo-col-hack-5">5Dimes</div>
-                <div class="cell slo-col-hack-5">BetOnline</div>
+                <div class="cell slo-col-hack-5">Westgate</div>
+                <div class="cell slo-col-hack-5">Draftkings</div>
+                <div class="cell slo-col-hack-5">FanDuel</div>
+                <div class="cell slo-col-hack-5">SugerHouse</div>
               </div>
             </div>
           </div>
@@ -99,16 +94,16 @@
         let week = j(this).data('value');
         j('#nflWeekText').html(j(this).html());
         fetchSloData(
-          url = `https://api.sportsdata.io/v3/nfl/odds/json/GameOddsByWeek/2019PRE/${week}?key=<?= $this->config['apiKeys']['nfl']['liveOdds'] ?>`,
-          type = 'MoneyLine'
+          `https://api.sportsdata.io/v3/nfl/odds/json/GameOddsByWeek/2019PRE/${week}?key=<?= $this->config['apiKeys']['nfl']['liveOdds'] ?>`,
+          jQuery("#nflData #nflTypeText").data("type")
         );
       }
     });
 
     // #2 The actual request
     fetchSloData(
-      url = `https://api.sportsdata.io/v3/nfl/odds/json/GameOddsByWeek/2019PRE/${nflGameWeeks['PRE3']}?key=<?= $this->config['apiKeys']['nfl']['liveOdds'] ?>`,
-      type = 'MoneyLine'
+      `https://api.sportsdata.io/v3/nfl/odds/json/GameOddsByWeek/2019PRE/${nflGameWeeks['PRE3']}?key=<?= $this->config['apiKeys']['nfl']['liveOdds'] ?>`,
+      type
     );
 
     jQuery("#nflData #nflTypeText").html(type.toUpperCase());

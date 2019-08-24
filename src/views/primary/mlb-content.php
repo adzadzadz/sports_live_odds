@@ -51,11 +51,11 @@
             <div class="cell col-md-4">Schedule</div>
             <div class="col-md-8">
               <div class="slo-row">
-                <div class="cell slo-col-hack-5">Westgate</div>
-                <div class="cell slo-col-hack-5">Caesars</div>
                 <div class="cell slo-col-hack-5">Pinnacle</div>
-                <div class="cell slo-col-hack-5">5Dimes</div>
-                <div class="cell slo-col-hack-5">BetOnline</div>
+                <div class="cell slo-col-hack-5">Westgate</div>
+                <div class="cell slo-col-hack-5">Draftkings</div>
+                <div class="cell slo-col-hack-5">FanDuel</div>
+                <div class="cell slo-col-hack-5">SugerHouse</div>
               </div>
             </div>
           </div>
@@ -75,94 +75,95 @@
 </script>
 <script>
 (function() {
-  var sport = "mlb";
-  var type = "MoneyLine";
-  var resultData = null;
-  var intervalId = null;
+  let sport = "mlb";
+  let type = "MoneyLine";
+  let resultData = null;
+  let intervalId = null;
 
-  // #1 Date Setup
-  jQuery("#mlbData #dateDisplay").text(getClosestDateFromList(new Date(currentStartDate)));
+  jQuery(document).ready(() => {
 
-  function getClosestDateFromList(selectedDate, addDays = 0) {
-    var dateList = <?= $dateList ?>;
-    if (addDays !== 0) {
-      selectedDate.setDate( selectedDate.getDate() + addDays );
-    }
-    let closest = null;
+    // #1 Date Setup
+    jQuery("#mlbData #dateDisplay").text(getClosestDateFromList(new Date(currentStartDate)));
 
-    dateList.forEach(function(d) {
-      const date = new Date(d);
-
-      if (date <= selectedDate && (date > new Date(closest) || date > closest)) {
-          closest = d;
+    function getClosestDateFromList(selectedDate, addDays = 0) {
+      let dateList = <?= $dateList ?>;
+      if (addDays !== 0) {
+        selectedDate.setDate( selectedDate.getDate() + addDays );
       }
+      let closest = null;
+
+      dateList.forEach(function(d) {
+        const date = new Date(d);
+
+        if (date <= selectedDate && (date > new Date(closest) || date > closest)) {
+            closest = d;
+        }
+      });
+      return closest;
+    }
+
+    jQuery(".dateChanger").on('click', function(e) {
+      let dateElem = jQuery(this);
+      let dateDisplay = jQuery('#dateDisplay');
+      let selected = new Date(dateDisplay.text())
+      var newDate = 0;
+      if (dateElem.data('type') == "prev") {
+        newDate = getClosestDateFromList(selected, - 1);
+      }
+      if (jQuery(this).data('type') == "next") {
+        newDate = getClosestDateFromList(selected, 1);
+      }
+      dateDisplay.text(newDate);
+      fetchData(
+        "https://api.sportsdata.io/v3/mlb/odds/json/GameOddsByDate/" + newDate + "?key=<?= $this->config['apiKeys']['mlb']['liveOdds'] ?>",
+        jQuery("#mlbData #mlbTypeText").data("type")
+      );
     });
-    return closest;
-  }
 
-  jQuery(".dateChanger").on('click', function(e) {
-    let dateElem = jQuery(this);
-    let dateDisplay = jQuery('#dateDisplay');
-    let selected = new Date(dateDisplay.text())
-    var newDate = 0;
-    if (dateElem.data('type') == "prev") {
-      newDate = getClosestDateFromList(selected, - 1);
-    }
-    if (jQuery(this).data('type') == "next") {
-      newDate = getClosestDateFromList(selected, 1);
-    }
-    dateDisplay.text(newDate);
+    let selectedDate = jQuery("#mlbData #dateDisplay").text();
+    
+    // #2 The actual request
     fetchData(
-      "https://api.sportsdata.io/v3/mlb/odds/json/GameOddsByDate/" + newDate + "?key=<?= $this->config['apiKeys']['mlb']['liveOdds'] ?>",
-      jQuery("#mlbData #mlbTypeText").data("type")
+      "https://api.sportsdata.io/v3/mlb/odds/json/GameOddsByDate/" + selectedDate + "?key=<?= $this->config['apiKeys']['mlb']['liveOdds'] ?>",
+      type
     );
-  });
 
-  var selectedDate = jQuery("#mlbData #dateDisplay").text();
-  
-  // #2 The actual request
-  fetchData(
-    "https://api.sportsdata.io/v3/mlb/odds/json/GameOddsByDate/" + selectedDate + "?key=<?= $this->config['apiKeys']['mlb']['liveOdds'] ?>",
-    type
-  );
+    function fetchData(url, type) {
+      function request() {
+        let request = jQuery.ajax({
+          url: url
+        });
 
-  function fetchData(url, type) {
-    console.log(type)
-    function request() {
-      var request = jQuery.ajax({
-        url: url
-      });
-
-      request.done((data) => {
-        resultData = data;
-        setSloOddsView(resultData, sport, type);
-      });
-    }
-    request();
-
-    if (intervalId !== null) {
-      clearInterval(intervalId);
-    }
-    var intervalId = setInterval(function(){
+        request.done((data) => {
+          resultData = data;
+          setSloOddsView(resultData, sport, type);
+        });
+      }
       request();
-    }, 120000); // 2mins
-  }
-   
-  // #3 Book Type Setup
-  jQuery("#mlbData #mlbTypeText").html(type.toUpperCase());
-  jQuery("#mlbData #mlbTypeText").data("type", type);
-  jQuery(".oddsMlb.slo-dropdown-item").on("click", function(e) {
-    if ( jQuery(this).data("type") == "type" ) {
-      type = jQuery(this).data("value");
-      text = jQuery(this).html();
-      jQuery("#mlbData #mlbTypeText").html(text.toUpperCase());
-      jQuery("#mlbData #mlbTypeText").data("type", type);
+
+      if (intervalId !== null) {
+        clearInterval(intervalId);
+      }
+      intervalId = setInterval(function(){
+        request();
+      }, 120000); // 2mins
     }
-    if (resultData)
-      setSloOddsView(resultData, sport, type);
+    
+    // #3 Book Type Setup
+    jQuery("#mlbData #mlbTypeText").html(type.toUpperCase());
+    jQuery("#mlbData #mlbTypeText").data("type", type);
+    jQuery(".oddsMlb.slo-dropdown-item").on("click", function(e) {
+      if ( jQuery(this).data("type") == "type" ) {
+        type = jQuery(this).data("value");
+        text = jQuery(this).html();
+        jQuery("#mlbData #mlbTypeText").html(text.toUpperCase());
+        jQuery("#mlbData #mlbTypeText").data("type", type);
+      }
+      if (resultData)
+        setSloOddsView(resultData, sport, type);
+    });
+    
   });
-  
-  var sportsBooks = ['Pinnacle', 'WestgateSuperbookNV', 'DraftKings', 'FanDuel', 'SugarHousePA'];
   
 })();
 </script>

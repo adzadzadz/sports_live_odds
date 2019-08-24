@@ -22,6 +22,11 @@
 
 })();
 
+  /* Westgate
+    Caesars
+    Pinnacle
+    5Dimes
+    BetOnline */
 function setSloOddsView(data, sport, type = "MoneyLine") {
   var sportsBooks = ['Pinnacle', 'WestgateSuperbookNV', 'DraftKings', 'FanDuel', 'SugarHousePA'];
   var container = jQuery(`section#${sport}Content`);
@@ -62,7 +67,7 @@ function setSloOddsView(data, sport, type = "MoneyLine") {
       let appendPayout = type !== "MoneyLine" ? `<div> ${payout} </div>` : '';
       booksAway += `
         <div class="cell slo-col-hack-5">
-          <div> ${appendSign} </div>
+          <div> ${appendSign != null ? appendSign : '-'} </div>
           ${appendPayout}
         </div>
       `;
@@ -91,7 +96,7 @@ function setSloOddsView(data, sport, type = "MoneyLine") {
       let appendPayout = type !== "MoneyLine" ? `<div> ${payout} </div>` : '';
       booksHome += `
         <div class="cell slo-col-hack-5">
-          <div> ${appendSign} </div>
+          <div> ${appendSign != null ? appendSign : '-'} </div>
           ${appendPayout}
         </div>
       `;
