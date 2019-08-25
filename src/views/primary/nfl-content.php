@@ -47,12 +47,12 @@
 </section>
 
 <script>
-(function() {
-  let sport = 'nfl';
-  let type  = 'MoneyLine';
-  let intervalId = null;
-  let j = jQuery;
-  var nflGameWeeks = {
+
+class NFL extends SLO{
+
+  season = null;
+  currentWeek = null;
+  nflGameWeeks = {
     'HOF'   : 0, 
     'PRE1'  : 1,
     'PRE2'  : 2,
@@ -82,63 +82,70 @@
     'SUPER BOWL': 26, // No worries
   };
 
-  j(document).ready(() => {
-    let dropdown = j("#nflGameWeek").find(".slo-dropdown-menu");
-    for (let key in nflGameWeeks) {
-      let menuItem = `<div class="slo-dropdown-item" data-type="week" data-value="${nflGameWeeks[key]}" >${key}</div>`;
+  build() {
+    let dropdown = jQuery("#nflGameWeek").find(".slo-dropdown-menu");
+    for (let key in this.nflGameWeeks) {
+      let menuItem = `<div class="slo-dropdown-item" data-type="week" data-value="${this.nflGameWeeks[key]}" >${key}</div>`;
       dropdown.append(menuItem);
     }
-    resultData = null;
-    j(".slo-dropdown-item").click(function(e) {
-      if (j(this).data("type") == 'week') {
-        let week = j(this).data('value');
-        j('#nflWeekText').html(j(this).html());
-        fetchSloData(
+
+    // #2 The actual request
+    this.getCurrentWeekAndFetchOdds();
+
+    jQuery("#nflData #nflTypeText").html(this.type.toUpperCase());
+    jQuery("#nflData #nflTypeText").data("type", this.type);
+
+  }
+
+  getCurrentWeekAndFetchOdds() {
+    let request = jQuery.ajax({
+      url: `https://api.sportsdata.io/v3/nfl/scores/json/Timeframes/current?key=<?= $this->config['apiKeys']['nfl']['schedule'] ?>`
+    });
+
+    request.done((data) => {
+      this.season = data[0].ApiSeason;
+      this.currentWeek = data[0].ApiWeek;
+      this.fetchData(
+        `https://api.sportsdata.io/v3/nfl/odds/json/GameOddsByWeek/${this.season}/${this.currentWeek}?key=<?= $this->config['apiKeys']['nfl']['liveOdds'] ?>`,
+        this.type
+      );
+    });
+  }
+
+}
+
+
+(function() {
+  jQuery(document).ready(() => {
+    let nfl = new NFL();
+    nfl.sport = 'nfl';
+    nfl.type  = 'MoneyLine';
+    nfl.build();
+
+    // Events Listeners
+    // Change Week
+    jQuery(".slo-dropdown-item").click(function(e) {
+      if (jQuery(this).data("type") == 'week') {
+        let week = jQuery(this).data('value');
+        jQuery('#nflWeekText').html(jQuery(this).html());
+        nfl.fetchData(
           `https://api.sportsdata.io/v3/nfl/odds/json/GameOddsByWeek/2019PRE/${week}?key=<?= $this->config['apiKeys']['nfl']['liveOdds'] ?>`,
           jQuery("#nflData #nflTypeText").data("type")
         );
       }
     });
 
-    // #2 The actual request
-    fetchSloData(
-      `https://api.sportsdata.io/v3/nfl/odds/json/GameOddsByWeek/2019PRE/${nflGameWeeks['PRE3']}?key=<?= $this->config['apiKeys']['nfl']['liveOdds'] ?>`,
-      type
-    );
-
-    jQuery("#nflData #nflTypeText").html(type.toUpperCase());
-    jQuery("#nflData #nflTypeText").data("type", type);
-    j(".oddsNfl.slo-dropdown-item").on("click", function(e) {
-      if ( j(this).data("type") == "type" ) {
-        type = j(this).data("value");
-        text = j(this).html();
-        j("#nflData #nflTypeText").html(text.toUpperCase());
+    // Change book type
+    jQuery(".oddsNfl.slo-dropdown-item").on("click", function(e) {
+      if ( jQuery(this).data("type") == "type" ) {
+        nfl.type = jQuery(this).data("value");
+        text = jQuery(this).html();
+        jQuery("#nflData #nflTypeText").html(text.toUpperCase());
       }
-      if (resultData)
-        setSloOddsView(resultData, sport, type);
+      if (nfl.resultData)
+        nfl.setSloOddsView(nfl.resultData, nfl.sport, nfl.type);
     });
-
-    function fetchSloData(url, type) {
-      function request() {
-        var request = j.ajax({
-          url: url
-        });
-
-        request.done((data) => {
-          resultData = data;
-          setSloOddsView(resultData, sport, type);
-        });
-      }
-      request();
-
-      if (intervalId !== null) {
-        clearInterval(intervalId);
-      }
-      var intervalId = setInterval(function(){
-        request();
-      }, 120000); // 2mins
-    }
-  
   }); // j(document).ready
 })();
+
 </script>

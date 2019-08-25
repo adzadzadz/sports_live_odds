@@ -47,6 +47,13 @@
 </section>
 
 <script>
+
+class NCAAF extends SLO {
+  
+}
+
+</script>
+<script>
 (function() {
   let sport = 'ncaaf';
   let type  = 'MoneyLine';

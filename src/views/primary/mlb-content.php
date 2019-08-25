@@ -73,19 +73,27 @@
   moment.tz.add(["America/New_York|EST EDT EWT EPT|50 40 40 40|01010101010101010101010101010101010101010101010102301010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010|-261t0 1nX0 11B0 1nX0 11B0 1qL0 1a10 11z0 1qN0 WL0 1qN0 11z0 1o10 11z0 1o10 11z0 1o10 11z0 1o10 11z0 1qN0 11z0 1o10 11z0 1o10 11z0 1o10 11z0 1o10 11z0 1qN0 WL0 1qN0 11z0 1o10 11z0 1o10 11z0 1o10 11z0 1o10 11z0 1qN0 WL0 1qN0 11z0 1o10 11z0 RB0 8x40 iv0 1o10 11z0 1o10 11z0 1o10 11z0 1o10 11z0 1qN0 WL0 1qN0 11z0 1o10 11z0 1o10 11z0 1o10 11z0 1o10 1fz0 1cN0 1cL0 1cN0 1cL0 1cN0 1cL0 1cN0 1cL0 1cN0 1fz0 1cN0 1cL0 1cN0 1cL0 1cN0 1cL0 1cN0 1cL0 1cN0 1fz0 1a10 1fz0 1cN0 1cL0 1cN0 1cL0 1cN0 1cL0 1cN0 1cL0 1cN0 1fz0 1cN0 1cL0 1cN0 1cL0 s10 1Vz0 LB0 1BX0 1cN0 1fz0 1a10 1fz0 1cN0 1cL0 1cN0 1cL0 1cN0 1cL0 1cN0 1cL0 1cN0 1fz0 1a10 1fz0 1cN0 1cL0 1cN0 1cL0 1cN0 1cL0 14p0 1lb0 14p0 1nX0 11B0 1nX0 11B0 1nX0 14p0 1lb0 14p0 1lb0 14p0 1nX0 11B0 1nX0 11B0 1nX0 14p0 1lb0 14p0 1lb0 14p0 1lb0 14p0 1nX0 11B0 1nX0 11B0 1nX0 14p0 1lb0 14p0 1lb0 14p0 1nX0 11B0 1nX0 11B0 1nX0 Rd0 1zb0 Op0 1zb0 Op0 1zb0 Rd0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Rd0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Rd0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Rd0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Rd0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0|21e6"]);
   var currentStartDate = moment().tz("America/New_York").format("YYYY-MM-DD");
 </script>
+
 <script>
-(function() {
-  let sport = "mlb";
-  let type = "MoneyLine";
-  let resultData = null;
-  let intervalId = null;
+  class MLB extends SLO {
+    build () {
+      // #1 Date Setup
+      jQuery("#mlbData #dateDisplay").text(this.getClosestDateFromList(new Date(currentStartDate)));
+      let selectedDate = jQuery("#mlbData #dateDisplay").text();
 
-  jQuery(document).ready(() => {
+      // #2 The actual request
+      this.fetchData(
+        "https://api.sportsdata.io/v3/mlb/odds/json/GameOddsByDate/" + selectedDate + "?key=<?= $this->config['apiKeys']['mlb']['liveOdds'] ?>",
+        this.type
+      );
 
-    // #1 Date Setup
-    jQuery("#mlbData #dateDisplay").text(getClosestDateFromList(new Date(currentStartDate)));
+      // #3 Book Type Setup
+      jQuery("#mlbData #mlbTypeText").html(this.type.toUpperCase());
+      jQuery("#mlbData #mlbTypeText").data("type", this.type);
+      
+    }
 
-    function getClosestDateFromList(selectedDate, addDays = 0) {
+    getClosestDateFromList(selectedDate, addDays = 0) {
       let dateList = <?= $dateList ?>;
       if (addDays !== 0) {
         selectedDate.setDate( selectedDate.getDate() + addDays );
@@ -101,69 +109,48 @@
       });
       return closest;
     }
+  }
 
-    jQuery(".dateChanger").on('click', function(e) {
-      let dateElem = jQuery(this);
-      let dateDisplay = jQuery('#dateDisplay');
-      let selected = new Date(dateDisplay.text())
-      var newDate = 0;
-      if (dateElem.data('type') == "prev") {
-        newDate = getClosestDateFromList(selected, - 1);
-      }
-      if (jQuery(this).data('type') == "next") {
-        newDate = getClosestDateFromList(selected, 1);
-      }
-      dateDisplay.text(newDate);
-      fetchData(
-        "https://api.sportsdata.io/v3/mlb/odds/json/GameOddsByDate/" + newDate + "?key=<?= $this->config['apiKeys']['mlb']['liveOdds'] ?>",
-        jQuery("#mlbData #mlbTypeText").data("type")
-      );
-    });
+  (function() {
+    jQuery(document).ready(() => {
+      let mlb = new MLB();
+      mlb.sport = 'mlb';
+      mlb.build();
 
-    let selectedDate = jQuery("#mlbData #dateDisplay").text();
-    
-    // #2 The actual request
-    fetchData(
-      "https://api.sportsdata.io/v3/mlb/odds/json/GameOddsByDate/" + selectedDate + "?key=<?= $this->config['apiKeys']['mlb']['liveOdds'] ?>",
-      type
-    );
+      // Events
+      // Change Date
+      jQuery(".dateChanger").on('click', function(e) {
+        let dateElem = jQuery(this);
+        let dateDisplay = jQuery('#dateDisplay');
+        let selected = new Date(dateDisplay.text())
+        var newDate = 0;
+        if (dateElem.data('type') == "prev") {
+          newDate = mlb.getClosestDateFromList(selected, - 1);
+        }
+        if (jQuery(this).data('type') == "next") {
+          newDate = mlb.getClosestDateFromList(selected, 1);
+        }
+        dateDisplay.text(newDate);
+        mlb.fetchData(
+          "https://api.sportsdata.io/v3/mlb/odds/json/GameOddsByDate/" + newDate + "?key=<?= $this->config['apiKeys']['mlb']['liveOdds'] ?>",
+          jQuery("#mlbData #mlbTypeText").data("type")
+        );
+      });
 
-    function fetchData(url, type) {
-      function request() {
-        let request = jQuery.ajax({
-          url: url
-        });
-
-        request.done((data) => {
-          resultData = data;
-          setSloOddsView(resultData, sport, type);
-        });
-      }
-      request();
-
-      if (intervalId !== null) {
-        clearInterval(intervalId);
-      }
-      intervalId = setInterval(function(){
-        request();
-      }, 120000); // 2mins
-    }
-    
-    // #3 Book Type Setup
-    jQuery("#mlbData #mlbTypeText").html(type.toUpperCase());
-    jQuery("#mlbData #mlbTypeText").data("type", type);
-    jQuery(".oddsMlb.slo-dropdown-item").on("click", function(e) {
-      if ( jQuery(this).data("type") == "type" ) {
-        type = jQuery(this).data("value");
-        text = jQuery(this).html();
-        jQuery("#mlbData #mlbTypeText").html(text.toUpperCase());
-        jQuery("#mlbData #mlbTypeText").data("type", type);
-      }
-      if (resultData)
-        setSloOddsView(resultData, sport, type);
+      // Change Book Type
+      jQuery(".oddsMlb.slo-dropdown-item").on("click", function(e) {
+        if ( jQuery(this).data("type") == "type" ) {
+          mlb.type = jQuery(this).data("value");
+          text = jQuery(this).html();
+          jQuery("#mlbData #mlbTypeText").html(text.toUpperCase());
+          jQuery("#mlbData #mlbTypeText").data("type", mlb.type);
+        }
+        if (mlb.resultData)
+          mlb.setSloOddsView(mlb.resultData, mlb.sport, mlb.type);
+      });
+      
+      
     });
     
-  });
-  
-})();
+  })();
 </script>
