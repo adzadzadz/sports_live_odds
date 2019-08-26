@@ -112,7 +112,7 @@ class NCAAF extends SLO {
     jQuery(".slo-dropdown-item").click(function(e) {
       if (jQuery(this).data("type") == 'week') {
         let week = jQuery(this).data('value');
-        j('#ncaafWeekText').html(jQuery(this).html());
+        jQuery('#ncaafWeekText').html(jQuery(this).html());
         ncaaf.fetchData(
           `https://api.sportsdata.io/v3/cfb/odds/json/GameOddsByWeek/${ncaaf.season}}/${week}?key=<?= $this->config['apiKeys']['ncaaf']['liveOdds'] ?>`,
           jQuery("#ncaafData #ncaafTypeText").data("type")
@@ -131,7 +131,7 @@ class NCAAF extends SLO {
         ncaaf.setSloOddsView(ncaaf.resultData, ncaaf.sport, ncaaf.type);
     });
  
-  }); // j(document).ready
+  }); // jQuery(document).ready
 })();
 
 </script>
