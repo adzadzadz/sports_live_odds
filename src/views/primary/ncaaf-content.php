@@ -30,11 +30,10 @@
             <div class="cell col-md-4">Schedule</div>
             <div class="col-md-8">
               <div class="slo-row">
-                <div class="cell slo-col-hack-5">Pinnacle</div>
-                <div class="cell slo-col-hack-5">Westgate</div>
-                <div class="cell slo-col-hack-5">Draftkings</div>
-                <div class="cell slo-col-hack-5">FanDuel</div>
-                <div class="cell slo-col-hack-5">SugerHouse</div>
+                <div class="cell slo-col-hack-4">Pinnacle</div>
+                <div class="cell slo-col-hack-4">Westgate</div>
+                <div class="cell slo-col-hack-4">DrafKkings</div>
+                <div class="cell slo-col-hack-4">FanDuel</div>
               </div>
             </div>
           </div>
@@ -49,17 +48,9 @@
 <script>
 
 class NCAAF extends SLO {
-  
-}
-
-</script>
-<script>
-(function() {
-  let sport = 'ncaaf';
-  let type  = 'MoneyLine';
-  let intervalId = null;
-  let j = jQuery;
-  var ncaafGameWeeks = {
+  season = null;
+  currentWeek = null;
+  ncaafGameWeeks = {
     'WEEK1' : 1, 
     'WEEK2' : 2,
     'WEEK3' : 3,
@@ -78,65 +69,69 @@ class NCAAF extends SLO {
     'BOWLS': 16,
   };
 
-  j(document).ready(() => {
-    let dropdown = j("#ncaafGameWeek").find(".slo-dropdown-menu");
-    for (let key in ncaafGameWeeks) {
-      let menuItem = `<div class="slo-dropdown-item" data-type="week" data-value="${ncaafGameWeeks[key]}" >${key}</div>`;
+  build() {
+    let dropdown = jQuery("#ncaafGameWeek").find(".slo-dropdown-menu");
+    for (let key in this.ncaafGameWeeks) {
+      let menuItem = `<div class="slo-dropdown-item" data-type="week" data-value="${this.ncaafGameWeeks[key]}" >${key}</div>`;
       dropdown.append(menuItem);
     }
-    resultData = null;
-    j(".slo-dropdown-item").click(function(e) {
-      if (j(this).data("type") == 'week') {
-        let week = j(this).data('value');
-        j('#ncaafWeekText').html(j(this).html());
-        fetchSloData(
-          // https://api.sportsdata.io/v3/cfb/odds/xml/GameOddsByWeek/2019/1?key=a885dd5c8a4740b396bb75a644c278a4
-          `https://api.sportsdata.io/v3/ncaaf/odds/json/GameOddsByWeek/2019/${week}?key=<?= $this->config['apiKeys']['ncaaf']['liveOdds'] ?>`,
+
+    this.getCurrentWeekAndFetchOdds();
+
+    jQuery("#ncaafData #ncaafTypeText").html(this.type.toUpperCase());
+    jQuery("#ncaafData #ncaafTypeText").data("type", this.type);
+  }
+
+  getCurrentWeekAndFetchOdds() {
+    let request = jQuery.ajax({
+      // https://api.sportsdata.io/v3/cfb/scores/json/CurrentSeasonDetails?key=50e9c9df37694e4d9a4953ac3104d246
+      url: `https://api.sportsdata.io/v3/cfb/scores/json/CurrentSeasonDetails?key=<?= $this->config['apiKeys']['ncaaf']['schedule'] ?>`
+    });
+
+    request.done((data) => {
+      this.season = data.ApiSeason;
+      this.currentWeek = data.ApiWeek;
+      this.fetchData(
+        `https://api.sportsdata.io/v3/cfb/odds/json/GameOddsByWeek/${this.season}/${this.currentWeek}?key=<?= $this->config['apiKeys']['ncaaf']['liveOdds'] ?>`,
+        this.type
+      );
+    });
+  }
+
+}
+
+(function() {
+  jQuery(document).ready(() => {
+    
+    let ncaaf = new NCAAF();
+    ncaaf.sport = 'ncaaf';
+    ncaaf.build();
+
+    // Event handlers
+    // Change week
+    jQuery(".slo-dropdown-item").click(function(e) {
+      if (jQuery(this).data("type") == 'week') {
+        let week = jQuery(this).data('value');
+        j('#ncaafWeekText').html(jQuery(this).html());
+        ncaaf.fetchData(
+          `https://api.sportsdata.io/v3/cfb/odds/json/GameOddsByWeek/${ncaaf.season}}/${week}?key=<?= $this->config['apiKeys']['ncaaf']['liveOdds'] ?>`,
           jQuery("#ncaafData #ncaafTypeText").data("type")
         );
       }
     });
-
-    // #2 The actual request
-    fetchSloData(
-      // https://api.sportsdata.io/v3/cfb/odds/xml/GameOddsByWeek/2019/1?key=a885dd5c8a4740b396bb75a644c278a4
-      `https://api.sportsdata.io/v3/cfb/odds/json/GameOddsByWeek/2019/${ncaafGameWeeks['WEEK1']}?key=<?= $this->config['apiKeys']['ncaaf']['liveOdds'] ?>`,
-      type
-    );
-
-    jQuery("#ncaafData #ncaafTypeText").html(type.toUpperCase());
-    jQuery("#ncaafData #ncaafTypeText").data("type", type);
-    j(".oddsNCAAF.slo-dropdown-item").on("click", function(e) {
-      if ( j(this).data("type") == "type" ) {
-        type = j(this).data("value");
-        text = j(this).html();
-        j("#ncaafData #ncaafTypeText").html(text.toUpperCase());
+    
+    // Change book type
+    jQuery(".oddsNCAAF.slo-dropdown-item").on("click", function(e) {
+      if ( jQuery(this).data("type") == "type" ) {
+        ncaaf.type = jQuery(this).data("value");
+        text = jQuery(this).html();
+        jQuery("#ncaafData #ncaafTypeText").html(text.toUpperCase());
       }
-      if (resultData)
-        setSloOddsView(resultData, sport, type);
+      if (ncaaf.resultData)
+        ncaaf.setSloOddsView(ncaaf.resultData, ncaaf.sport, ncaaf.type);
     });
-
-    function fetchSloData(url, type) {
-      function request() {
-        var request = j.ajax({
-          url: url
-        });
-
-        request.done((data) => {
-          resultData = data;
-          setSloOddsView(resultData, sport, type);
-        });
-      }
-      request();
-
-      if (intervalId !== null) {
-        clearInterval(intervalId);
-      }
-      var intervalId = setInterval(function(){
-        request();
-      }, 120000); // 2mins
-    }
-  
+ 
   }); // j(document).ready
 })();
+
 </script>

@@ -22,11 +22,15 @@
 
 })();
 
+/**
+ * Prefered bookies list: 'Pinnacle', '5Dimes', 'WestgateSuperbookNV', 'DraftKings', 'FanDuel'
+ */
 class SLO {
   sport = 'nfl';
   type  = 'MoneyLine';
   intervalId = null;
   resultData = null;
+  sportsBooks = ['Pinnacle', 'WestgateSuperbookNV', 'DraftKings', 'FanDuel'];
 
   fetchData(url, type) {
     this.request(url);
@@ -34,8 +38,9 @@ class SLO {
     if (this.intervalId !== null) {
       clearInterval(this.intervalId);
     }
+    let slo = this;
     this.intervalId = setInterval(function(){
-      this.request(url);
+      slo.request(url);
     }, 120000); // 2mins
   }
 
@@ -49,16 +54,16 @@ class SLO {
       this.setSloOddsView(this.resultData, this.sport, this.type);
     });
   }
-  
+
   setSloOddsView(data, sport, type = "MoneyLine") {
-    var sportsBooks = ['Pinnacle', 'WestgateSuperbookNV', 'DraftKings', 'FanDuel', 'SugarHousePA'];
+    // var sportsBooks = ['Pinnacle', 'WestgateSuperbookNV', 'DraftKings', 'FanDuel', 'SugarHousePA'];
     var container = jQuery(`section#${sport}Content`);
   
     container.html("");
     data.forEach(i => {
       let books = {};
       i.PregameOdds.forEach(it => {
-        if (sportsBooks.includes(it.Sportsbook)) {
+        if (this.sportsBooks.includes(it.Sportsbook)) {
           books[it.Sportsbook] = it;
         }
       });
@@ -70,7 +75,7 @@ class SLO {
       /**
        * Away Team
        */
-      sportsBooks.forEach(book => {
+      this.sportsBooks.forEach(book => {
         // Line
         if (type == "OverUnder") {
           let betTypeResult = books[book] ? books[book][type] : '-';
@@ -89,7 +94,7 @@ class SLO {
         }
         let appendPayout = type !== "MoneyLine" ? `<div> ${payout} </div>` : '';
         booksAway += `
-          <div class="cell slo-col-hack-5">
+          <div class="cell slo-col-hack-4">
             <div> ${appendSign != null ? appendSign : '-'} </div>
             ${appendPayout}
           </div>
@@ -100,7 +105,7 @@ class SLO {
       /**
        * Home Team
        */
-      sportsBooks.forEach(book => {
+      this.sportsBooks.forEach(book => {
         if (type == "OverUnder") {
           let betTypeResult = books[book] ? books[book][type] : '-';
           let checkPositive = books[book] ? books[book]['HomeMoneyLine'] : '-';
@@ -118,7 +123,7 @@ class SLO {
         }
         let appendPayout = type !== "MoneyLine" ? `<div> ${payout} </div>` : '';
         booksHome += `
-          <div class="cell slo-col-hack-5">
+          <div class="cell slo-col-hack-4">
             <div> ${appendSign != null ? appendSign : '-'} </div>
             ${appendPayout}
           </div>

@@ -30,11 +30,10 @@
             <div class="cell col-md-4">Schedule</div>
             <div class="col-md-8">
               <div class="slo-row">
-                <div class="cell slo-col-hack-5">Pinnacle</div>
-                <div class="cell slo-col-hack-5">Westgate</div>
-                <div class="cell slo-col-hack-5">Draftkings</div>
-                <div class="cell slo-col-hack-5">FanDuel</div>
-                <div class="cell slo-col-hack-5">SugerHouse</div>
+                <div class="cell slo-col-hack-4">Pinnacle</div>
+                <div class="cell slo-col-hack-4">Westgate</div>
+                <div class="cell slo-col-hack-4">Draftkings</div>
+                <div class="cell slo-col-hack-4">FanDuel</div>
               </div>
             </div>
           </div>
@@ -113,7 +112,6 @@ class NFL extends SLO{
   }
 
 }
-
 
 (function() {
   jQuery(document).ready(() => {

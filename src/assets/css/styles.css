@@ -81,6 +81,10 @@ section.sloSportData .dateChanger {
   margin-right: -15px;
   margin-left: -15px;
 }
+.slo-col-hack-4 {
+  width: calc(100% / 4);
+  float: left;
+}
 .slo-col-hack-5 {
   width: calc(100% / 5);
   float: left;
