@@ -30,7 +30,7 @@ class SLO {
   type  = 'MoneyLine';
   intervalId = null;
   resultData = null;
-  sportsBooks = ['Pinnacle', 'WestgateSuperbookNV', 'DraftKings', 'FanDuel'];
+  sportsBooks = ['Pinnacle', 'WestgateSuperbookNV', 'DraftKings', 'FanDuel', 'SugarHousePA'];
 
   fetchData(url, type) {
     this.request(url);
@@ -61,6 +61,13 @@ class SLO {
   
     container.html("");
     data.forEach(i => {
+      // TEMPORARY HACK
+      if (sport == 'ncaaf') {
+        if (i.GameId == 9393 || i.GameId == 9812)
+          return false;
+      }
+      // END OF TEMPORARY HACK
+
       let books = {};
       i.PregameOdds.forEach(it => {
         if (this.sportsBooks.includes(it.Sportsbook)) {
@@ -94,7 +101,7 @@ class SLO {
         }
         let appendPayout = type !== "MoneyLine" ? `<div> ${payout} </div>` : '';
         booksAway += `
-          <div class="cell slo-col-hack-4">
+          <div class="cell slo-col-hack-5">
             <div> ${appendSign != null ? appendSign : '-'} </div>
             ${appendPayout}
           </div>
@@ -123,7 +130,7 @@ class SLO {
         }
         let appendPayout = type !== "MoneyLine" ? `<div> ${payout} </div>` : '';
         booksHome += `
-          <div class="cell slo-col-hack-4">
+          <div class="cell slo-col-hack-5">
             <div> ${appendSign != null ? appendSign : '-'} </div>
             ${appendPayout}
           </div>
