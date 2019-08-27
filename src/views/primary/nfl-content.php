@@ -1,7 +1,7 @@
 <section id="nflData" class="sloSportData">
   <div class="col-md-12">
-    <div id="fetchTime"></div>
-    <div id="fetchUrl"></div>
+    <div class="fetchTime"></div>
+    <div class="fetchUrl"></div>
   </div>
   <header class="col-md-8">
     <section class="filter row slo-dropshadow slo-filter-wrap">

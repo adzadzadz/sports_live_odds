@@ -35,8 +35,8 @@ class SLO {
   testCheckUrlTime(url) {
     var today = new Date();
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    jQuery('#fetchTime').html(time);
-    jQuery('#fetchUrl').html(url);
+    jQuery(`#${this.sport}Data .fetchTime`).html(time);
+    jQuery(`#${this.sport}Data .fetchUrl`).html(url);
   }
 
   fetchData(url, type) {
