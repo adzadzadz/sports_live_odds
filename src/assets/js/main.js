@@ -32,6 +32,13 @@ class SLO {
   resultData = null;
   sportsBooks = ['Pinnacle', 'WestgateSuperbookNV', 'DraftKings', 'FanDuel', 'SugarHousePA'];
 
+  testCheckUrlTime(url) {
+    var today = new Date();
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    jQuery('#fetchTime').html(time);
+    jQuery('#fetchUrl').html(url);
+  }
+
   fetchData(url, type) {
     this.request(url);
 
@@ -50,6 +57,7 @@ class SLO {
     });
 
     request.done((data) => {
+      this.testCheckUrlTime(url);
       this.resultData = data;
       this.setSloOddsView(this.resultData, this.sport, this.type);
     });
