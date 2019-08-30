@@ -112,7 +112,7 @@ class NCAAF extends SLO {
     ncaaf.sport = 'ncaaf';
     ncaaf.build();
 
-    // Event handlers
+    // Event Listeners
     // Change week
     jQuery(".slo-dropdown-item").click(function(e) {
       if (jQuery(this).data("type") == 'week') {
