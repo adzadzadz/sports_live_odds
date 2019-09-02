@@ -9,7 +9,7 @@
         <div class="slo-dropdown-toggle filter-label" href="#" role="button" id="nflWeekDropdown">
           <span id="nflWeekText">Week</span> <i class="fa fa-chevron-down"></i>
         </div>
-
+  
         <div class="slo-dropdown-menu slo-hidden"></div>
       </div>
       <div class="slo-dropdown col-md-6">
@@ -57,28 +57,28 @@ class NFL extends SLO{
   season = null;
   currentWeek = null;
   nflGameWeeks = {
-    'HOF'   : 0, 
-    'PRE1'  : 1,
-    'PRE2'  : 2,
-    'PRE3'  : 3,
-    'PRE4'  : 4, 
-    'WEEK1' : 1, 
-    'WEEK2' : 2,
-    'WEEK3' : 3,
-    'WEEK4' : 4,
-    'WEEK5' : 5, 
-    'WEEK6' : 6,
-    'WEEK7' : 7,
-    'WEEK8' : 8,
-    'WEEK9' : 9, 
-    'WEEK10': 10,
-    'WEEK11': 11,
-    'WEEK12': 12,
-    'WEEK13': 13,
-    'WEEK14': 14,
-    'WEEK15': 15, 
-    'WEEK16': 26,
-    'WEEK17': 17,
+    'HOF'   : {season : "PRE", week: 0},
+    'PRE1'  : {season : "PRE", week: 1},
+    'PRE2'  : {season : "PRE", week: 2},
+    'PRE3'  : {season : "PRE", week: 3},
+    'PRE4'  : {season : "PRE", week: 4}, 
+    'WEEK1' : {season : "REG", week: 1},
+    'WEEK2' : {season : "REG", week: 2},
+    'WEEK3' : {season : "REG", week: 3},
+    'WEEK4' : {season : "REG", week: 4},
+    'WEEK5' : {season : "REG", week: 5}, 
+    'WEEK6' : {season : "REG", week: 6},
+    'WEEK7' : {season : "REG", week: 7},
+    'WEEK8' : {season : "REG", week: 8},
+    'WEEK9' : {season : "REG", week: 9}, 
+    'WEEK10': {season : "REG", week: 10},
+    'WEEK11': {season : "REG", week: 11},
+    'WEEK12': {season : "REG", week: 12},
+    'WEEK13': {season : "REG", week: 13},
+    'WEEK14': {season : "REG", week: 14},
+    'WEEK15': {season : "REG", week: 15}, 
+    'WEEK16': {season : "REG", week: 26},
+    'WEEK17': {season : "REG", week: 17},
     'WILD CARD': 22, // No worries
     'DIVISION ROUND': 23, // No worries
     'CONF CHAMP': 24, // No worries
@@ -89,7 +89,7 @@ class NFL extends SLO{
   build() {
     let dropdown = jQuery("#nflGameWeek").find(".slo-dropdown-menu");
     for (let key in this.nflGameWeeks) {
-      let menuItem = `<div class="slo-dropdown-item" data-type="week" data-value="${this.nflGameWeeks[key]}" >${key}</div>`;
+      let menuItem = `<div class="slo-dropdown-item" data-type="week" data-season="${this.nflGameWeeks[key]['season']}" data-week="${this.nflGameWeeks[key]['week']}" >${key}</div>`;
       dropdown.append(menuItem);
     }
 
@@ -129,10 +129,11 @@ class NFL extends SLO{
     // Change Week
     jQuery(".slo-dropdown-item").click(function(e) {
       if (jQuery(this).data("type") == 'week') {
-        let week = jQuery(this).data('value');
+        let week = jQuery(this).data('week');
+        let season = jQuery(this).data('season');
         jQuery('#nflWeekText').html(jQuery(this).html());
         nfl.fetchData(
-          `https://api.sportsdata.io/v3/nfl/odds/json/GameOddsByWeek/${this.season}/${this.currentWeek}?key=<?= $this->config['apiKeys']['nfl']['liveOdds'] ?>`,
+          `https://api.sportsdata.io/v3/nfl/odds/json/GameOddsByWeek/2019${season}/${week}?key=<?= $this->config['apiKeys']['nfl']['liveOdds'] ?>`,
           jQuery("#nflData #nflTypeText").data("type")
         );
       }
