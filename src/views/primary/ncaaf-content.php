@@ -119,7 +119,7 @@ class NCAAF extends SLO {
         let week = jQuery(this).data('value');
         jQuery('#ncaafWeekText').html(jQuery(this).html());
         ncaaf.fetchData(
-          `https://api.sportsdata.io/v3/cfb/odds/json/GameOddsByWeek/${ncaaf.season}}/${week}?key=<?= $this->config['apiKeys']['ncaaf']['liveOdds'] ?>`,
+          `https://api.sportsdata.io/v3/cfb/odds/json/GameOddsByWeek/${ncaaf.season}/${week}?key=<?= $this->config['apiKeys']['ncaaf']['liveOdds'] ?>`,
           jQuery("#ncaafData #ncaafTypeText").data("type")
         );
       }

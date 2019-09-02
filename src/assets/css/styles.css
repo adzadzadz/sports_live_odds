@@ -89,3 +89,19 @@ section.sloSportData .dateChanger {
   width: calc(100% / 5);
   float: left;
 }
+.sloTimeStamp {
+  height: 30px;
+  font-size: .6em;
+  padding: 0;
+  border: none;
+}
+.sloGameDateTime {
+  float: left;
+  margin-left: 3px;
+  margin-right: 3px;
+}
+.sloTimeStamp .sloUpdatedAt {
+  float: right;
+  margin-left: 3px;
+  margin-right: 3px;
+}

@@ -62,23 +62,23 @@ class NFL extends SLO{
     'PRE2'  : 2,
     'PRE3'  : 3,
     'PRE4'  : 4, 
-    'WEEK1' : 5, 
-    'WEEK2' : 6,
-    'WEEK3' : 7,
-    'WEEK4' : 8,
-    'WEEK5' : 9, 
-    'WEEK6' : 10,
-    'WEEK7' : 11,
-    'WEEK8' : 12,
-    'WEEK9' : 13, 
-    'WEEK10': 14,
-    'WEEK11': 15,
-    'WEEK12': 16,
-    'WEEK13': 17,
-    'WEEK14': 18,
-    'WEEK15': 19, 
-    'WEEK16': 20,
-    'WEEK17': 21,
+    'WEEK1' : 1, 
+    'WEEK2' : 2,
+    'WEEK3' : 3,
+    'WEEK4' : 4,
+    'WEEK5' : 5, 
+    'WEEK6' : 6,
+    'WEEK7' : 7,
+    'WEEK8' : 8,
+    'WEEK9' : 9, 
+    'WEEK10': 10,
+    'WEEK11': 11,
+    'WEEK12': 12,
+    'WEEK13': 13,
+    'WEEK14': 14,
+    'WEEK15': 15, 
+    'WEEK16': 26,
+    'WEEK17': 17,
     'WILD CARD': 22, // No worries
     'DIVISION ROUND': 23, // No worries
     'CONF CHAMP': 24, // No worries
@@ -132,7 +132,7 @@ class NFL extends SLO{
         let week = jQuery(this).data('value');
         jQuery('#nflWeekText').html(jQuery(this).html());
         nfl.fetchData(
-          `https://api.sportsdata.io/v3/nfl/odds/json/GameOddsByWeek/2019PRE/${week}?key=<?= $this->config['apiKeys']['nfl']['liveOdds'] ?>`,
+          `https://api.sportsdata.io/v3/nfl/odds/json/GameOddsByWeek/${this.season}/${this.currentWeek}?key=<?= $this->config['apiKeys']['nfl']['liveOdds'] ?>`,
           jQuery("#nflData #nflTypeText").data("type")
         );
       }

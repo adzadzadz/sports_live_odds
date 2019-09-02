@@ -75,7 +75,7 @@
   class MLB extends SLO {
     build () {
       // #1 Date Setup
-      jQuery("#mlbData #dateDisplay").text(this.getClosestDateFromList(new Date(currentStartDate)));
+      jQuery("#mlbData #dateDisplay").text(this.getClosestDateFromList(new Date(sloCurrentStartDate)));
       let selectedDate = jQuery("#mlbData #dateDisplay").text();
 
       // #2 The actual request
