@@ -36,6 +36,7 @@
 
 .slo-feed-content {
   color: #000;
+  background: #fff;
 }
 .slo-table-header {
   /* padding: 24px; */
@@ -60,7 +61,9 @@ section.teams .mimicTable .cell {
   text-align: left !important;
   height: 92px;
 }
-
+.slo-cell-line-data {
+  height: 70px !important;
+}
 section.sloSportData {
   font-family: "Raleway", Arial, Tahoma, sans-serif;
   max-width: 100% !important;

@@ -165,7 +165,7 @@ class SLO {
           let appendPayout = type !== "MoneyLine" ? `<div> ${payout} </div>` : '';
           let appendLineVal = `<div> ${appendSign != null ? appendSign : '-'} </div>`;
           bookies[item] += `
-            <div class="cell slo-col-hack-5">
+            <div class="cell slo-col-hack-5 slo-cell-line-data">
               <div class="slo-val-box">
                 <div class="slo-vertical-center">
                   ${appendLineVal}
