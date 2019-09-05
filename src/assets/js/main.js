@@ -69,9 +69,46 @@ class SLO {
 
   setSloOddsView(data, sport, type = "MoneyLine") {
     // var sportsBooks = ['Pinnacle', 'WestgateSuperbookNV', 'DraftKings', 'FanDuel', 'SugarHousePA'];
-    var container = jQuery(`section#${sport}Content`);
-  
-    container.html("");
+    let contentContainer = jQuery(`section#${sport}ContentContainer`);
+    contentContainer.html("");
+    let tableHeader = `
+      <section class="teams row">
+        <div class="col-12">
+          <div class="sloTimeStamp sloUpdatedAt sloGameDateTime">Updated at: ${this.sloCurrentDateTime} ET</div>
+        </div>
+        <div class="col-12 mimicTable">
+          <div id="tableHeader" class="row slo-dropshadow">
+            <div class="cell col-4 slo-border-bottom slo-team-name">Schedule</div>
+            <div class="col-8 slo-border-bottom slo-allow-overflow">
+              <div class="slo-row">
+                <div class="cell slo-col-hack-5 slo-header-logo-container">
+                  <img class="img-responsive slo-vertical-center" src="${sloData.pluginsUrl}/sports_live_odds/src/assets/imgs/odds-pinnacle-logo.png" alt="Pinnacle Logo">
+                </div>
+                <div class="cell slo-col-hack-5 slo-header-logo-container">
+                  <img class="img-responsive slo-vertical-center" src="${sloData.pluginsUrl}/sports_live_odds/src/assets/imgs/odds-westgate-logo.png" alt="Westgate Logo">
+                </div>
+                <div class="cell slo-col-hack-5 slo-header-logo-container">
+                  <img style="max-height: 45px;" class="img-responsive slo-vertical-center" src="${sloData.pluginsUrl}/sports_live_odds/src/assets/imgs/odds-draftkings-logo.png" alt="Westgate Logo">
+                </div>
+                <div class="cell slo-col-hack-5 slo-header-logo-container">
+                  <img class="img-responsive slo-vertical-center" src="${sloData.pluginsUrl}/sports_live_odds/src/assets/imgs/odds-fanduel-logo.png" alt="Westgate Logo">
+                </div>
+                <div class="cell slo-col-hack-5 slo-header-logo-container">
+                  <img class="img-responsive slo-vertical-center" src="${sloData.pluginsUrl}/sports_live_odds/src/assets/imgs/odds-sugarhouse-logo.png" alt="Westgate Logo">
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="slo-spacer"></div> -->
+          <section id="mlbContent" class="slo-feed-content"></section>
+        </div>
+      </section>
+    `;
+    contentContainer.append(tableHeader);
+
+    var content = jQuery(`section#${sport}Content`);
+
+    content.html("");
     data.forEach(i => {
       // TEMPORARY HACK
       if (sport == 'ncaaf') {
@@ -86,106 +123,85 @@ class SLO {
           books[it.Sportsbook] = it;
         }
       });
-      
-      let booksAway = '';
-      let booksHome = '';
+
       let appendSign = '';
       let payout = '-';
-      /**
-       * Away Team
-       */
-      this.sportsBooks.forEach(book => {
-        // Line
-        if (type == "OverUnder") {
-          let betTypeResult = books[book] ? books[book][type] : '-';
-          let checkPositive = books[book] ? books[book]['AwayMoneyLine'] : 0;
-          if (books[book]) {
-            payout = checkPositive > 0 && books[book] ? books[book]['OverPayout'] : books[book]['OverPayout'];
+      let bookies = {
+        Away : '',
+        Home : ''
+      };
+      let teams = ['Away', 'Home'];
+      let slo = this;
+      teams.forEach( function(item, index) {
+        slo.sportsBooks.forEach(book => {
+          // Line
+          if (type == "OverUnder") {
+            let betTypeResult = books[book] ? books[book][type] : '-';
+            let checkPositive = books[book] ? books[book][`${item}MoneyLine`] : 0;
+            if (books[book]) {
+              payout = checkPositive > 0 && books[book] ? books[book]['OverPayout'] : books[book]['OverPayout'];
+            }
+            appendSign = betTypeResult == "-" ? "" : "o" + betTypeResult;
+          } else  {
+            let betTypeResult = books[book] ? books[book][item + type] : '-';
+            appendSign = betTypeResult > 0 ? "+" + betTypeResult : betTypeResult;          
           }
-          appendSign = betTypeResult == "-" ? "" : "o" + betTypeResult;
-        } else  {
-          let betTypeResult = books[book] ? books[book]['Away' + type] : '-';
-          appendSign = betTypeResult > 0 ? "+" + betTypeResult : betTypeResult;          
-        }
-        // PointSpread Payout
-        if (type == "PointSpread") { 
-          payout = books[book] ? books[book]['Away' + type + 'Payout'] : '-';
-        }
-        let appendPayout = type !== "MoneyLine" ? `<div> ${payout} </div>` : '';
-        booksAway += `
-          <div class="cell slo-col-hack-5">
-            <div> ${appendSign != null ? appendSign : '-'} </div>
-            ${appendPayout}
-          </div>
-        `;
-        payout = '-';
-      });
-  
-      /**
-       * Home Team
-       */
-      this.sportsBooks.forEach(book => {
-        if (type == "OverUnder") {
-          let betTypeResult = books[book] ? books[book][type] : '-';
-          let checkPositive = books[book] ? books[book]['HomeMoneyLine'] : '-';
-          if (books[book]) {
-            payout = checkPositive > 0 && books[book] ? books[book]['UnderPayout'] : books[book]['UnderPayout'];
+          // PointSpread Payout
+          if (type == "PointSpread") { 
+            payout = books[book] ? books[book][item + type + 'Payout'] : '-';
           }
-          appendSign = betTypeResult == "-" ? "" : "u" + betTypeResult;
-        } else {
-          let betTypeResult = books[book] ? books[book]['Home' + type] : '-';
-          appendSign = betTypeResult > 0 ? "+" + betTypeResult : betTypeResult;
-        }
-        // PointSpread Payout
-        if (type == "PointSpread") { 
-          payout = books[book] ? books[book]['Home' + type + 'Payout'] : '-';
-        }
-        let appendPayout = type !== "MoneyLine" ? `<div> ${payout} </div>` : '';
-        booksHome += `
-          <div class="cell slo-col-hack-5">
-            <div> ${appendSign != null ? appendSign : '-'} </div>
-            ${appendPayout}
-          </div>
-        `;
-        payout = '-';
+          let appendPayout = type !== "MoneyLine" ? `<div> ${payout} </div>` : '';
+          let appendLineVal = `<div> ${appendSign != null ? appendSign : '-'} </div>`;
+          bookies[item] += `
+            <div class="cell slo-col-hack-5">
+              <div class="slo-val-box">
+                <div class="slo-vertical-center">
+                  ${appendLineVal}
+                  ${appendPayout}
+                </div>
+              </div>
+            </div>
+          `;
+          payout = '-';
+        });
       });
-      
-      var html = `
-        <section class="slo-dropshadow">
 
-          <div class="row sloTimeStamp">
-            <div class="cell col-md-12">
-              <div class="sloGameDateTime">Game time: ${moment(i.DateTime).format("MM/DD - hh:mma")} ET</div>
-              <div class="sloCurrentTime sloUpdatedAt">Updated at: ${this.sloCurrentDateTime} ET</div>
-            </div>
-          </div>
+      var html = `
+        <section>
           <div class="row">
-            <div class="cell col-md-4">
-              ${i.AwayTeamName}
-            </div>
-            <div class="col-md-8">
-              <div class="row">
-                ${booksAway}
+
+            <div class="cell col-4 slo-border-top slo-team-name">
+              <div class="sloGameDateTime">
+                ${moment(i.DateTime).format("MM/DD, hh:mm A")} ET
+              </div>
+              <div class="slo-vertical-center">
+                ${i.AwayTeamName}
               </div>
             </div>
-          </div>
-  
-          <div class="row">
-            <div class="cell col-md-4">
-              ${i.HomeTeamName}
-            </div>
-            <div class="col-md-8">
-              <div class="row">
-                ${booksHome}
+            <div class="col-8 slo-border-top slo-allow-overflow">
+              <div class="row bookie-row">
+                <div class="col-12 sloTimeStamp"></div>
+                ${bookies['Away']}
               </div>
             </div>
+
+            <div class="cell col-4 slo-border-bottom slo-team-name">
+              <div class="slo-vertical-center">
+                ${i.HomeTeamName}
+              </div>
+            </div>
+            <div class="col-8 slo-border-bottom slo-allow-overflow">
+              <div class="row bookie-row">
+                ${bookies['Home']}
+              </div>
+            </div>
+            
           </div>
           
         </section>
-        <div class='slo-spacer'></div>
       `;
-      container.append(html);
+      content.append(html);
     });
   }
 
-}    
+}

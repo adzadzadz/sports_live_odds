@@ -12,31 +12,6 @@
   width: 100%;
   cursor: pointer;
 }
-#tableHeader .cell {
-  padding: 24px;
-}
-section.teams .mimicTable div.cell {
-  padding: 8px;
-  border: 1px #cccccc solid;
-  background: #fff;
-  font-size: 0.8em;
-  color: #757575;
-  font-weight: bold;
-  text-align: center;
-}
-section.sloSportData {
-  font-family: "Raleway", Arial, Tahoma, sans-serif;
-  max-width: 100% !important;
-}
-section.sloSportData .dateChanger {
-  background: #dd3333;
-  color : #fff;
-  padding: 15px;
-  cursor: pointer;
-}
-.slo-hidden {
-  display: none;
-}
 .slo-dropdown {
   cursor: pointer;
 }
@@ -58,6 +33,39 @@ section.sloSportData .dateChanger {
   background: #dd3333;
   color: #fff;
 }
+
+.slo-feed-content {
+  color: #000;
+}
+#tableHeader .cell {
+  padding: 24px;
+  color: #757575;
+}
+#tableHeader > div {
+  padding-bottom: 0px;
+}
+section.teams .mimicTable div.cell {
+  padding: 8px;
+  /* border: 1px #cccccc solid; */
+  background: #fff;
+  font-size: 0.7em;
+  font-weight: bold;
+  text-align: center;
+}
+section.sloSportData {
+  font-family: "Raleway", Arial, Tahoma, sans-serif;
+  max-width: 100% !important;
+}
+section.sloSportData .dateChanger {
+  background: #dd3333;
+  color : #fff;
+  padding: 15px;
+  cursor: pointer;
+}
+.slo-hidden {
+  display: none;
+}
+
 .slo-spacer {
   margin-bottom: 25px;
 }
@@ -86,22 +94,63 @@ section.sloSportData .dateChanger {
   float: left;
 }
 .slo-col-hack-5 {
+  display: inline-block;
   width: calc(100% / 5);
-  float: left;
+  /* float: left; */
+}
+.slo-allow-overflow {
+  overflow: auto;
+}
+.bookie-row {
+  min-width: 320px;
 }
 .sloTimeStamp {
+  background: #fff;
   height: 30px;
-  font-size: .6em;
-  padding: 0;
-  border: none;
 }
 .sloGameDateTime {
-  float: left;
-  margin-left: 3px;
-  margin-right: 3px;
+  font-size: 10px;
+  color: #000;
+  font-weight: bold;
 }
-.sloTimeStamp .sloUpdatedAt {
-  float: right;
-  margin-left: 3px;
-  margin-right: 3px;
+.sloUpdatedAt {
+  text-align: right;
+  font-style: italic;
+}
+.slo-val-box {
+  display: inline-block;
+  border: 1px #757575 solid;
+  height: 50px;
+  width: 50px;
+  font-size: 12px !important;
+  color: #000;
+}
+.slo-vertical-center {
+  position: relative;
+  top: 50%;
+  transform: perspective(1px) translateY(-50%);
+}
+.slo-header-logo-container {
+  padding: 0 10px !important;
+}
+
+/* Extras */
+.slo-border-top {
+  border-right: 1px #ebebeb solid;
+  border-left: 1px #ebebeb solid;
+  border-top: 1px #ebebeb solid;
+}
+.slo-border-bottom {
+  border-right: 1px #ebebeb solid;
+  border-left: 1px #ebebeb solid;
+  border-bottom: 1px #ebebeb solid;
+  padding-bottom: 12px;
+}
+.slo-border-side-only {
+  border-right: 1px #ebebeb solid;
+  border-left: 1px #ebebeb solid;
+}
+.slo-team-name {
+  padding-left: 24px !important;
+  text-align: left !important;
 }

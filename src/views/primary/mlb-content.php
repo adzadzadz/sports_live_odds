@@ -20,20 +20,20 @@
 ?>
 
 <section id="mlbData" class="sloSportData">
-  <div class="col-md-12">
+  <div class="col-12">
     <div class="fetchTime"></div>
     <div class="fetchUrl"></div>
   </div>
-  <header class="col-md-8">
+  <header class="col-8">
     <section class="filter row slo-dropshadow slo-filter-wrap">
-      <div class="col-md-6">
+      <div class="col-6">
         <div class="row">
-          <div id="datePrev" class="dateChanger btn btn-sm btn-success col-md-3" data-type="prev">PREV</div>
-          <div id="dateDisplay" class="col-md-6 filter-label">2019-05-03</div>
-          <div id="dateNext" class="dateChanger btn btn-sm btn-success col-md-3" data-type="next">NEXT</div>
+          <div id="datePrev" class="dateChanger btn btn-sm btn-success col-3" data-type="prev">PREV</div>
+          <div id="dateDisplay" class="col-6 filter-label">2019-05-03</div>
+          <div id="dateNext" class="dateChanger btn btn-sm btn-success col-3" data-type="next">NEXT</div>
         </div>
       </div>
-      <div class="slo-dropdown col-md-6">
+      <div class="slo-dropdown col-6">
         <div class="slo-dropdown-toggle filter-label" href="#" role="button" id="mlbTypeDropdown">
           <span id="mlbTypeText" data-type="type">Type</span> <i class="fa fa-chevron-down"></i>
         </div>
@@ -47,28 +47,7 @@
     </section>
   </header>
   <div class="slo-spacer"></div>
-  <div class="content">
-    <div class="col-md-12">
-      <section class="teams row">
-        <div class="col-md-12 mimicTable">
-          <div id="tableHeader" class="row slo-dropshadow">
-            <div class="cell col-md-4">Schedule</div>
-            <div class="col-md-8">
-              <div class="slo-row">
-                <div class="cell slo-col-hack-5">Pinnacle</div>
-                <div class="cell slo-col-hack-5">Westgate</div>
-                <div class="cell slo-col-hack-5">DraftKings</div>
-                <div class="cell slo-col-hack-5">FanDuel</div>
-                <div class="cell slo-col-hack-5">SugarHouse</div>
-              </div>
-            </div>
-          </div>
-          <div class="slo-spacer"></div>
-          <section id="mlbContent"></section>
-        </div>
-      </section>
-    </div>
-  </div>
+  <section id="mlbContentContainer"></section>
 </section>
 
 <script>

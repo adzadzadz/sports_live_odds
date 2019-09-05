@@ -29,12 +29,12 @@
 
 <div id="sloContainer">
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-12">
       <h1>Live Sports Betting Odds</h1>
     </div>
   </div>
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-12">
     
       <nav id="sports">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
