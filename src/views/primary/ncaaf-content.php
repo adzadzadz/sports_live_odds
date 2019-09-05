@@ -30,7 +30,7 @@
     <div class="col-12">
       <section class="teams row">
         <div class="col-12 mimicTable">
-          <div id="tableHeader" class="row slo-dropshadow">
+          <div id="slo-table-header" class="row slo-dropshadow">
             <div class="cell col-4">Schedule</div>
             <div class="col-8">
               <div class="slo-row">

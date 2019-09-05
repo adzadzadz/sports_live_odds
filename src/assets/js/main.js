@@ -71,44 +71,56 @@ class SLO {
     // var sportsBooks = ['Pinnacle', 'WestgateSuperbookNV', 'DraftKings', 'FanDuel', 'SugarHousePA'];
     let contentContainer = jQuery(`section#${sport}ContentContainer`);
     contentContainer.html("");
-    let tableHeader = `
+    let sloTableHeader = `
       <section class="teams row">
         <div class="col-12">
           <div class="sloTimeStamp sloUpdatedAt sloGameDateTime">Updated at: ${this.sloCurrentDateTime} ET</div>
         </div>
         <div class="col-12 mimicTable">
-          <div id="tableHeader" class="row slo-dropshadow">
-            <div class="cell col-4 slo-border-bottom slo-team-name">Schedule</div>
-            <div class="col-8 slo-border-bottom slo-allow-overflow">
-              <div class="slo-row">
-                <div class="cell slo-col-hack-5 slo-header-logo-container">
+          <section id="${sport}Content" class="slo-feed-content"></section>
+        </div>
+      </section>
+    `;
+    contentContainer.append(sloTableHeader);
+
+    var content = jQuery(`section#${sport}Content`);
+
+    content.html("");
+    content.append(`
+      <section id="${sport}LiveOddsSection">
+        <div class="row">
+          <div class="col-4 slo-team-area">
+            <div class="cell col-12 slo-border-bottom slo-border-top slo-table-header">
+              <div class="slo-vertical-center">
+                Schedule
+              </div>
+            </div>
+          </div>
+          <div class="col-8 slo-line-area slo-allow-overflow">
+            <div class="col-12">
+              <div class="row bookie-row slo-border-bottom slo-border-top slo-table-header">
+                <div class="cell slo-col-hack-5 slo-header-logo-container slo-table-header">
                   <img class="img-responsive slo-vertical-center" src="${sloData.pluginsUrl}/sports_live_odds/src/assets/imgs/odds-pinnacle-logo.png" alt="Pinnacle Logo">
                 </div>
-                <div class="cell slo-col-hack-5 slo-header-logo-container">
+                <div class="cell slo-col-hack-5 slo-header-logo-container slo-table-header">
                   <img class="img-responsive slo-vertical-center" src="${sloData.pluginsUrl}/sports_live_odds/src/assets/imgs/odds-westgate-logo.png" alt="Westgate Logo">
                 </div>
-                <div class="cell slo-col-hack-5 slo-header-logo-container">
+                <div class="cell slo-col-hack-5 slo-header-logo-container slo-table-header">
                   <img style="max-height: 45px;" class="img-responsive slo-vertical-center" src="${sloData.pluginsUrl}/sports_live_odds/src/assets/imgs/odds-draftkings-logo.png" alt="Westgate Logo">
                 </div>
-                <div class="cell slo-col-hack-5 slo-header-logo-container">
+                <div class="cell slo-col-hack-5 slo-header-logo-container slo-table-header">
                   <img class="img-responsive slo-vertical-center" src="${sloData.pluginsUrl}/sports_live_odds/src/assets/imgs/odds-fanduel-logo.png" alt="Westgate Logo">
                 </div>
-                <div class="cell slo-col-hack-5 slo-header-logo-container">
+                <div class="cell slo-col-hack-5 slo-header-logo-container slo-table-header">
                   <img class="img-responsive slo-vertical-center" src="${sloData.pluginsUrl}/sports_live_odds/src/assets/imgs/odds-sugarhouse-logo.png" alt="Westgate Logo">
                 </div>
               </div>
             </div>
           </div>
-          <!-- <div class="slo-spacer"></div> -->
-          <section id="mlbContent" class="slo-feed-content"></section>
         </div>
       </section>
-    `;
-    contentContainer.append(tableHeader);
+    `);
 
-    var content = jQuery(`section#${sport}Content`);
-
-    content.html("");
     data.forEach(i => {
       // TEMPORARY HACK
       if (sport == 'ncaaf') {
@@ -166,41 +178,37 @@ class SLO {
         });
       });
 
-      var html = `
-        <section>
-          <div class="row">
-
-            <div class="cell col-4 slo-border-top slo-team-name">
-              <div class="sloGameDateTime">
-                ${moment(i.DateTime).format("MM/DD, hh:mm A")} ET
-              </div>
-              <div class="slo-vertical-center">
-                ${i.AwayTeamName}
-              </div>
-            </div>
-            <div class="col-8 slo-border-top slo-allow-overflow">
-              <div class="row bookie-row">
-                <div class="col-12 sloTimeStamp"></div>
-                ${bookies['Away']}
-              </div>
-            </div>
-
-            <div class="cell col-4 slo-border-bottom slo-team-name">
-              <div class="slo-vertical-center">
-                ${i.HomeTeamName}
-              </div>
-            </div>
-            <div class="col-8 slo-border-bottom slo-allow-overflow">
-              <div class="row bookie-row">
-                ${bookies['Home']}
-              </div>
-            </div>
-            
+      let htmlTeamName = `
+        <div class="cell col-12 slo-border-top slo-team-name">
+          <div class="sloGameDateTime">
+            ${moment(i.DateTime).format("MM/DD, hh:mm A")} ET
           </div>
-          
-        </section>
+          <div class="slo-vertical-center">
+            ${i.AwayTeamName}
+          </div>
+        </div>
+        <div class="cell col-12 slo-border-bottom slo-team-name">
+          <div class="slo-vertical-center">
+            ${i.HomeTeamName}
+          </div>
+        </div>
       `;
-      content.append(html);
+      jQuery(`#${sport}LiveOddsSection .slo-team-area`).append(htmlTeamName);
+
+      let htmlLineData = `
+        <div class="col-12 slo-border-top">
+          <div class="row bookie-row">
+            <div class="col-12 sloTimeStamp"></div>
+            ${bookies['Away']}
+          </div>
+        </div>
+        <div class="col-12 slo-border-bottom">
+          <div class="row bookie-row">
+            ${bookies['Home']}
+          </div>
+        </div>
+      `
+      jQuery(`#${sport}LiveOddsSection .slo-line-area`).append(htmlLineData);
     });
   }
 

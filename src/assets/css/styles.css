@@ -37,21 +37,30 @@
 .slo-feed-content {
   color: #000;
 }
-#tableHeader .cell {
-  padding: 24px;
+.slo-table-header {
+  /* padding: 24px; */
   color: #757575;
+  height: 92px;
 }
-#tableHeader > div {
+.slo-table-header > div {
   padding-bottom: 0px;
 }
-section.teams .mimicTable div.cell {
+section.teams .mimicTable .cell {
   padding: 8px;
-  /* border: 1px #cccccc solid; */
   background: #fff;
   font-size: 0.7em;
   font-weight: bold;
   text-align: center;
 }
+.slo-team-area, .slo-line-area {
+  padding: 0 !important;
+}
+.slo-team-name {
+  padding-left: 24px !important;
+  text-align: left !important;
+  height: 92px;
+}
+
 section.sloSportData {
   font-family: "Raleway", Arial, Tahoma, sans-serif;
   max-width: 100% !important;
@@ -102,7 +111,7 @@ section.sloSportData .dateChanger {
   overflow: auto;
 }
 .bookie-row {
-  min-width: 320px;
+  min-width: 450px;
 }
 .sloTimeStamp {
   background: #fff;
@@ -149,8 +158,4 @@ section.sloSportData .dateChanger {
 .slo-border-side-only {
   border-right: 1px #ebebeb solid;
   border-left: 1px #ebebeb solid;
-}
-.slo-team-name {
-  padding-left: 24px !important;
-  text-align: left !important;
 }
