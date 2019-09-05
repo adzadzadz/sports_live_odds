@@ -26,28 +26,7 @@
     </section>
   </header>
   <div class="slo-spacer"></div>
-  <div class="content">
-    <div class="col-12">
-      <section class="teams row">
-        <div class="col-12 mimicTable">
-          <div id="slo-table-header" class="row slo-dropshadow">
-            <div class="cell col-4">Schedule</div>
-            <div class="col-8">
-              <div class="slo-row">
-                <div class="cell slo-col-hack-5">Pinnacle</div>
-                <div class="cell slo-col-hack-5">Westgate</div>
-                <div class="cell slo-col-hack-5">DraftKings</div>
-                <div class="cell slo-col-hack-5">FanDuel</div>
-                <div class="cell slo-col-hack-5">SugarHouse</div>
-              </div>
-            </div>
-          </div>
-          <div class="slo-spacer"></div>
-          <section id="nflContent"></section>
-        </div>
-      </section>
-    </div>
-  </div>
+  <section id="nflContentContainer"></section>
 </section>
 
 <script>
