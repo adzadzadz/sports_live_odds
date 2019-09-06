@@ -76,7 +76,7 @@ class NFL extends SLO{
     this.getCurrentWeekAndFetchOdds();
 
     jQuery("#nflData #nflTypeText").html(this.type.toUpperCase());
-    jQuery("#nflData #nflTypeText").data("type", this.type);
+    jQuery("#nflData #nflTypeText").data("type", this.typeText);
 
   }
 
@@ -102,6 +102,7 @@ class NFL extends SLO{
     let nfl = new NFL();
     nfl.sport = 'nfl';
     nfl.type  = 'PointSpread';
+    nfl.typeText = 'SPREAD';
     nfl.build();
 
     // Events Listeners

@@ -57,7 +57,7 @@ class NCAAF extends SLO {
     this.getCurrentWeekAndFetchOdds();
 
     jQuery("#ncaafData #ncaafTypeText").html(this.type.toUpperCase());
-    jQuery("#ncaafData #ncaafTypeText").data("type", this.type);
+    jQuery("#ncaafData #ncaafTypeText").data("type", this.typeText);
   }
 
   getCurrentWeekAndFetchOdds() {
@@ -84,6 +84,7 @@ class NCAAF extends SLO {
     let ncaaf = new NCAAF();
     ncaaf.sport = 'ncaaf';
     ncaaf.type = 'PointSpread';
+    ncaaf.typeText = 'SPREAD';
     ncaaf.build();
 
     // Event Listeners

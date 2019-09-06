@@ -30,6 +30,7 @@ var sloCurrentStartDate = moment().tz("America/New_York").format("YYYY-MM-DD");
 class SLO {
   sport = 'nfl';
   type  = 'MoneyLine';
+  typeText = 'MONEYLINE';
   intervalId = null;
   resultData = null;
   sportsBooks = ['Pinnacle', 'WestgateSuperbookNV', 'DraftKings', 'FanDuel', 'SugarHousePA'];
