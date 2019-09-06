@@ -101,7 +101,7 @@ class NFL extends SLO{
   jQuery(document).ready(() => {
     let nfl = new NFL();
     nfl.sport = 'nfl';
-    nfl.type  = 'MoneyLine';
+    nfl.type  = 'Spread';
     nfl.build();
 
     // Events Listeners
