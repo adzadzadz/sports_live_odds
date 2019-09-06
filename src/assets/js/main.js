@@ -44,7 +44,6 @@ class SLO {
   }
 
   fetchData(url, type) {
-    console.log(url);
     this.request(url);
 
     if (this.intervalId !== null) {
