@@ -19,35 +19,36 @@
   
 ?>
 
-<section id="mlbData" class="sloSportData">
-  <div class="col-12">
-    <div class="fetchTime"></div>
-    <div class="fetchUrl"></div>
-  </div>
-  <header class="col-8">
-    <section class="filter row slo-dropshadow slo-filter-wrap">
-      <div class="col-6">
+<section id="mlbData" class="sloSportData row">
+  <header class="col-md-8">
+    <section class="row slo-filter-wrap">
+      <div class="col-md-6 col-sm-12 slo-filter">
         <div class="row">
-          <div id="datePrev" class="dateChanger btn btn-sm btn-success col-3" data-type="prev">PREV</div>
-          <div id="dateDisplay" class="col-6 filter-label">2019-05-03</div>
-          <div id="dateNext" class="dateChanger btn btn-sm btn-success col-3" data-type="next">NEXT</div>
+          <div id="datePrev" class="dateChanger filter-label btn btn-sm btn-success col-2" data-type="prev">
+            <i class="fa fa-chevron-left"></i>
+          </div>
+          <div id="dateDisplay" class="col-8 filter-label">2019-05-03</div>
+          <div id="dateNext" class="dateChanger filter-label btn btn-sm btn-success col-2" data-type="next">
+            <i class="fa fa-chevron-right"></i>
+          </div>
         </div>
       </div>
-      <div class="slo-dropdown col-6">
-        <div class="slo-dropdown-toggle filter-label" href="#" role="button" id="mlbTypeDropdown">
-          <span id="mlbTypeText" data-type="type">Type</span> <i class="fa fa-chevron-down"></i>
-        </div>
+      <div class="col-md-6 col-sm-12 slo-filter">
+        <div class="slo-dropdown">
+          <div class="slo-dropdown-toggle filter-label" href="#" role="button" id="mlbTypeDropdown">
+            <span id="mlbTypeText" data-type="type">Type</span> <i class="fa fa-chevron-down"></i>
+          </div>
 
-        <div class="slo-dropdown-menu slo-hidden">
-          <div class="oddsMlb slo-dropdown-item" data-type="type" data-value="PointSpread" >SPREAD</div>
-          <div class="oddsMlb slo-dropdown-item" data-type="type" data-value="OverUnder" >TOTAL</div>
-          <div class="oddsMlb slo-dropdown-item" data-type="type" data-value="MoneyLine" >MONEYLINE</div>
+          <div class="slo-dropdown-menu slo-hidden">
+            <div class="oddsMlb slo-dropdown-item" data-type="type" data-value="PointSpread" >SPREAD</div>
+            <div class="oddsMlb slo-dropdown-item" data-type="type" data-value="OverUnder" >TOTAL</div>
+            <div class="oddsMlb slo-dropdown-item" data-type="type" data-value="MoneyLine" >MONEYLINE</div>
+          </div>
         </div>
       </div>
     </section>
   </header>
-  <div class="slo-spacer"></div>
-  <section id="mlbContentContainer"></section>
+  <section id="mlbContentContainer" class="col-md-12"></section>
 </section>
 
 <script>

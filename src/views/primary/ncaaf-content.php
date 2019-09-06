@@ -1,18 +1,13 @@
 <section id="ncaafData" class="sloSportData">
-  <div class="col-12">
-    <div class="fetchTime"></div>
-    <div class="fetchUrl"></div>
-  </div>
-  <header class="col-8">
-    <section class="filter row slo-dropshadow slo-filter-wrap">
-      <div id="ncaafGameWeek" class="slo-dropdown col-6">
+  <header class="col-md-8">
+    <section class="filter row slo-filter-wrap">
+      <div id="ncaafGameWeek" class="slo-dropdown col-md-6 slo-filter">
         <div class="slo-dropdown-toggle filter-label" href="#" role="button" id="nflWeekDropdown">
           <span id="ncaafWeekText">Week</span> <i class="fa fa-chevron-down"></i>
         </div>
-
         <div class="slo-dropdown-menu slo-hidden"></div>
       </div>
-      <div class="slo-dropdown col-6">
+      <div class="slo-dropdown col-md-6 slo-filter">
         <div class="slo-dropdown-toggle filter-label" href="#" role="button" id="ncaafTypeDropdown">
           <span id="ncaafTypeText" data-type="type">Type</span> <i class="fa fa-chevron-down"></i>
         </div>
@@ -25,8 +20,7 @@
       </div>
     </section>
   </header>
-  <div class="slo-spacer"></div>
-  <section id="ncaafContentContainer"></section>
+  <section id="ncaafContentContainer" class="col-md-12"></section>
 </section>
 
 <script>
