@@ -75,8 +75,8 @@ class NFL extends SLO{
     // #2 The actual request
     this.getCurrentWeekAndFetchOdds();
 
-    jQuery("#nflData #nflTypeText").html(this.type.toUpperCase());
-    jQuery("#nflData #nflTypeText").data("type", this.typeText);
+    jQuery("#nflData #nflTypeText").html(this.typeText.toUpperCase());
+    jQuery("#nflData #nflTypeText").data("type", this.type);
 
   }
 

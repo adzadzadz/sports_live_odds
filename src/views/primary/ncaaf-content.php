@@ -56,8 +56,8 @@ class NCAAF extends SLO {
 
     this.getCurrentWeekAndFetchOdds();
 
-    jQuery("#ncaafData #ncaafTypeText").html(this.type.toUpperCase());
-    jQuery("#ncaafData #ncaafTypeText").data("type", this.typeText);
+    jQuery("#ncaafData #ncaafTypeText").html(this.typeText.toUpperCase());
+    jQuery("#ncaafData #ncaafTypeText").data("type", this.type);
   }
 
   getCurrentWeekAndFetchOdds() {
