@@ -73,8 +73,8 @@ class SLO {
     contentContainer.html("");
     let sloTableHeader = `
       <section class="teams row">
-        <div class="col-12">
-          <div class="sloTimeStamp sloUpdatedAt sloGameDateTime">Updated at: ${this.sloCurrentDateTime} ET</div>
+        <div class="col-12 sloTimeStamp">
+          <div class="sloUpdatedAt sloGameDateTime">Updated at: ${this.sloCurrentDateTime} ET</div>
         </div>
         <div class="col-12 mimicTable">
           <section id="${sport}Content" class="slo-feed-content"></section>
@@ -166,7 +166,7 @@ class SLO {
           let appendLineVal = `<div> ${appendSign != null ? appendSign : '-'} </div>`;
           bookies[item] += `
             <div class="cell slo-col-hack-5 slo-cell-line-data">
-              <div class="slo-val-box">
+              <div class="slo-val-box slo-val-box-best">
                 <div class="slo-vertical-center">
                   ${appendLineVal}
                   ${appendPayout}
