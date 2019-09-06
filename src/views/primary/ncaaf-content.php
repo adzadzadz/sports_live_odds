@@ -83,7 +83,7 @@ class NCAAF extends SLO {
     
     let ncaaf = new NCAAF();
     ncaaf.sport = 'ncaaf';
-    ncaaf.type = 'Spread';
+    ncaaf.type = 'PointSpread';
     ncaaf.build();
 
     // Event Listeners
