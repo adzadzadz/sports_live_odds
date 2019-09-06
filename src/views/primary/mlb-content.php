@@ -22,7 +22,7 @@
 <section id="mlbData" class="sloSportData row">
   <header class="col-md-8">
     <section class="row slo-filter-wrap">
-      <div class="col-md-6 col-sm-12 slo-filter">
+      <div class="col-md-6 slo-filter">
         <div class="row">
           <div id="datePrev" class="dateChanger filter-label btn btn-sm btn-success col-2" data-type="prev">
             <i class="fa fa-chevron-left"></i>
@@ -33,17 +33,15 @@
           </div>
         </div>
       </div>
-      <div class="col-md-6 col-sm-12 slo-filter">
-        <div class="slo-dropdown">
-          <div class="slo-dropdown-toggle filter-label" href="#" role="button" id="mlbTypeDropdown">
-            <span id="mlbTypeText" data-type="type">Type</span> <i class="fa fa-chevron-down"></i>
-          </div>
+      <div class="slo-dropdown col-md-6 slo-filter">
+        <div class="slo-dropdown-toggle filter-label" href="#" role="button" id="mlbTypeDropdown">
+          <span id="mlbTypeText" data-type="type">Type</span> <i class="fa fa-chevron-down"></i>
+        </div>
 
-          <div class="slo-dropdown-menu slo-hidden">
-            <div class="oddsMlb slo-dropdown-item" data-type="type" data-value="PointSpread" >SPREAD</div>
-            <div class="oddsMlb slo-dropdown-item" data-type="type" data-value="OverUnder" >TOTAL</div>
-            <div class="oddsMlb slo-dropdown-item" data-type="type" data-value="MoneyLine" >MONEYLINE</div>
-          </div>
+        <div class="slo-dropdown-menu slo-hidden">
+          <div class="oddsMlb slo-dropdown-item" data-type="type" data-value="PointSpread" >SPREAD</div>
+          <div class="oddsMlb slo-dropdown-item" data-type="type" data-value="OverUnder" >TOTAL</div>
+          <div class="oddsMlb slo-dropdown-item" data-type="type" data-value="MoneyLine" >MONEYLINE</div>
         </div>
       </div>
     </section>
