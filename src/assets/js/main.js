@@ -153,7 +153,13 @@ class SLO {
             if (books[book]) {
               payout = checkPositive > 0 && books[book] ? books[book]['OverPayout'] : books[book]['OverPayout'];
             }
-            appendSign = betTypeResult == "-" ? "" : "o" + betTypeResult;
+            let ouSign;
+            if (item == 'Away') {
+              ouSign = "o";
+            } else {
+              ouSign = 'u';
+            }
+            appendSign = betTypeResult == "-" ? "" : ouSign + betTypeResult;
           } else  {
             let betTypeResult = books[book] ? books[book][item + type] : '-';
             appendSign = betTypeResult > 0 ? "+" + betTypeResult : betTypeResult;          
