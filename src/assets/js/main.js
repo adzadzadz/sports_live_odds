@@ -145,21 +145,30 @@ class SLO {
       let teams = ['Away', 'Home'];
       let slo = this;
 
+      var queryType = `MoneyLine`;
       let booksVals = [];
       teams.forEach((team, index) => {
         let hasInput = false;
         slo.sportsBooks.forEach((book, index) => {
-          booksVals.push(books[book][`${team}MoneyLine`]);
+          if (books[book]) {
+            let postText = '';
+            if (type == 'PointSpread') {
+              queryType = `${type}Payout`;
+            } 
+            booksVals.push(books[book][team + queryType]);
+          }
         });
       });
       let bestLineMax = Math.max.apply(Math,booksVals);
       let bestLineMin = Math.min.apply(Math, booksVals);
-
+      
       teams.forEach((team, index) => {
         slo.sportsBooks.forEach(book => {
           let bestLine = false;
-          if (bestLineMax == books[book][`${team}MoneyLine`] || bestLineMin == books[book][`${team}MoneyLine`]) {
-            bestLine = true;
+          if (books[book]) {
+            if (bestLineMax == books[book][team + queryType] || bestLineMin == books[book][team + queryType]) {
+              bestLine = true;
+            }
           }
           // Line
           if (type == "OverUnder") {
