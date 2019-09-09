@@ -121,16 +121,9 @@ class SLO {
       </section>
     `);
 
-    data.forEach(i => {
-      // TEMPORARY HACK
-      if (sport == 'ncaaf') {
-        if (i.GameId == 9393 || i.GameId == 9812)
-          return false;
-      }
-      // END OF TEMPORARY HACK
-
+    data.forEach(game => {
       let books = {};
-      i.PregameOdds.forEach(it => {
+      game.PregameOdds.forEach(it => {
         if (this.sportsBooks.includes(it.Sportsbook)) {
           books[it.Sportsbook] = it;
         }
@@ -165,9 +158,14 @@ class SLO {
           }
         });
       });
-      // console.log(booksVals.positives);
-      // let bestLinePositives = Math.max.apply(Math, booksVals.positives);
-      // let bestLineNegatives = Math.min.apply(Math, booksVals.negatives);
+      let bestLinePositives;
+      if (booksVals.positives.length > 0) {
+        bestLinePositives = Math.max.apply(Math, booksVals.positives);
+      }      
+      let bestLineNegatives;
+      if (booksVals.negatives.length > 0) {
+        bestLineNegatives = Math.max.apply(Math, booksVals.negatives);
+      }      
       // console.log(bestLinePositives);
       // console.log(booksVals.positives);
       // console.log(booksVals.negatives);
@@ -175,11 +173,11 @@ class SLO {
       teams.forEach((team, index) => {
         slo.sportsBooks.forEach(book => {
           let bestLine = false;
-          // if (books[book]) {
-          //   if (bestLinePositives == books[book][team + queryType] || bestLineNegatives == books[book][team + queryType]) {
-          //     bestLine = true;
-          //   }
-          // }
+          if (books[book]) {
+            if (bestLinePositives == books[book][team + queryType] || bestLineNegatives == books[book][team + queryType]) {
+              bestLine = true;
+            }
+          }
           // Line
           if (type == "OverUnder") {
             let ouSign;
@@ -225,15 +223,15 @@ class SLO {
       let htmlTeamName = `
         <div class="cell col-12 slo-border-top slo-team-name">
           <div class="sloGameDateTime">
-            ${moment(i.DateTime).format("MM/DD, hh:mm A")} ET
+            ${moment(game.DateTime).format("MM/DD, hh:mm A")} ET
           </div>
           <div class="slo-vertical-center">
-            ${i.AwayTeamName}
+            ${game.AwayTeamName}
           </div>
         </div>
         <div class="cell col-12 slo-border-bottom slo-team-name">
           <div class="slo-vertical-center">
-            ${i.HomeTeamName}
+            ${game.HomeTeamName}
           </div>
         </div>
       `;
