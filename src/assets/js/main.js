@@ -146,30 +146,40 @@ class SLO {
       let slo = this;
 
       var queryType = `MoneyLine`;
-      let booksVals = [];
+      let booksVals = {
+        'positives' : [],
+        'negatives' : []
+      };
       teams.forEach((team, index) => {
-        let hasInput = false;
         slo.sportsBooks.forEach((book, index) => {
           if (books[book]) {
             let postText = '';
             if (type == 'PointSpread') {
               queryType = `${type}Payout`;
             } 
-            booksVals.push(books[book][team + queryType]);
+            if (parseFloat(books[book][team + queryType]) < 0) {
+              booksVals['negatives'].push( parseFloat(books[book][team + queryType]) );
+            } else if (parseFloat(books[book][team + queryType]) > 0) {
+              booksVals['positives'].push( parseFloat(books[book][team + queryType]) );
+            }
           }
         });
       });
-      let bestLineMax = Math.max.apply(Math,booksVals);
-      let bestLineMin = Math.min.apply(Math, booksVals);
+      // console.log(booksVals.positives);
+      // let bestLinePositives = Math.max.apply(Math, booksVals.positives);
+      // let bestLineNegatives = Math.min.apply(Math, booksVals.negatives);
+      // console.log(bestLinePositives);
+      // console.log(booksVals.positives);
+      // console.log(booksVals.negatives);
       
       teams.forEach((team, index) => {
         slo.sportsBooks.forEach(book => {
           let bestLine = false;
-          if (books[book]) {
-            if (bestLineMax == books[book][team + queryType] || bestLineMin == books[book][team + queryType]) {
-              bestLine = true;
-            }
-          }
+          // if (books[book]) {
+          //   if (bestLinePositives == books[book][team + queryType] || bestLineNegatives == books[book][team + queryType]) {
+          //     bestLine = true;
+          //   }
+          // }
           // Line
           if (type == "OverUnder") {
             let ouSign;
