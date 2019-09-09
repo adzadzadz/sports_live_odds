@@ -144,19 +144,29 @@ class SLO {
       };
       let teams = ['Away', 'Home'];
       let slo = this;
-      teams.forEach( function(team, index) {
-        let booksVals = [];
-        slo.sportsBooks.forEach(book => {
-          // booksVals.push(books['books'][`${team}MoneyLine`]);
+
+      let booksVals = [];
+      teams.forEach((team, index) => {
+        let hasInput = false;
+        slo.sportsBooks.forEach((book, index) => {
+          booksVals.push(books[book][`${team}MoneyLine`]);
         });
-        // console.log(booksVals);
+      });
+      let bestLineMax = Math.max.apply(Math,booksVals);
+      let bestLineMin = Math.min.apply(Math, booksVals);
+
+      teams.forEach((team, index) => {
         slo.sportsBooks.forEach(book => {
+          let bestLine = false;
+          if (bestLineMax == books[book][`${team}MoneyLine`] || bestLineMin == books[book][`${team}MoneyLine`]) {
+            bestLine = true;
+          }
           // Line
           if (type == "OverUnder") {
             let ouSign;
             let payoutType;
             let betTypeResult = books[book] ? books[book][type] : '-';
-            let checkPositive = books[book] ? books[book][`${team}MoneyLine`] : 0;
+            // let checkPositive = books[book] ? books[book][`${team}MoneyLine`] : 0;
             if (team == 'Away') {
               ouSign = "o";
               payoutType = 'OverPayout';
@@ -181,7 +191,7 @@ class SLO {
           let appendLineVal = `<div> ${appendSign != null ? appendSign : '-'} </div>`;
           bookies[team] += `
             <div class="cell slo-col-hack-5 slo-cell-line-data">
-              <div class="slo-val-box">
+              <div class="slo-val-box ${bestLine ? 'slo-val-box-best' : ''}">
                 <div class="slo-vertical-center">
                   ${appendLineVal}
                   ${appendPayout}
