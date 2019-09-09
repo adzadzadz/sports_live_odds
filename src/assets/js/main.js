@@ -144,33 +144,42 @@ class SLO {
       };
       let teams = ['Away', 'Home'];
       let slo = this;
-      teams.forEach( function(item, index) {
+      teams.forEach( function(team, index) {
+        let booksVals = [];
+        slo.sportsBooks.forEach(book => {
+          // booksVals.push(books['books'][`${team}MoneyLine`]);
+        });
+        // console.log(booksVals);
         slo.sportsBooks.forEach(book => {
           // Line
           if (type == "OverUnder") {
-            let betTypeResult = books[book] ? books[book][type] : '-';
-            let checkPositive = books[book] ? books[book][`${item}MoneyLine`] : 0;
-            if (books[book]) {
-              payout = checkPositive > 0 && books[book] ? books[book]['OverPayout'] : books[book]['OverPayout'];
-            }
             let ouSign;
-            if (item == 'Away') {
+            let payoutType;
+            let betTypeResult = books[book] ? books[book][type] : '-';
+            let checkPositive = books[book] ? books[book][`${team}MoneyLine`] : 0;
+            if (team == 'Away') {
               ouSign = "o";
+              payoutType = 'OverPayout';
             } else {
               ouSign = 'u';
+              payoutType = 'UnderPayout';
+            }
+            if (books[book]) {
+              // payout = checkPositive > 0 && books[book] ? books[book][payoutType] : books[book][payoutType];
+              payout = books[book][payoutType];
             }
             appendSign = betTypeResult == "-" ? "" : ouSign + betTypeResult;
           } else  {
-            let betTypeResult = books[book] ? books[book][item + type] : '-';
+            let betTypeResult = books[book] ? books[book][team + type] : '-';
             appendSign = betTypeResult > 0 ? "+" + betTypeResult : betTypeResult;          
           }
           // PointSpread Payout
           if (type == "PointSpread") { 
-            payout = books[book] ? books[book][item + type + 'Payout'] : '-';
+            payout = books[book] ? books[book][team + type + 'Payout'] : '-';
           }
           let appendPayout = type !== "MoneyLine" ? `<div> ${payout} </div>` : '';
           let appendLineVal = `<div> ${appendSign != null ? appendSign : '-'} </div>`;
-          bookies[item] += `
+          bookies[team] += `
             <div class="cell slo-col-hack-5 slo-cell-line-data">
               <div class="slo-val-box">
                 <div class="slo-vertical-center">
