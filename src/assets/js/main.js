@@ -143,8 +143,8 @@ class SLO {
         'positives' : [],
         'negatives' : []
       };
-      teams.forEach((team, index) => {
-        slo.sportsBooks.forEach((book, index) => {
+      teams.forEach((team) => {
+        slo.sportsBooks.forEach((book) => {
           if (books[book]) {
             switch (type) {
               case 'MoneyLine':
@@ -186,12 +186,13 @@ class SLO {
       let bestLineNegatives;
       if (booksVals.negatives.length > 0) {
         bestLineNegatives = Math.max.apply(Math, booksVals.negatives);
-      }      
+      }
+
       // console.log(bestLinePositives);
       // console.log(bestLineNegatives);
       // console.log(booksVals.positives);
       // console.log(booksVals.negatives);
-      
+
       teams.forEach((team, index) => {
         slo.sportsBooks.forEach(book => {
           let bestLine = false;
