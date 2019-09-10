@@ -138,7 +138,7 @@ class SLO {
       let teams = ['Away', 'Home'];
       let slo = this;
 
-      var queryType = `MoneyLine`;
+      var queryType;
       let booksVals = {
         'positives' : [],
         'negatives' : []
@@ -146,15 +146,36 @@ class SLO {
       teams.forEach((team, index) => {
         slo.sportsBooks.forEach((book, index) => {
           if (books[book]) {
-            let postText = '';
-            if (type == 'PointSpread') {
-              queryType = `${type}Payout`;
-            } 
-            if (parseFloat(books[book][team + queryType]) < 0) {
-              booksVals['negatives'].push( parseFloat(books[book][team + queryType]) );
-            } else if (parseFloat(books[book][team + queryType]) > 0) {
-              booksVals['positives'].push( parseFloat(books[book][team + queryType]) );
+            switch (type) {
+              case 'MoneyLine':
+                queryType = `MoneyLine`;
+                setVals(`${team}${queryType}`);
+                break;
+              case 'PointSpread':
+                queryType = `${type}Payout`;      
+                setVals(`${team}${queryType}`);
+                break;
+              case 'OverUnder':
+                if (team == 'Away') {
+                  queryType = `OverPayout`;
+                  setVals(queryType);
+                } else if (team == 'Home') {
+                  queryType = `UnderPayout`;
+                  setVals(queryType);
+                }
+                break;
+              default:
+                break;
             }
+            
+            function setVals(queryVal) {
+              if (parseFloat(books[book][queryVal]) < 0) {
+                booksVals['negatives'].push( parseFloat(books[book][queryVal]) );
+              } else if (parseFloat(books[book][queryVal]) > 0) {
+                booksVals['positives'].push( parseFloat(books[book][queryVal]) );
+              }
+            }
+
           }
         });
       });
@@ -167,6 +188,7 @@ class SLO {
         bestLineNegatives = Math.max.apply(Math, booksVals.negatives);
       }      
       // console.log(bestLinePositives);
+      // console.log(bestLineNegatives);
       // console.log(booksVals.positives);
       // console.log(booksVals.negatives);
       
@@ -174,7 +196,9 @@ class SLO {
         slo.sportsBooks.forEach(book => {
           let bestLine = false;
           if (books[book]) {
-            if (bestLinePositives == books[book][team + queryType] || bestLineNegatives == books[book][team + queryType]) {
+            // console.log("Best Negatives: " + bestLineNegatives);
+            // console.log("BOOK: ", books[book][`${team}${queryType}`]);
+            if (bestLineNegatives == books[book][`${team}${queryType}`] || bestLinePositives == books[book][`${team}${queryType}`]) {
               bestLine = true;
             }
           }
