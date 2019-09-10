@@ -196,12 +196,25 @@ class SLO {
         slo.sportsBooks.forEach(book => {
           let bestLine = false;
           if (books[book]) {
-            // console.log("Best Negatives: " + bestLineNegatives);
-            // console.log("BOOK: ", books[book][`${team}${queryType}`]);
-            if (bestLineNegatives == books[book][`${team}${queryType}`] || bestLinePositives == books[book][`${team}${queryType}`]) {
-              bestLine = true;
+            if (type == 'OverUnder') {
+              if (team == 'Away') {
+                console.log("bestline negatives", bestLineNegatives);
+                console.log("overpayout", books[book][`OverPayout`]);
+                if (bestLineNegatives == books[book][`OverPayout`] || bestLinePositives == books[book][`OverPayout`]) {
+                  bestLine = true;
+                }
+              } else if (team == 'Home') {
+                if (bestLineNegatives == books[book][`UnderPayout`] || bestLinePositives == books[book][`UnderPayout`]) {
+                  bestLine = true;
+                }
+              }
+            } else {
+              if (bestLineNegatives == books[book][`${team}${queryType}`] || bestLinePositives == books[book][`${team}${queryType}`]) {
+                bestLine = true;
+              }
             }
           }
+
           // Line
           if (type == "OverUnder") {
             let ouSign;
