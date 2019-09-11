@@ -140,8 +140,8 @@ class SLO {
 
       var queryType;
       let booksVals = {
-        'positives' : [],
-        'negatives' : []
+        'Away' : [],
+        'Home' : []
       };
       teams.forEach((team) => {
         slo.sportsBooks.forEach((book) => {
@@ -169,51 +169,50 @@ class SLO {
             }
             
             function setVals(queryVal) {
-              if (parseFloat(books[book][queryVal]) < 0) {
-                booksVals['negatives'].push( parseFloat(books[book][queryVal]) );
-              } else if (parseFloat(books[book][queryVal]) > 0) {
-                booksVals['positives'].push( parseFloat(books[book][queryVal]) );
+              if (queryVal) {
+                booksVals[`${team}`].push( parseFloat(books[book][queryVal]) );
               }
             }
 
           }
         });
       });
-      let bestLinePositives;
-      if (booksVals.positives.length > 0) {
-        bestLinePositives = Math.max.apply(Math, booksVals.positives);
+      
+      let bestLine = {
+        Home : undefined,
+        Away : undefined
+      };
+
+      if (booksVals.Home.length > 0) {
+        bestLine.Home = Math.max.apply(Math, booksVals.Home);
       }      
-      let bestLineNegatives;
-      if (booksVals.negatives.length > 0) {
-        bestLineNegatives = Math.max.apply(Math, booksVals.negatives);
+      if (booksVals.Away.length > 0) {
+        bestLine.Away = Math.max.apply(Math, booksVals.Away);
       }
-
-      // console.log(bestLinePositives);
-      // console.log(bestLineNegatives);
-      // console.log(booksVals.positives);
-      // console.log(booksVals.negatives);
-
+      
       teams.forEach((team, index) => {
         slo.sportsBooks.forEach(book => {
-          let bestLine = false;
+          let isBestLine = false;
+          
           if (books[book]) {
+            console.log(queryType)
+            console.log("Best Line: ", bestLine[team]);
+            console.log("Val: ", books[book][`${team}${queryType}`])
+
             if (type == 'OverUnder') {
               if (team == 'Away') {
-                console.log("bestline negatives", bestLineNegatives);
-                console.log("overpayout", books[book][`OverPayout`]);
-                if (bestLineNegatives == books[book][`OverPayout`] || bestLinePositives == books[book][`OverPayout`]) {
-                  bestLine = true;
+                if (bestLine[team] == books[book][`OverPayout`]) {
+                  isBestLine = true;
                 }
-              } else if (team == 'Home') {
-                if (bestLineNegatives == books[book][`UnderPayout`] || bestLinePositives == books[book][`UnderPayout`]) {
-                  bestLine = true;
+              } else if (team =='Home') {
+                if (bestLine[team] == books[book][`UnderPayout`]) {
+                  isBestLine = true;
                 }
               }
-            } else {
-              if (bestLineNegatives == books[book][`${team}${queryType}`] || bestLinePositives == books[book][`${team}${queryType}`]) {
-                bestLine = true;
-              }
+            } else if (bestLine[team] == books[book][`${team}${queryType}`]) {
+              isBestLine = true;
             }
+            
           }
 
           // Line
@@ -246,7 +245,7 @@ class SLO {
           let appendLineVal = `<div> ${appendSign != null ? appendSign : '-'} </div>`;
           bookies[team] += `
             <div class="cell slo-col-hack-5 slo-cell-line-data">
-              <div class="slo-val-box ${bestLine ? 'slo-val-box-best' : ''}">
+              <div class="slo-val-box ${isBestLine ? 'slo-val-box-best' : ''}">
                 <div class="slo-vertical-center">
                   ${appendLineVal}
                   ${appendPayout}
