@@ -103,7 +103,7 @@ class SLO {
                   <img class="img-responsive slo-vertical-center" src="${sloData.pluginsUrl}/sports_live_odds/src/assets/imgs/odds-pinnacle-logo.png" alt="Pinnacle Logo">
                 </div>
                 <div class="cell slo-col-hack-5 slo-header-logo-container slo-table-header">
-                  <img class="img-responsive slo-vertical-center" src="${sloData.pluginsUrl}/sports_live_odds/src/assets/imgs/odds-westgate-logo.png" alt="Westgate Logo">
+                  <img class="img-responsive slo-vertical-center" src="${sloData.pluginsUrl}/sports_live_odds/src/assets/imgs/odds-westgate-logo-v2.png" alt="Westgate Logo">
                 </div>
                 <div class="cell slo-col-hack-5 slo-header-logo-container slo-table-header">
                   <img style="max-height: 45px;" class="img-responsive slo-vertical-center" src="${sloData.pluginsUrl}/sports_live_odds/src/assets/imgs/odds-draftkings-logo.png" alt="Westgate Logo">
@@ -112,7 +112,7 @@ class SLO {
                   <img class="img-responsive slo-vertical-center" src="${sloData.pluginsUrl}/sports_live_odds/src/assets/imgs/odds-fanduel-logo.png" alt="Westgate Logo">
                 </div>
                 <div class="cell slo-col-hack-5 slo-header-logo-container slo-table-header">
-                  <img class="img-responsive slo-vertical-center" style="height: 50px;" src="${sloData.pluginsUrl}/sports_live_odds/src/assets/imgs/odds-sugarhouse-logo.png" alt="Westgate Logo">
+                  <img class="img-responsive slo-vertical-center" style="height: 50px;" src="${sloData.pluginsUrl}/sports_live_odds/src/assets/imgs/odds-sugarhouse-logo-v2.png" alt="Westgate Logo">
                 </div>
               </div>
             </div>
