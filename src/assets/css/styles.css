@@ -166,6 +166,10 @@ section.sloSportData .dateChanger {
 .slo-header-logo-container {
   padding: 0 10px !important;
 }
+.slo-texas-rotation-number {
+  font-size: 11px;
+  color: #464646;
+}
 
 /* Extras */
 .slo-border-top {

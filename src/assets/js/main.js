@@ -193,12 +193,7 @@ class SLO {
       teams.forEach((team, index) => {
         slo.sportsBooks.forEach(book => {
           let isBestLine = false;
-          
           if (books[book]) {
-            console.log(queryType)
-            console.log("Best Line: ", bestLine[team]);
-            console.log("Val: ", books[book][`${team}${queryType}`])
-
             if (type == 'OverUnder') {
               if (team == 'Away') {
                 if (bestLine[team] == books[book][`OverPayout`]) {
@@ -263,11 +258,17 @@ class SLO {
             ${moment(game.DateTime).format("MM/DD, hh:mm A")} ET
           </div>
           <div class="slo-vertical-center">
+            <span class="slo-texas-rotation-number">
+              ${game.AwayRotationNumber ? game.AwayRotationNumber : ''}
+            </span> 
             ${game.AwayTeamName}
           </div>
         </div>
         <div class="cell col-12 slo-border-bottom slo-team-name">
           <div class="slo-vertical-center">
+            <span class="slo-texas-rotation-number">
+              ${game.HomeRotationNumber ? game.HomeRotationNumber : ''}
+            </span> 
             ${game.HomeTeamName}
           </div>
         </div>
