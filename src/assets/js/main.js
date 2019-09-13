@@ -260,7 +260,8 @@ class SLO {
           <div class="slo-vertical-center">
             <span class="slo-texas-rotation-number">
               ${game.AwayRotationNumber ? game.AwayRotationNumber : ''}
-            </span> 
+            </span>
+            <img src="${sloData.pluginsUrl}/sports_live_odds/src/assets/imgs/teams/${sport}/${game.AwayTeamName}.png" alt="" class="img-responsive slo-team-logo">
             ${game.AwayTeamName}
           </div>
         </div>
@@ -269,6 +270,7 @@ class SLO {
             <span class="slo-texas-rotation-number">
               ${game.HomeRotationNumber ? game.HomeRotationNumber : ''}
             </span> 
+            <img src="${sloData.pluginsUrl}/sports_live_odds/src/assets/imgs/teams/${sport}/${game.HomeTeamName}.png" alt="" class="img-responsive slo-team-logo">
             ${game.HomeTeamName}
           </div>
         </div>

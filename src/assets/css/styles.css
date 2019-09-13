@@ -170,7 +170,12 @@ section.sloSportData .dateChanger {
   font-size: 11px;
   color: #464646;
 }
-
+.slo-team-logo {
+  width: 35px;
+  height: 35px;
+  top: 10px;
+  margin-left: 5px;
+}
 /* Extras */
 .slo-border-top {
   border-right: 1px #ebebeb solid;

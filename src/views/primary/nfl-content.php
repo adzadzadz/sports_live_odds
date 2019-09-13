@@ -1,8 +1,4 @@
 <section id="nflData" class="sloSportData">
-  <div class="col-12">
-    <div class="fetchTime"></div>
-    <div class="fetchUrl"></div>
-  </div>
   <header class="col-md-8">
     <section class="filter row slo-filter-wrap">
       <div id="nflGameWeek" class="slo-dropdown col-md-6 slo-filter">
