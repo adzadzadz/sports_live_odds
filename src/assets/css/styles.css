@@ -173,6 +173,7 @@ section.sloSportData .dateChanger {
 .slo-team-logo {
   width: 35px;
   height: 35px;
+  position: relative;
   top: 10px;
   margin-left: 5px;
 }
