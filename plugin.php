@@ -12,7 +12,6 @@ Author URI: https://www.adriansaycon.com
 
 include 'functions.php';
 
-
 if(!function_exists('classAutoLoader')){
   function classAutoLoader($class){
       if ($class == 'Adz') {
@@ -37,20 +36,22 @@ use src\controllers\AdminController;
 Class Plugin {
 
   public $pluginPath;
+  public $pluginUrl;
 
   function run()
   {
     include 'config.php';
     $this->pluginPath = plugin_dir_path(__FILE__);
+    $this->pluginUrl = plugin_dir_url( __FILE__ );
     $liveOdds = new LiveOdds;
     $liveOdds->pluginPath = $this->pluginPath;
+    $liveOdds->pluginUrl = $this->pluginUrl;
     $liveOdds->config = $config;
     $liveOdds->run();
     
     $admin = new AdminController;
     $admin->pluginPath = $this->pluginPath;
   }
-
 
 }
 

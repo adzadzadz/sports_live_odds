@@ -89,14 +89,14 @@ class SLO {
     content.append(`
       <section id="${sport}LiveOddsSection">
         <div class="row">
-          <div class="col-4 slo-team-area">
+          <div class="col-md-4 col-5 slo-team-area">
             <div class="cell col-12 slo-border-bottom slo-border-top slo-table-header">
               <div class="slo-vertical-center">
                 Schedule
               </div>
             </div>
           </div>
-          <div class="col-8 slo-line-area slo-allow-overflow">
+          <div class="col-md-8 col-7 slo-line-area slo-allow-overflow">
             <div class="col-12">
               <div class="row bookie-row slo-border-bottom slo-border-top slo-table-header">
                 <div class="cell slo-col-hack-5 slo-header-logo-container slo-table-header">

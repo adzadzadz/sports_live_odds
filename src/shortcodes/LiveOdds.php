@@ -6,7 +6,10 @@ use adzmvc\Shortcode;
 
 class LiveOdds extends Shortcode {
 
+  public $pluginUrl;
+
   public function run() {
+    add_shortcode( 'slo-nfl-csv', [$this, 'downloadNFLDataCsv'] );
     add_shortcode( 'slo-all', [$this, 'initLiveOdds'] );
     add_shortcode( 'slo-mlb', [$this, 'shortcodeMLB'] );
     add_shortcode( 'slo-nfl', [$this, 'shortcodeNFL'] );
@@ -17,6 +20,19 @@ class LiveOdds extends Shortcode {
   {
     return $this->render('primary.php',[
       'pluginPath' => $this->pluginPath
+    ]);
+  }
+
+  public function downloadNFLDataCsv()
+  {
+    $fileName = "nfl-" . rand(1, 999999999) . ".csv";
+    $fullPath = $this->pluginPath . "src/temp/" . $fileName;
+
+    return $this->render('download/nfl-csv.php', [
+      'pluginPath' => $this->pluginPath,
+      'pluginUrl'  => $this->pluginUrl,
+      'fullPath' => $fullPath,
+      'fileName' => $fileName
     ]);
   }
 
