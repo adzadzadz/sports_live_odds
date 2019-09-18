@@ -52,11 +52,5 @@ foreach ($oddsData as $game) {
 }
 
 $fullUrl = $uploadsUrl . $fileName;
-
-header("Expires: 0");
-header("Cache-Control: no-cache, no-store, must-revalidate"); 
-header('Cache-Control: pre-check=0, post-check=0, max-age=0', false); 
-header("Pragma: no-cache");	
-// header("Content-type: {$content_type}");
-header("Content-Disposition:attachment; filename={$fullUrl}");
-header("Content-Type: application/force-download");
+?>
+<a href="<?= $fullUrl ?>">Download CSV</a>
