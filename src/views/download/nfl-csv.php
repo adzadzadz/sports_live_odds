@@ -3,7 +3,10 @@
 $uploadsPath = wp_upload_dir( "slo", false )['path'];
 $uploadsUrl  = wp_upload_dir( "slo", false )['url'];
 
-$fileName = "nfl-" . rand(1, 999999999) . ".csv";
+$rand = rand(1, 999999999);
+$fileNameSpread = "nfl-spread-" . $rand . ".csv";
+$fileNameMoneyLine = "nfl-moneyline-" . $rand . ".csv";
+$fileNameTotal = "nfl-total-" . $rand . ".csv";
 $fullPath = $uploadsPath  . $fileName;
 
 $currentUrl = "https://api.sportsdata.io/v3/nfl/scores/json/Timeframes/current?key=" .  $this->config['apiKeys']['nfl']['schedule'];
@@ -17,8 +20,10 @@ $oddsData = \json_decode($oddsResult, true);
 
 $teams = ['Home', 'Away'];
 
-$f = fopen($fullPath, "w");
-$header = [
+$fileSpread = fopen($fullPath . $fileNameSpread, "w");
+$fileMoneyLine = fopen($fullPath . $fileNameMoneyLine, "w");
+$fileTotal = fopen($fullPath . $fileNameTotal, "w");
+$spreadHeader = [
   'Week',
   'Date',
   'Bookmaker',
@@ -29,28 +34,101 @@ $header = [
   'Odds',
   'Last Update'
 ];
-fputcsv($f, $header);
+fputcsv($fileSpread, $spreadHeader);
+
+$moneyLineHeader = [
+  'Week',
+  'Date',
+  'Bookmaker',
+  'Sport',
+  'Rotation',
+  'Team',
+  'MoneyLine',
+  'Last Update'
+];
+fputcsv($fileMoneyLine, $moneyLineHeader);
+
+$totalHeader = [
+  'Week',
+  'Date',
+  'Bookmaker',
+  'Sport',
+  'Rotation',
+  'Away',
+  'Home',
+  'Total',
+  'Odds',
+  'Last Update'
+];
+fputcsv($fileTotal, $totalHeader);
+
 foreach ($oddsData as $game) {
   foreach ($game['PregameOdds'] as $book) {
     if ($book['Sportsbook'] == 'Pinnacle') {
       foreach($teams as $team) {
+        $date = date_create($book['Updated']);
+        // Spread
         $format = [
           'Week' => $game['Week'],
-          'Date' => $game['DateTime'],
+          'Date' => date_format($date,"m/d/Y"),
           'Bookmaker' => $book['Sportsbook'],
           'Sport' => 'nfl',
           'Rotation' => $game[$team . "RotationNumber"],
           'Team' => $game[$team . "TeamName"],
           'Line' => $book[$team . "PointSpread"],
-          'Odds' => $book[$team . "MoneyLine"],
-          'Last Updated' => "Realtime-TODO"
+          'Odds' => $book[$team . "PointSpreadPayout"],
+          'Last Updated' => (new DateTime('America/New_York'))->format('h:i:s')
         ];
-        fputcsv($f, $format);
+        fputcsv($fileSpread, $format);
+        
+        // MoneyLine
+        $format = [
+          'Week' => $game['Week'],
+          'Date' => date_format($date,"m/d/Y"),
+          'Bookmaker' => $book['Sportsbook'],
+          'Sport' => 'nfl',
+          'Rotation' => $game[$team . "RotationNumber"],
+          'Team' => $game[$team . "TeamName"],
+          'MoneyLine' => $book[$team . "MoneyLine"],
+          'Last Updated' => (new DateTime('America/New_York'))->format('h:i:s')
+        ];
+        fputcsv($fileMoneyLine, $format);
       }
+
+      // Total
+      $format = [
+        'Week' => $game['Week'],
+        'Date' => date_format($date,"m/d/Y"),
+        'Bookmaker' => $book['Sportsbook'],
+        'Sport' => 'nfl',
+        'Rotation' => $game[$team . "RotationNumber"],
+        'Away' => $game["AwayTeamName"],
+        'Home' => $game["HomeTeamName"],
+        'Total' => $book[$team . "PointSpread"],
+        'Odds' => $book[$team . "PointSpreadPayout"],
+        'Last Updated' => (new DateTime('America/New_York'))->format('h:i:s')
+      ];
+      fputcsv($fileTotal, $format);
     }
   }
 }
 
-$fullUrl = $uploadsUrl . $fileName;
 ?>
-<a href="<?= $fullUrl ?>">Download CSV</a>
+
+<style>
+  .slo-btn-csv {
+    font-size: 16px;
+    text-align: center;
+    display: block;
+    text-decoration: none !important;
+    color: #fff !important;
+    padding: 8px;
+    background: #DD3333;
+    width: 160px;
+    margin: 10px 0px !important;
+  }
+</style>
+
+<a class="slo-btn-csv" href="<?= $uloadsUrl . $filenameSpread ?>">Spread CSV</a>
+<a class="slo-btn-csv" href="<?= $uloadsUrl . $fileNameMoneyLine ?>">MoneyLine CSV</a>
+<a class="slo-btn-csv" href="<?= $uloadsUrl . $filenameTotal ?>">Total CSV</a>
