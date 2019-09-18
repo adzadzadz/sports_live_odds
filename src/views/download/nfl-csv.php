@@ -130,6 +130,6 @@ foreach ($oddsData as $game) {
   }
 </style>
 
-<a class="slo-btn-csv" href="<?= $uloadsUrl . $filenameSpread ?>">Spread CSV</a>
-<a class="slo-btn-csv" href="<?= $uloadsUrl . $fileNameMoneyLine ?>">MoneyLine CSV</a>
-<a class="slo-btn-csv" href="<?= $uloadsUrl . $filenameTotal ?>">Total CSV</a>
+<a class="slo-btn-csv" href="<?= $uploadsUrl . $filenameSpread ?>">Spread CSV</a>
+<a class="slo-btn-csv" href="<?= $uploadsUrl . $fileNameMoneyLine ?>">MoneyLine CSV</a>
+<a class="slo-btn-csv" href="<?= $uploadsUrl . $filenameTotal ?>">Total CSV</a>
