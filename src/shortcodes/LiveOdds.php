@@ -24,15 +24,9 @@ class LiveOdds extends Shortcode {
   }
 
   public function downloadNFLDataCsv()
-  {
-    $fileName = "nfl-" . rand(1, 999999999) . ".csv";
-    $fullPath = $this->pluginPath . "src/temp/" . $fileName;
-
+  {    
     return $this->render('download/nfl-csv.php', [
       'pluginPath' => $this->pluginPath,
-      'pluginUrl'  => $this->pluginUrl,
-      'fullPath' => $fullPath,
-      'fileName' => $fileName
     ]);
   }
 

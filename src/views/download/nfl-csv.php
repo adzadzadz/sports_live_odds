@@ -1,5 +1,11 @@
 <?php
 
+$uploadsPath = wp_upload_dir( "slo", false )['path'];
+$uploadsUrl  = wp_upload_dir( "slo", false )['url'];
+
+$fileName = "nfl-" . rand(1, 999999999) . ".csv";
+$fullPath = $uploadsPath  . $fileName;
+
 $currentUrl = "https://api.sportsdata.io/v3/nfl/scores/json/Timeframes/current?key=" .  $this->config['apiKeys']['nfl']['schedule'];
 $currentScheduleResult = \adzmvc\RESTApiHelper::getREST($currentUrl);
 $currentScheduleResultData = \json_decode($currentScheduleResult);
@@ -44,8 +50,13 @@ foreach ($oddsData as $game) {
     }
   }
 }
-var_dump($fileName);
-?>
 
-<a href="<?= $pluginUrl ?>'src/temp/<?= $fileName ?>'">Download CSV</a>
+$fullUrl = $uploadsUrl . $fileName;
 
+header("Expires: 0");
+header("Cache-Control: no-cache, no-store, must-revalidate"); 
+header('Cache-Control: pre-check=0, post-check=0, max-age=0', false); 
+header("Pragma: no-cache");	
+// header("Content-type: {$content_type}");
+header("Content-Disposition:attachment; filename={$fullUrl}");
+header("Content-Type: application/force-download");
