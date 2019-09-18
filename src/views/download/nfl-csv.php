@@ -117,6 +117,7 @@ foreach ($oddsData as $game) {
 
 <style>
   .slo-btn-csv {
+    float: right;
     font-size: 16px;
     text-align: center;
     display: block;
@@ -125,7 +126,7 @@ foreach ($oddsData as $game) {
     padding: 8px;
     background: #DD3333;
     width: 160px;
-    margin: 10px 0px !important;
+    margin: 10px 8px !important;
   }
 </style>
 
