@@ -272,7 +272,7 @@ class SLO {
             <span class="slo-texas-rotation-number">
               ${game.HomeRotationNumber ? game.HomeRotationNumber : ''}
             </span> 
-            ${sport != ncaaf ? homeLogo : ''}
+            ${sport !== 'ncaaf' ? homeLogo : ''}
             ${game.HomeTeamName}
           </div>
         </div>
