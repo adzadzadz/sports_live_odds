@@ -90,6 +90,7 @@
     jQuery(document).ready(() => {
       let mlb = new MLB();
       mlb.sport = 'mlb';
+      mlb.sportsBooks = ['Pinnacle', 'WestgateSuperbookNV', 'DraftKings', 'FanDuel', 'SugarHousePA'];
       mlb.build();
 
       // Event Listeners

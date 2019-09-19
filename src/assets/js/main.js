@@ -87,6 +87,14 @@ class SLO {
     var content = jQuery(`section#${sport}Content`);
 
     content.html("");
+
+    let sportLogoSwitch;
+    if (sport == 'mlb') {
+      sportLogoSwitch = `<img class="img-responsive slo-vertical-center" src="${sloData.pluginsUrl}/sports_live_odds/src/assets/imgs/odds-westgate-logo-v2.png" alt="Bookmaker Logo" style="padding-left: 16px;">`;
+    } else {
+      sportLogoSwitch = `<img class="img-responsive slo-vertical-center" src="${sloData.pluginsUrl}/sports_live_odds/src/assets/imgs/odds-bookmaker-logo.png" alt="Bookmaker Logo" style="padding-left: 16px;">`;
+    }
+    
     content.append(`
       <section id="${sport}LiveOddsSection">
         <div class="row">
@@ -104,7 +112,7 @@ class SLO {
                   <img class="img-responsive slo-vertical-center" src="${sloData.pluginsUrl}/sports_live_odds/src/assets/imgs/odds-pinnacle-logo.png" alt="Pinnacle Logo">
                 </div>
                 <div class="cell slo-col-hack-5 slo-header-logo-container slo-table-header">
-                  <img class="img-responsive slo-vertical-center" src="${sloData.pluginsUrl}/sports_live_odds/src/assets/imgs/odds-bookmaker-logo.png" alt="Bookmaker Logo" style="padding-left: 16px;">
+                  ${sportLogoSwitch}
                 </div>
                 <div class="cell slo-col-hack-5 slo-header-logo-container slo-table-header">
                   <img style="max-height: 45px;" class="img-responsive slo-vertical-center" src="${sloData.pluginsUrl}/sports_live_odds/src/assets/imgs/odds-draftkings-logo.png" alt="Westgate Logo">
