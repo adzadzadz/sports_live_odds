@@ -33,7 +33,8 @@ class SLO {
   typeText = 'MONEYLINE';
   intervalId = null;
   resultData = null;
-  sportsBooks = ['Pinnacle', 'WestgateSuperbookNV', 'DraftKings', 'FanDuel', 'SugarHousePA'];
+  // sportsBooks = ['Pinnacle', 'WestgateSuperbookNV', 'DraftKings', 'FanDuel', 'SugarHousePA'];
+  sportsBooks = ['Pinnacle', 'Bookmaker', 'DraftKings', 'FanDuel', 'SugarHousePA'];
   sloCurrentDateTime = null;
 
   testCheckUrlTime(url) {
@@ -103,7 +104,7 @@ class SLO {
                   <img class="img-responsive slo-vertical-center" src="${sloData.pluginsUrl}/sports_live_odds/src/assets/imgs/odds-pinnacle-logo.png" alt="Pinnacle Logo">
                 </div>
                 <div class="cell slo-col-hack-5 slo-header-logo-container slo-table-header">
-                  <img class="img-responsive slo-vertical-center" src="${sloData.pluginsUrl}/sports_live_odds/src/assets/imgs/odds-westgate-logo-v2.png" alt="Westgate Logo">
+                  <img class="img-responsive slo-vertical-center" src="${sloData.pluginsUrl}/sports_live_odds/src/assets/imgs/odds-bookmaker-logo.png" alt="Bookmaker Logo" style="padding-left: 16px;">
                 </div>
                 <div class="cell slo-col-hack-5 slo-header-logo-container slo-table-header">
                   <img style="max-height: 45px;" class="img-responsive slo-vertical-center" src="${sloData.pluginsUrl}/sports_live_odds/src/assets/imgs/odds-draftkings-logo.png" alt="Westgate Logo">
