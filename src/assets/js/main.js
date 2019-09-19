@@ -252,6 +252,8 @@ class SLO {
         });
       });
 
+      let homeLogo = `<img src="${sloData.pluginsUrl}/sports_live_odds/src/assets/imgs/teams/${sport}/${game.HomeTeamName}.png" alt="" class="img-responsive slo-team-logo">`;
+      let awayLogo = `<img src="${sloData.pluginsUrl}/sports_live_odds/src/assets/imgs/teams/${sport}/${game.AwayTeamName}.png" alt="" class="img-responsive slo-team-logo">`;
       let htmlTeamName = `
         <div class="cell col-12 slo-border-top slo-team-name">
           <div class="sloGameDateTime">
@@ -261,7 +263,7 @@ class SLO {
             <span class="slo-texas-rotation-number">
               ${game.AwayRotationNumber ? game.AwayRotationNumber : ''}
             </span>
-            <img src="${sloData.pluginsUrl}/sports_live_odds/src/assets/imgs/teams/${sport}/${game.AwayTeamName}.png" alt="" class="img-responsive slo-team-logo">
+            ${sport !== 'ncaaf' ? awayLogo : ''}
             ${game.AwayTeamName}
           </div>
         </div>
@@ -270,7 +272,7 @@ class SLO {
             <span class="slo-texas-rotation-number">
               ${game.HomeRotationNumber ? game.HomeRotationNumber : ''}
             </span> 
-            <img src="${sloData.pluginsUrl}/sports_live_odds/src/assets/imgs/teams/${sport}/${game.HomeTeamName}.png" alt="" class="img-responsive slo-team-logo">
+            ${sport != ncaaf ? homeLogo : ''}
             ${game.HomeTeamName}
           </div>
         </div>
