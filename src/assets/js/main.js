@@ -92,7 +92,7 @@ class SLO {
     if (sport == 'mlb') {
       sportLogoSwitch = `<img class="img-responsive slo-vertical-center" src="${sloData.pluginsUrl}/sports_live_odds/src/assets/imgs/odds-westgate-logo-v2.png" alt="Bookmaker Logo" style="padding-left: 16px;">`;
     } else {
-      sportLogoSwitch = `<img class="img-responsive slo-vertical-center" src="${sloData.pluginsUrl}/sports_live_odds/src/assets/imgs/odds-bookmaker-logo.png" alt="Bookmaker Logo" style="padding-left: 16px;">`;
+      sportLogoSwitch = `<img class="img-responsive slo-vertical-center" src="${sloData.pluginsUrl}/sports_live_odds/src/assets/imgs/odds-bookmaker-logo.png" alt="Bookmaker Logo" style="padding-left: 16px; ">`;
     }
     
     content.append(`
