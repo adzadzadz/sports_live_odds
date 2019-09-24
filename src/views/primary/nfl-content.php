@@ -27,7 +27,7 @@
 
 <script>
 
-class NFL extends SLO{
+class NFL extends SLO {
 
   season = null;
   currentWeek = null;
@@ -54,11 +54,11 @@ class NFL extends SLO{
     'WEEK15': {season : "REG", week: 15}, 
     'WEEK16': {season : "REG", week: 26},
     'WEEK17': {season : "REG", week: 17},
-    'WILD CARD': 22, // No worries
-    'DIVISION ROUND': 23, // No worries
-    'CONF CHAMP': 24, // No worries
-    'PRO BOWL': 25, // No worries
-    'SUPER BOWL': 26, // No worries
+    // 'WILD CARD': 22, // No worries
+    // 'DIVISION ROUND': 23, // No worries
+    // 'CONF CHAMP': 24, // No worries
+    // 'PRO BOWL': 25, // No worries
+    // 'SUPER BOWL': 26, // No worries
   };
 
   build() {

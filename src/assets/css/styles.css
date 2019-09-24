@@ -193,3 +193,16 @@ section.sloSportData .dateChanger {
   border-right: 1px #ebebeb solid;
   border-left: 1px #ebebeb solid;
 }
+
+.slo-btn-csv {
+  float: right;
+  font-size: 16px;
+  text-align: center;
+  display: block;
+  text-decoration: none !important;
+  color: #fff !important;
+  padding: 8px;
+  background: #DD3333;
+  width: 160px;
+  margin: 10px 8px !important;
+}

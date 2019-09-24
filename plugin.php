@@ -32,6 +32,7 @@ spl_autoload_register('classAutoLoader');
 use src\shortcodes\LiveOdds;
 use adzmvc\View;
 use src\controllers\AdminController;
+use src\controllers\DownloadController;
 
 Class Plugin {
 
@@ -51,6 +52,9 @@ Class Plugin {
     
     $admin = new AdminController;
     $admin->pluginPath = $this->pluginPath;
+
+    $download = new DownloadController;
+    $download->pluginPath = $this->pluginPath;
   }
 
 }
