@@ -108,6 +108,7 @@ class AdminController extends Controller {
 
     $this->updateMLBSchedule($wpdb, $config);
     $this->updateNFLSchedule($wpdb, $config);
+    $this->updateNHLSchedule($wpdb, $config);
     echo "All data has been saved.";
     // echo $view->render('admin/updatesportsdata.php', ['result' => $result]);
   }
@@ -168,6 +169,57 @@ class AdminController extends Controller {
     $data = \json_decode($result);
 
     $sportResult = $wpdb->get_results( $wpdb->prepare("SELECT * FROM $this->sportTable WHERE sport_code = %s", ['MLB']) );
+    if (!$sportResult) {
+      echo "Sport Code not found. Contact Dev.";
+      return;
+    }
+    
+    $lastSavedDate = null;
+    foreach ($data as $game) {
+      if ($game->Day != null) {
+        $validDate = preg_replace('/T.+/', '', $game->Day);
+        if ($lastSavedDate !== $validDate) {
+          $wpdb->insert($this->scheduleTable, [
+            'sport_id' => $sportResult[0]->id,
+            'date'     => $validDate
+          ]);
+        }
+        $lastSavedDate = $validDate;
+      }
+    }
+  }
+
+  private function updateNHLSchedule($wpdb, $config)
+  {
+    // PRE SEASON
+    $result = \adzmvc\RESTApiHelper::getREST("https://api.sportsdata.io/v3/nhl/scores/json/Games/" . date('Y', strtotime('+1 year')) . "PRE", ['key' => $config['apiKeys']['nhl']['schedule']]);
+    $data = \json_decode($result);
+
+    $sportResult = $wpdb->get_results( $wpdb->prepare("SELECT * FROM $this->sportTable WHERE sport_code = %s", ['NHL']) );
+    if (!$sportResult) {
+      echo "Sport Code not found. Contact Dev.";
+      return;
+    }
+    
+    $lastSavedDate = null;
+    foreach ($data as $game) {
+      if ($game->Day != null) {
+        $validDate = preg_replace('/T.+/', '', $game->Day);
+        if ($lastSavedDate !== $validDate) {
+          $wpdb->insert($this->scheduleTable, [
+            'sport_id' => $sportResult[0]->id,
+            'date'     => $validDate
+          ]);
+        }
+        $lastSavedDate = $validDate;
+      }
+    }
+
+    // REGULAR SEASON
+    $result = \adzmvc\RESTApiHelper::getREST("https://api.sportsdata.io/v3/nhl/scores/json/Games/" . date('Y', strtotime('+1 year')), ['key' => $config['apiKeys']['nhl']['schedule']]);
+    $data = \json_decode($result);
+
+    $sportResult = $wpdb->get_results( $wpdb->prepare("SELECT * FROM $this->sportTable WHERE sport_code = %s", ['NHL']) );
     if (!$sportResult) {
       echo "Sport Code not found. Contact Dev.";
       return;

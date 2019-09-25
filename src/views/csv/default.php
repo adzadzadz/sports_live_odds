@@ -13,7 +13,7 @@
     <div class="col-md-4">
       <div id="nflGameWeek" class="slo-dropdown col-md-12 slo-filter">
         <div class="slo-dropdown-toggle filter-label" href="#" role="button" id="nflWeekDropdown">
-          <span id="nflWeekText">Week</span> <i class="fa fa-chevron-down"></i>
+          <span id="weekText">Week</span> <i class="fa fa-chevron-down"></i>
         </div>
         <div class="slo-dropdown-menu slo-hidden"></div>
       </div>
@@ -21,7 +21,7 @@
     <div class="col-md-4">
       <div class="slo-dropdown col-md-12 slo-filter">
         <div class="slo-dropdown-toggle filter-label" href="#" role="button" id="nflTypeDropdown">
-          <span id="nflTypeText" data-type="type">Type</span> <i class="fa fa-chevron-down"></i>
+          <span id="typeText" data-type="type">Type</span> <i class="fa fa-chevron-down"></i>
         </div>
 
         <div class="slo-dropdown-menu slo-hidden">
@@ -41,12 +41,12 @@
 
   global $wp;
   // echo home_url( $wp->request );
-  $nonce = wp_create_nonce("my_user_like_nonce");
-	$link = admin_url('admin-ajax.php?action=generate_csv_nonce&nonce='.$nonce);
+  $nonce = wp_create_nonce("generate_csv_nonce");
+	$link = admin_url('admin-ajax.php');
 
 ?>
 
-<div id="configContainer" data-link="<?= $link ?>" data-sport="nfl" data-week="" data-type="" data-nonce="<?= $nonce ?>"></div>
+<div id="configContainer" data-url="<?= $link ?>" data-sport="nfl" data-week="null" data-type="null" data-nonce="<?= $nonce ?>"></div>
 
 <script>
 
@@ -102,28 +102,40 @@
 
       jQuery("#generateCsvBtn").click( function(e) {
           e.preventDefault(); 
-          post_id = jQuery(this).attr("data-post_id");
-          nonce = jQuery(this).attr("data-nonce");
+          
+          let dataContainer = jQuery("#configContainer");
+          let url = dataContainer.data("url");
+          let sport = dataContainer.data("sport");
+          let week = dataContainer.data("week");
+          let type = dataContainer.data("type");
+          let nonce = dataContainer.data("nonce");
+          console.log(url);
+          
           jQuery.ajax({
-            type : "post",
+            // type : "post",
             dataType : "json",
-            url : myAjax.ajaxurl,
-            data : {action: "my_user_like", post_id : post_id, nonce: nonce},
+            url : url,
+            data : {action : "generate_csv", sport : sport, week : week, type : type, nonce : nonce},
             success: function(response) {
-                if(response.type == "success") {
-                  jQuery("#like_counter").html(response.like_count);
-                }
-                else {
-                  alert("Your like could not be added");
-                }
+              if(response.type == "success") {
+                console.log("success", response);
+              } else {
+                console.log("fail");
+              }
             }
           });
       });
 
       jQuery(".slo-dropdown-item").click(function(e) {
+        let dataContainer = jQuery("#configContainer");
         if (jQuery(this).data("type") == 'week') {
           let week = jQuery(this).data('week');
-          let season = jQuery(this).data('season');
+          dataContainer.data("week", week);
+          jQuery("#weekText").html(week);
+        } else if (jQuery(this).data("type") == 'type') {
+          let type = jQuery(this).data('value');
+          dataContainer.data("type", type);
+          jQuery("#typeText").html(type);
         }
       });
 
