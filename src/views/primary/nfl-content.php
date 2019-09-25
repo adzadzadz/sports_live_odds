@@ -14,7 +14,7 @@
         </div>
 
         <div class="slo-dropdown-menu slo-hidden">
-          <div class="oddsNfl slo-dropdown-item" data-type="type" data-value="PointSpread" >SPREAD</div>
+          <div class="oddsNfl slo-dropdown-item" data-type="type" data-value="PointSpread" >PUCK LINE</div>
           <div class="oddsNfl slo-dropdown-item" data-type="type" data-value="OverUnder" >TOTAL</div>
           <div class="oddsNfl slo-dropdown-item" data-type="type" data-value="MoneyLine" >MONEYLINE</div>
         </div>
@@ -98,7 +98,7 @@ class NFL extends SLO {
     let nfl = new NFL();
     nfl.sport = 'nfl';
     nfl.type  = 'PointSpread';
-    nfl.typeText = 'SPREAD';
+    nfl.typeText = 'PUCK LINE';
     nfl.build();
 
     // Events Listeners
