@@ -89,8 +89,8 @@
     jQuery(document).ready(() => {
       let nhl = new NHL();
       nhl.sport = 'nhl';
-      nhl.type  = 'PointSpread';
-      nhl.typeText = 'PUCK LINE';
+      // nhl.type  = 'PointSpread';
+      // nhl.typeText = 'PUCK LINE';
       // nhl.sportsBooks = ['Pinnacle', 'WestgateSuperbookNV', 'DraftKings', 'FanDuel', 'SugarHousePA'];
       nhl.build();
 
