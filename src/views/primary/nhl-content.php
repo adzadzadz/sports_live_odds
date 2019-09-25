@@ -68,7 +68,7 @@
       
     }
 
-    getClosestDateFromList(selectedDate, addDays = 0) {
+    getClosestDateFromList(selectedDate, addDays = -1) {
       let dateList = <?= $dateList ?>;
       if (addDays !== 0) {
         selectedDate.setDate( selectedDate.getDate() + addDays );
