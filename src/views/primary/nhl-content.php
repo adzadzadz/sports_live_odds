@@ -39,7 +39,7 @@
         </div>
 
         <div class="slo-dropdown-menu slo-hidden">
-          <div class="oddsNhl slo-dropdown-item" data-type="type" data-value="PointSpread" >SPREAD</div>
+          <div class="oddsNhl slo-dropdown-item" data-type="type" data-value="PointSpread" >PUCK LINE</div>
           <div class="oddsNhl slo-dropdown-item" data-type="type" data-value="OverUnder" >TOTAL</div>
           <div class="oddsNhl slo-dropdown-item" data-type="type" data-value="MoneyLine" >MONEYLINE</div>
         </div>
@@ -63,9 +63,8 @@
       );
 
       // #3 Book Type Setup
-      jQuery("#nhlData #nhlTypeText").html(this.type.toUpperCase());
+      jQuery("#nhlData #nhlTypeText").html(this.typeText.toUpperCase());
       jQuery("#nhlData #nhlTypeText").data("type", this.type);
-      
     }
 
     getClosestDateFromList(selectedDate, addDays = -1) {
@@ -90,6 +89,8 @@
     jQuery(document).ready(() => {
       let nhl = new NHL();
       nhl.sport = 'nhl';
+      nhl.type  = 'PointSpread';
+      nhl.typeText = 'PUCK LINE';
       // nhl.sportsBooks = ['Pinnacle', 'WestgateSuperbookNV', 'DraftKings', 'FanDuel', 'SugarHousePA'];
       nhl.build();
 
@@ -121,8 +122,8 @@
           jQuery("#nhlData #nhlTypeText").html(text.toUpperCase());
           jQuery("#nhlData #nhlTypeText").data("type", nhl.type);
         }
-        if (mlb.resultData)
-          nhl.setSloOddsView(mlb.resultData, nhl.sport, nhl.type);
+        if (nhl.resultData)
+          nhl.setSloOddsView(nhl.resultData, nhl.sport, nhl.type);
       });
     });
   })();

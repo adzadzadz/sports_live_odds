@@ -14,7 +14,7 @@
         </div>
 
         <div class="slo-dropdown-menu slo-hidden">
-          <div class="oddsNfl slo-dropdown-item" data-type="type" data-value="PointSpread" >PUCK LINE</div>
+          <div class="oddsNfl slo-dropdown-item" data-type="type" data-value="PointSpread" >SPREAD</div>
           <div class="oddsNfl slo-dropdown-item" data-type="type" data-value="OverUnder" >TOTAL</div>
           <div class="oddsNfl slo-dropdown-item" data-type="type" data-value="MoneyLine" >MONEYLINE</div>
         </div>
@@ -73,7 +73,6 @@ class NFL extends SLO {
 
     jQuery("#nflData #nflTypeText").html(this.typeText.toUpperCase());
     jQuery("#nflData #nflTypeText").data("type", this.type);
-
   }
 
   getCurrentWeekAndFetchOdds() {
@@ -98,7 +97,7 @@ class NFL extends SLO {
     let nfl = new NFL();
     nfl.sport = 'nfl';
     nfl.type  = 'PointSpread';
-    nfl.typeText = 'PUCK LINE';
+    nfl.typeText = 'SPREAD';
     nfl.build();
 
     // Events Listeners
