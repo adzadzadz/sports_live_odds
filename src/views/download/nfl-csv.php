@@ -13,7 +13,6 @@ $currentUrl = "https://api.sportsdata.io/v3/nfl/scores/json/Timeframes/current?k
 $currentScheduleResult = \adzmvc\RESTApiHelper::getREST($currentUrl);
 $currentScheduleResultData = \json_decode($currentScheduleResult);
 
-// var_dump($currentScheduleResultData);
 $oddsUrl = "https://api.sportsdata.io/v3/nfl/odds/json/GameOddsByWeek/" . $currentScheduleResultData[0]->ApiSeason . "/" . $currentScheduleResultData[0]->ApiWeek . "?key=" . $this->config['apiKeys']['nfl']['liveOdds'];
 $oddsResult = \adzmvc\RESTApiHelper::getREST($oddsUrl);
 $oddsData = \json_decode($oddsResult, true);

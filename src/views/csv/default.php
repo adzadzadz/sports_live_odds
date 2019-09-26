@@ -33,6 +33,7 @@
     </div>
     <div class="col-md-12">
       <button id="generateCsvBtn" class="slo-btn-csv">GENERATE CSV</button>
+      <button id="downloadCsv" class="slo-btn-csv">DOWNLOAD</button>
     </div>
   </div>
 </section>
@@ -42,11 +43,11 @@
   global $wp;
   // echo home_url( $wp->request );
   $nonce = wp_create_nonce("generate_csv_nonce");
-	$link = admin_url('admin-ajax.php');
+	$ajaxUrl = admin_url('admin-ajax.php');
 
 ?>
 
-<div id="configContainer" data-url="<?= $link ?>" data-sport="nfl" data-week="null" data-type="null" data-nonce="<?= $nonce ?>"></div>
+<div id="configContainer" data-url="<?= $ajaxUrl ?>" data-sport="nfl" data-week="" data-season="" data-type="" data-nonce="<?= $nonce ?>"></div>
 
 <script>
 
@@ -107,15 +108,16 @@
           let url = dataContainer.data("url");
           let sport = dataContainer.data("sport");
           let week = dataContainer.data("week");
+          let season = dataContainer.data("season");
           let type = dataContainer.data("type");
           let nonce = dataContainer.data("nonce");
-          console.log(url);
-          
+          console.log(url, sport, week, type);
+
           jQuery.ajax({
-            // type : "post",
-            dataType : "json",
+            type : "post",
+            // dataType : "json",
             url : url,
-            data : {action : "generate_csv", sport : sport, week : week, type : type, nonce : nonce},
+            data : {action : "generate_csv", sport : sport, season : season, week : week, type : type, nonce : nonce},
             success: function(response) {
               if(response.type == "success") {
                 console.log("success", response);
@@ -129,13 +131,17 @@
       jQuery(".slo-dropdown-item").click(function(e) {
         let dataContainer = jQuery("#configContainer");
         if (jQuery(this).data("type") == 'week') {
+          let season = jQuery(this).data('season');
           let week = jQuery(this).data('week');
+          dataContainer.data("season", season);
           dataContainer.data("week", week);
-          jQuery("#weekText").html(week);
+          let weekText = jQuery(this).html();
+          jQuery("#weekText").html(weekText);
         } else if (jQuery(this).data("type") == 'type') {
           let type = jQuery(this).data('value');
           dataContainer.data("type", type);
-          jQuery("#typeText").html(type);
+          let typeText = jQuery(this).html();
+          jQuery("#typeText").html(typeText);
         }
       });
 

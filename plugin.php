@@ -34,6 +34,10 @@ use adzmvc\View;
 use src\controllers\AdminController;
 use src\controllers\DownloadController;
 
+global $adzSLO;
+include 'config.php';
+$adzSLO['config'] = $config;
+
 Class Plugin {
 
   public $pluginPath;
@@ -44,6 +48,10 @@ Class Plugin {
     include 'config.php';
     $this->pluginPath = plugin_dir_path(__FILE__);
     $this->pluginUrl = plugin_dir_url( __FILE__ );
+
+    $download = new DownloadController;
+    $download->pluginPath = $this->pluginPath;
+    
     $liveOdds = new LiveOdds;
     $liveOdds->pluginPath = $this->pluginPath;
     $liveOdds->pluginUrl = $this->pluginUrl;
@@ -52,9 +60,6 @@ Class Plugin {
     
     $admin = new AdminController;
     $admin->pluginPath = $this->pluginPath;
-
-    $download = new DownloadController;
-    $download->pluginPath = $this->pluginPath;
   }
 
 }
