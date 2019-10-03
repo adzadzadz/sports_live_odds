@@ -223,8 +223,7 @@ class SLO {
           if (type == "OverUnder") {
             let ouSign;
             let payoutType;
-            let betTypeResult = books[book] ? books[book][type] : '-';
-            // let checkPositive = books[book] ? books[book][`${team}MoneyLine`] : 0;
+            let betTypeResult = books[book] && books[book][type] != null ? books[book][type] : '-';
             if (team == 'Away') {
               ouSign = "o";
               payoutType = 'OverPayout';
@@ -233,20 +232,21 @@ class SLO {
               payoutType = 'UnderPayout';
             }
             if (books[book]) {
-              // payout = checkPositive > 0 && books[book] ? books[book][payoutType] : books[book][payoutType];
-              payout = books[book][payoutType];
+              payout = books[book][team + type + 'Payout'] != null ? books[book][payoutType] : '-';
             }
-            appendSign = betTypeResult == "-" ? "" : ouSign + betTypeResult;
+            appendSign = betTypeResult == "-" ? "-" : ouSign + betTypeResult;
           } else  {
             let betTypeResult = books[book] ? books[book][team + type] : '-';
             appendSign = betTypeResult > 0 ? "+" + betTypeResult : betTypeResult;          
           }
+
           // PointSpread Payout
           if (type == "PointSpread") { 
-            payout = books[book] ? books[book][team + type + 'Payout'] : '-';
+            payout = books[book] && books[book][team + type + 'Payout'] != null ? books[book][team + type + 'Payout'] : '-';
           }
           let appendPayout = type !== "MoneyLine" ? `<div> ${payout} </div>` : '';
           let appendLineVal = `<div> ${appendSign != null ? appendSign : '-'} </div>`;
+          
           bookies[team] += `
             <div class="cell slo-col-hack-5 slo-cell-line-data">
               <div class="slo-val-box ${isBestLine ? 'slo-val-box-best' : ''}">
