@@ -68,6 +68,8 @@
 
     getClosestDateFromList(selectedDate, addDays = 0) {
       let dateList = <?= $dateList ?>;
+      let formatted_date = null;
+      let isDateValid = null;
       if (addDays !== 0) {
         function setDateSLO() {
           selectedDate.setDate( selectedDate.getDate() + addDays );
