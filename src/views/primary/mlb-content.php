@@ -49,7 +49,7 @@
   <section id="mlbContentContainer" class="col-md-12"></section>
 </section>
 
-<script>
+<script defer>
   class MLB extends SLO {
     build () {
       // #1 Date Setup
@@ -70,8 +70,19 @@
 
     getClosestDateFromList(selectedDate, addDays = 0) {
       let dateList = <?= $dateList ?>;
+      let formatted_date = null;
+      let isDateValid = null;
       if (addDays !== 0) {
-        selectedDate.setDate( selectedDate.getDate() + addDays );
+        function setDateSLO() {
+          selectedDate.setDate( selectedDate.getDate() + addDays );
+          formatted_date = selectedDate.getFullYear() + "-" + (selectedDate.getMonth() + 1) + "-" + ("0" + selectedDate.getDate()).slice(-2);
+          isDateValid = dateList.includes(formatted_date);
+        }
+        setDateSLO();
+        // add days while date is not valid and addDays is more than 0
+        while (!isDateValid && addDays > 0) {
+          setDateSLO();
+        }
       }
       let closest = null;
 
@@ -79,7 +90,7 @@
         const date = new Date(d);
 
         if (date <= selectedDate && (date > new Date(closest) || date > closest)) {
-            closest = d;
+          closest = d;
         }
       });
       return closest;

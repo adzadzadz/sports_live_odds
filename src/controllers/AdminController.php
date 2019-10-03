@@ -168,7 +168,32 @@ class AdminController extends Controller {
 
   private function updateMLBSchedule($wpdb, $config)
   {
+    // REGULAR SEASON
     $result = \adzmvc\RESTApiHelper::getREST("https://api.sportsdata.io/v3/mlb/scores/json/Games/" . date('Y'), ['key' =>  $config['apiKeys']['mlb']['schedule']]);
+    $data = \json_decode($result);
+
+    $sportResult = $wpdb->get_results( $wpdb->prepare("SELECT * FROM $this->sportTable WHERE sport_code = %s", ['MLB']) );
+    if (!$sportResult) {
+      echo "Sport Code not found. Contact Dev.";
+      return;
+    }
+    
+    $lastSavedDate = null;
+    foreach ($data as $game) {
+      if ($game->Day != null) {
+        $validDate = preg_replace('/T.+/', '', $game->Day);
+        if ($lastSavedDate !== $validDate) {
+          $wpdb->insert($this->scheduleTable, [
+            'sport_id' => $sportResult[0]->id,
+            'date'     => $validDate
+          ]);
+        }
+        $lastSavedDate = $validDate;
+      }
+    }
+
+    // POST SEASON
+    $result = \adzmvc\RESTApiHelper::getREST("https://api.sportsdata.io/v3/mlb/scores/json/Games/" . date('Y') . "POST", ['key' =>  $config['apiKeys']['mlb']['schedule']]);
     $data = \json_decode($result);
 
     $sportResult = $wpdb->get_results( $wpdb->prepare("SELECT * FROM $this->sportTable WHERE sport_code = %s", ['MLB']) );

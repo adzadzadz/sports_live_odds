@@ -25,7 +25,7 @@
   <section id="nflContentContainer"></section>
 </section>
 
-<script>
+<script defer>
 
 class NFL extends SLO {
 

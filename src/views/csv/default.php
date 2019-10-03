@@ -49,7 +49,7 @@
 
 <div id="configContainer" data-url="<?= $ajaxUrl ?>" data-sport="nfl" data-week="" data-season="" data-type="" data-nonce="<?= $nonce ?>"></div>
 
-<script>
+<script defer>
 
   class Default extends CSV {
 
