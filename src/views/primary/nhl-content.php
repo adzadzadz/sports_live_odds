@@ -16,7 +16,6 @@
     $dateList[] = $date->date;
   }
   $dateList = json_encode($dateList);
-  
 ?>
 
 <section id="nhlData" class="sloSportData row">
@@ -67,7 +66,7 @@
       jQuery("#nhlData #nhlTypeText").data("type", this.type);
     }
 
-    getClosestDateFromList(selectedDate, addDays = -1) {
+    getClosestDateFromList(selectedDate, addDays = 0) {
       let dateList = <?= $dateList ?>;
       if (addDays !== 0) {
         selectedDate.setDate( selectedDate.getDate() + addDays );

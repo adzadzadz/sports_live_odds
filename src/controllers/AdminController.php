@@ -42,7 +42,7 @@ class AdminController extends Controller {
     }
     global $wpdb;
 
-    $closingLine = \src\models\ClosingLine::createTable();
+    // $closingLine = \src\models\ClosingLine::createTable();
     
 
     $charset_collate = $wpdb->get_charset_collate();
