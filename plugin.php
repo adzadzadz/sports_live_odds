@@ -7,10 +7,10 @@ Version: 0.9.7
 Author: Adrian Saycon
 Author URI: https://www.adriansaycon.com
 */
-// error_reporting(E_ALL);
-// ini_set('display_errors', 1);
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-include 'functions.php';
+include_once 'functions.php';
 
 if(!function_exists('classAutoLoader')){
   function classAutoLoader($class){
