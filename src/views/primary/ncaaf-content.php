@@ -23,7 +23,7 @@
   <section id="ncaafContentContainer" class="col-md-12"></section>
 </section>
 
-<script defer>
+<script async>
 
 class NCAAF extends SLO {
   season = null;

@@ -49,7 +49,7 @@
   <section id="mlbContentContainer" class="col-md-12"></section>
 </section>
 
-<script defer>
+<script async>
   class MLB extends SLO {
     build () {
       // #1 Date Setup

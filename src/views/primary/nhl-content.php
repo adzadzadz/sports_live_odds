@@ -48,7 +48,7 @@
   <section id="nhlContentContainer" class="col-md-12"></section>
 </section>
 
-<script defer>
+<script async>
   class NHL extends SLO {
     build () {
       // #1 Date Setup
