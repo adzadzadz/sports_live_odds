@@ -1,7 +1,6 @@
 <?php 
 
 function pluginprefix_install() {
-  var_dump("activate");
   // Add commands here
   // clear the permalinks after the post type has been registered
   flush_rewrite_rules();
@@ -9,7 +8,6 @@ function pluginprefix_install() {
 register_activation_hook( __FILE__, 'pluginprefix_install' );
 
 function pluginprefix_deactivation() {
-  var_dump("deactivate");
   // clear the permalinks to remove our post type's rules from the database
   flush_rewrite_rules();
 }
