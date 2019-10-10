@@ -12,6 +12,7 @@ class LiveOdds extends Shortcode {
     add_shortcode( 'slo-csv-setup', [$this, 'shortcodeCSV'] );
     add_shortcode( 'slo-nfl-csv', [$this, 'downloadNFLDataCsv'] );
     add_shortcode( 'slo-all', [$this, 'initLiveOdds'] );
+    add_shortcode( 'slo-nba', [$this, 'shortcodeNBA'] );
     add_shortcode( 'slo-mlb', [$this, 'shortcodeMLB'] );
     add_shortcode( 'slo-nhl', [$this, 'shortcodeNHL'] );
     add_shortcode( 'slo-nfl', [$this, 'shortcodeNFL'] );
@@ -37,6 +38,11 @@ class LiveOdds extends Shortcode {
     return $this->render('csv-setup.php', ['pluginPath' => $this->pluginPath]);
   }
   
+  public function shortcodeNBA()
+  {
+    return $this->render('primary/nba-content.php', ['pluginPath' => $this->pluginPath]);
+  }
+
   public function shortcodeMLB()
   {
     return $this->render('primary/mlb-content.php', ['pluginPath' => $this->pluginPath]);

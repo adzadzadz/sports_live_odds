@@ -112,8 +112,62 @@ class AdminController extends Controller {
     $this->updateMLBSchedule($wpdb, $config);
     $this->updateNFLSchedule($wpdb, $config);
     $this->updateNHLSchedule($wpdb, $config);
+    $this->updateNBASchedule($wpdb, $config);
     echo "All data has been saved.";
     // echo $view->render('admin/updatesportsdata.php', ['result' => $result]);
+  }
+
+  private function updateNBASchedule($wpdb, $config)
+  {
+    // PRE SEASON
+    // https://api.sportsdata.io/v3/nba/scores/json/Games/2019PRE?key=3145e48ef33f4549a53814b7b658ef5e
+    $result = \adzmvc\RESTApiHelper::getREST("https://api.sportsdata.io/v3/nba/scores/json/Games/" . date('Y', strtotime('+1 year')) . "PRE", ['key' =>  $config['apiKeys']['nba']['schedule']]);
+    $data = \json_decode($result);
+
+    $sportResult = $wpdb->get_results( $wpdb->prepare("SELECT * FROM $this->sportTable WHERE sport_code = %s", ['NBA']) );
+    if (!$sportResult) {
+      echo "Sport Code not found. Contact Dev.";
+      return;
+    }
+    
+    $lastSavedDate = null;
+    foreach ($data as $game) {
+      if ($game->Day != null) {
+        $validDate = preg_replace('/T.+/', '', $game->Day);
+        if ($lastSavedDate !== $validDate) {
+          $wpdb->insert($this->scheduleTable, [
+            'sport_id' => $sportResult[0]->id,
+            'date'     => $validDate
+          ]);
+        }
+        $lastSavedDate = $validDate;
+      }
+    }
+
+    // REGULAR SEASON
+    $result = \adzmvc\RESTApiHelper::getREST("https://api.sportsdata.io/v3/nba/scores/json/Games/" . date('Y', strtotime('+1 year')), ['key' =>  $config['apiKeys']['nba']['schedule']]);
+    $data = \json_decode($result);
+
+    $sportResult = $wpdb->get_results( $wpdb->prepare("SELECT * FROM $this->sportTable WHERE sport_code = %s", ['NBA']) );
+    if (!$sportResult) {
+      echo "Sport Code not found. Contact Dev.";
+      return;
+    }
+    
+    $lastSavedDate = null;
+    foreach ($data as $game) {
+      if ($game->Day != null) {
+        $validDate = preg_replace('/T.+/', '', $game->Day);
+        if ($lastSavedDate !== $validDate) {
+          $wpdb->insert($this->scheduleTable, [
+            'sport_id' => $sportResult[0]->id,
+            'date'     => $validDate
+          ]);
+        }
+        $lastSavedDate = $validDate;
+      }
+    }
+
   }
 
   private function updateNFLSchedule($wpdb, $config)
